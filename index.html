@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dattamber Jukanti — Lead Software Engineer</title>
 <meta name="description" content="Lead software engineer. Resilient systems, performance, observability and AI-assisted delivery. Interactive terminal resume.">
+<script src="alt/theme.js"></script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0e'/%3E%3Cpath d='M7 10l7 6-7 6' stroke='%23ffb000' stroke-width='3' fill='none'/%3E%3Cpath d='M17 23h9' stroke='%23ffb000' stroke-width='3'/%3E%3C/svg%3E">
 <style>
 :root{--bg:#0b0c0e;--fg:#d6d3cb;--dim:#7d7a72;--acc:#ffb000;--ok:#8ec07c;--line:#26282c}
 :root[data-theme=light]{--bg:#f6f3ea;--fg:#23221f;--dim:#6b685f;--acc:#9a5b00;--ok:#2f6b2f;--line:#d9d4c5}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--fg)}
+html{margin:0;background:var(--bg)}body{margin:0;background:transparent;color:var(--fg)}
 body{font:15px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:100vh}
 a{color:var(--acc)}
 ::selection{background:var(--acc);color:var(--bg)}
@@ -50,7 +51,7 @@ body[data-view=terminal] #term,body[data-view=plain] #plain{display:block}body[d
 .note{color:var(--dim);font-size:12px;margin:0}
 .stage{display:flex;align-items:center;gap:14px;margin:0 0 18px;position:sticky;top:0;background:var(--bg);padding:6px 0;z-index:2;border-bottom:1px solid var(--line)}
 #orb{width:104px;height:104px;flex:none;transition:width .4s,height .4s}
-.hero .stage{flex-direction:column;text-align:center;position:static;border:0;margin:0;padding:0}
+.hero .stage{flex-direction:column;text-align:center;position:static;border:0;margin:0;padding:0;background:transparent}
 .hero #orb{width:260px;height:260px}
 .intro{text-align:center;margin:0 0 16px}.intro h1{font:inherit;font-size:22px;font-weight:700;margin:0 0 4px}.intro p{margin:0;color:var(--dim)}
 .hero #ask{order:1}.hero #home{order:2}.hero #chat,.hero #achips{display:none}
@@ -84,7 +85,7 @@ body[data-view=terminal] #term,body[data-view=plain] #plain{display:block}body[d
 <div class="wrap">
   <div class="bar">
     <span>Dattamber Jukanti · Lead Software Engineer</span>
-    <span><button data-v="agent" type="button">guide</button> <button data-v="terminal" type="button">terminal</button> <button data-v="plain" type="button">plain</button> <button id="tTheme" type="button">theme</button></span>
+    <span><button data-v="agent" type="button">guide</button> <button data-v="terminal" type="button">terminal</button> <button data-v="plain" type="button">plain</button></span>
   </div>
 
   <main id="agent" class="hero" aria-label="Guide agent">
@@ -206,7 +207,7 @@ const CMDS = {
    <dt>whoami</dt><dd>short intro</dd><dt>about</dt><dd>who I am and how I work</dd><dt>experience</dt><dd>career timeline</dd>
    <dt>projects</dt><dd>selected work, anonymised</dd><dt>skills</dt><dd>stack</dd><dt>principles</dt><dd>how I make engineering decisions</dd>
    <dt>life</dt><dd>outside work</dd><dt>contact</dt><dd>get in touch</dd>
-   <dt>ls / cat &lt;file&gt;</dt><dd>browse like a filesystem (tab completes)</dd><dt>plain</dt><dd>plain-text view</dd><dt>theme</dt><dd>dark / light</dd><dt>clear</dt><dd>clear screen</dd></dl>`),
+   <dt>ls / cat &lt;file&gt;</dt><dd>browse like a filesystem (tab completes)</dd><dt>plain</dt><dd>plain-text view</dd><dt>theme</dt><dd>cycle themes</dd><dt>clear</dt><dd>clear screen</dd></dl>`),
  whoami: () => block(`<p><span class="acc">${ME.name}</span> — Lead Software Engineer</p><p>I build resilient, fast, observable systems for regulated finance, and I make AI-assisted delivery repeatable. Type <span class="acc">help</span>, or tap a command below.</p>`),
  about: () => sect('about', C.about()),
  experience: () => sect('experience', C.experience()),
@@ -226,7 +227,7 @@ const CMDS = {
  open: a => CMDS.cat(a),
  plain: () => setView('plain'),
  guide: () => setView('agent'),
- theme: () => toggleTheme(),
+ theme: () => { const s=document.querySelector('.themesel'); if(!s) return; s.selectedIndex=(s.selectedIndex+1)%s.options.length; s.onchange(); text('theme: '+s.value); },
  clear: () => { out.innerHTML=''; },
  sudo: () => text('guest is not in the sudoers file. This incident will be reported.'),
  pwd: () => text('/home/guest'),
@@ -464,13 +465,6 @@ const CARDS=[
 ];
 CARDS.forEach(([c,t,d,f,x])=>{ const b=document.createElement('button'); b.type='button'; b.className='card '+c; b.innerHTML=`<b>${t}</b><span>${d}</span>${x?`<b>${x}</b>`:''}`; b.onclick=f; homeEl.appendChild(b); });
 
-function toggleTheme(){
-  const r=document.documentElement, t=r.dataset.theme==='light'?'dark':'light'; r.dataset.theme=t;
-  try{localStorage.setItem('theme',t)}catch(_){}
-}
-document.getElementById('tTheme').onclick=toggleTheme;
-try{ const t=localStorage.getItem('theme'); if(t) document.documentElement.dataset.theme=t;
-     else if(matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.dataset.theme='light'; }catch(_){}
 
 // Boot
 text(`dj-os 1.0 — type "help" to explore`);

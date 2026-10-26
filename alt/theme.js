@@ -45,9 +45,15 @@
     for(let i=0;i<6;i++){ const x=((i*.19+t*.000012*(i+1))%1.3-.15)*W, y=H*(.2+.11*i%.7), s=H*(.16+.05*i); ctx.globalAlpha=.07; ctx.fillStyle=i%2?'#5fb4d6':'#9fd4ea'; ctx.beginPath(); ctx.moveTo(x,y-s); ctx.lineTo(x+s*.9,y+s*.4); ctx.lineTo(x-s*.5,y+s*.7); ctx.closePath(); ctx.fill(); }
     parts.forEach(p=>{ p.y+=p.vy*dt*.5; p.x+=Math.sin(t*.0005+p.ph)*6*dt; if(p.y>H+5){p.y=-5;p.x=rnd(0,W);} ctx.globalAlpha=p.a*.7; ctx.fillStyle='#62b3d4'; ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,6.3); ctx.fill(); }); ctx.globalAlpha=1; }
   addEventListener('resize',size);
+  const css=document.createElement('style'); css.textContent='#fx{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}.themesel{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:4px;font:inherit;font-size:12px;padding:2px 6px}.themesel:focus-visible{outline:1px solid var(--acc)}.cs{display:flex;gap:4px;flex-wrap:wrap}.cs a{color:var(--dim);text-decoration:none;border:1px solid var(--line);border-radius:4px;padding:1px 9px;font-size:12px}.cs a:hover,.cs a:focus-visible{color:var(--acc);border-color:var(--acc);outline:0}.cs a[aria-current]{color:var(--bg);background:var(--acc);border-color:var(--acc)}'; document.head.appendChild(css);
   document.addEventListener('DOMContentLoaded',()=>{
     const sel=document.createElement('select'); sel.className='themesel'; sel.setAttribute('aria-label','Theme');
     Object.entries(T).forEach(([k,t])=>{ const o=document.createElement('option'); o.value=k; o.textContent=t.label; sel.appendChild(o); }); sel.value=name; sel.onchange=()=>apply(sel.value);
-    const bar=document.querySelector('.top'); if(bar){ const w=document.createElement('span'); w.append('theme ',sel); bar.appendChild(w); } else { sel.style.cssText='position:fixed;right:12px;top:12px;z-index:9'; document.body.appendChild(sel); }
+    const bar=document.querySelector('.top,.bar');
+    if(bar){ const inAlt=location.pathname.includes('/alt/'), cur=(location.pathname.match(/(map|field|spec)\.html$/)||[])[1]||(inAlt?'':'guide'), pre=inAlt?'':'alt/';
+      const nav=document.createElement('nav'); nav.className='cs'; nav.setAttribute('aria-label','Switch view');
+      [['guide',inAlt?'../':'./','Guide'],['map',pre+'map.html','Map'],['field',pre+'field.html','Field'],['spec',pre+'spec.html','Spec']].forEach(([k,h,l])=>{ const a=document.createElement('a'); a.href=h; a.textContent=l; if(k===cur) a.setAttribute('aria-current','page'); nav.appendChild(a); });
+      bar.insertBefore(nav,bar.children[1]||null);
+      const w=document.createElement('span'); w.append('theme ',sel); bar.appendChild(w); } else { sel.style.cssText='position:fixed;right:12px;top:12px;z-index:9'; document.body.appendChild(sel); }
     initFx(T[name].fx); window.dispatchEvent(new Event('themechange')); });
 })();
