@@ -148,7 +148,13 @@ const PROJECTS = [
  {id:'restage-all', title:'Restage all', line:'One action instead of a hundred.',
   body:['A Groovy capability that restages every application in a pool in one step, made mass vulnerability-driven build-pack upgrades practical. Merged into a global shared library and now reused across the technology org.'],
   facts:['Saves 10+ hours per 100-application pool','Practical at 10,000+ application scale'],
-  stack:['Groovy','CI/CD','Platform tooling']}
+  stack:['Groovy','CI/CD','Platform tooling']},
+ {id:'dattavani-app', featured:true, title:'Dattavani: a children\u2019s learning app, live on both stores', line:'Led the technical build of a mobile app that introduces children to Indic wisdom through stories, lessons and guided conversation.',
+  body:['Dattavani helps children explore values, dharma and classic stories through three daily paths: asking the in-app guide questions, short daily lessons, and story time. Quizzes, streaks and rewards keep it a habit, and parents manage child profiles from one account.','I led the technical effort from first build to store release on iOS and Android, shipping v2.0 within months of launch.'],
+  stats:[['4.9\u2605','App Store (India), 15 ratings'],['~4.9\u2605','Google Play, 37 ratings'],['1K+','Google Play installs'],['2','stores: iOS and Android']],
+  facts:['Live on the App Store since August 2026; v2.0 shipped October 2026','Education category; parent-managed multi-child accounts','Store figures checked October 2026'],
+  links:[['App Store','https://apps.apple.com/us/app/dattavani/id6760235948'],['Google Play','https://play.google.com/store/apps/details?id=ai.dattavani.app']],
+  stack:['React Native','Expo','Firebase','Jest','Maestro','iOS','Android']}
 ];
 
 const C = {
@@ -157,7 +163,7 @@ const C = {
   <p>I question the status quo with evidence and make sure the right thing gets done. When in doubt, I ask: clarity early beats effort later. I believe in failing fast, raising the flag early, and that a problem well understood is half solved.</p>`,
  experience: () => `<div class="tl">
    <h3><span class="y">2025 — now</span> · Lead Software Engineer</h3>
-   ${ul(['Technical lead for the platforms that own auto-lending decisioning and pre-qualification.','Partner with product, engineering, data and architecture to build on modern public-cloud and private-platform stacks.','Go-to engineer for hard cross-cutting problems: infrastructure, observability, performance, quality and AI-assisted delivery.','Mentor engineers from first-year to senior; one mentee made pod lead the year they led a 10+ engineer delivery.'])}
+   ${ul(['Technical lead for the platforms that own auto-lending decisioning and pre-qualification.','Led the technical build of a children\u2019s learning app (Dattavani) from first commit to both app stores.','Partner with product, engineering, data and architecture to build on modern public-cloud and private-platform stacks.','Go-to engineer for hard cross-cutting problems: infrastructure, observability, performance, quality and AI-assisted delivery.','Mentor engineers from first-year to senior; one mentee made pod lead the year they led a 10+ engineer delivery.'])}
    <h3><span class="y">2018 — 2025</span> · Software Engineer → Lead</h3>
    ${ul(['Led delivery of a pricing modernisation: platform foundation, reference UI, audit patterns and validated bulk-input flows.','Led one of the org’s first public-cloud journeys for its line of business, then taught it forward through workshops.','Drove a third-party vendor exit via a new integration, live with zero production issues.','Hackathon organiser, interviewer and volunteer on the tech-for-good program.'])}
   </div>`,
@@ -180,9 +186,10 @@ function ulBlock(){return ul([
   '<b>Responsible AI is structure, not just tooling</b> — specs, determinism where it matters, the right model per task.',
   '<b>Mentor the thinking, not the answer</b> — pair constructive feedback with recognition of effort.'])}
 
-const projHTML = p => `<h3>${p.title} <span class="dim">· ${p.id}</span></h3>${p.body.map(b=>`<p>${b}</p>`).join('')}${ul(p.facts)}${tags(p.stack)}`;
-const projList = () => PROJECTS.map(p=>`<p><span class="acc">${p.id}</span><br><span class="dim">${p.line}</span></p>`).join('') + `<p class="dim">open one: <span class="acc">cat projects/&lt;name&gt;</span></p>`;
-const allProjects = () => PROJECTS.map(projHTML).join('');
+const projHTML = p => `<h3>${p.title} <span class="dim">· ${p.id}</span></h3>${p.body.map(b=>`<p>${b}</p>`).join('')}${p.stats?`<div class="stats">${p.stats.map(([n,l])=>`<div><b>${n}</b><span>${l}</span></div>`).join('')}</div>`:''}${ul(p.facts)}${p.links?`<p>${p.links.map(([l,u])=>`<a href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join(' · ')}</p>`:''}${tags(p.stack)}`;
+const ORDERED = [...PROJECTS].sort((a,b)=>!!b.featured-!!a.featured);
+const projList = () => ORDERED.map(p=>`<p><span class="acc">${p.id}</span>${p.featured?' <span class="dim">★ featured</span>':''}<br><span class="dim">${p.line}</span></p>`).join('') + `<p class="dim">open one: <span class="acc">cat projects/&lt;name&gt;</span></p>`;
+const allProjects = () => ORDERED.map(projHTML).join('');
 
 const FILES = {
  'about.md':C.about,'experience.md':C.experience,'skills.yaml':C.skills,'principles.md':C.principles,'life.md':C.life,'contact.txt':C.contact
@@ -283,6 +290,7 @@ const KB=[
  {k:['ui','front','screen','audit','excel','grid','component'],a:()=>projHTML(PROJECTS[5])},
  {k:['test','qa','quality','gherkin','regression'],a:()=>projHTML(PROJECTS[6])},
  {k:['groovy','restage','automation','tooling','pipeline'],a:()=>projHTML(PROJECTS[7])},
+ {k:['dattavani','app','mobile','store','ios','android','play','launch','product','shipped','ship','featured','children','kids'],a:()=>projHTML(PROJECTS[PROJECTS.length-1])},
  {k:['project','work','built','build','portfolio'],a:projList}
 ];
 const hit=(t,k)=>k.length<=3?t===k:t.startsWith(k);
@@ -413,7 +421,7 @@ function say(html,chips){ setChips([]); orb.label('thinking');
   const t=msg('bot','<span class="dots" aria-label="thinking"><i></i><i></i><i></i></span>');
   const finish=()=>{ orb.label('idle'); setChips(chips()); scrollTo({top:document.body.scrollHeight,behavior:calm?'auto':'smooth'}); };
   setTimeout(()=>{ const b=t.querySelector('.bub'); b.innerHTML=html; orb.label('speaking'); calm?finish():stream(b,finish); }, calm?0:500+Math.random()*500); }
-const SUGG=[['What has he achieved?','results'],['How does he use AI?','ai agents llm'],['Performance wins','latency performance'],['How does he lead?','mentor leadership'],['What breaks gracefully?','resilience outage'],['Why not just use sequences?','uuid sequence'],['How does he test?','test regression'],['Tell me about alerts','observability alert'],['What’s his stack?','skills stack'],['Life outside work','life'],['Contact','contact']];
+const SUGG=[['What has he achieved?','results'],['How does he use AI?','ai agents llm'],['Performance wins','latency performance'],['How does he lead?','mentor leadership'],['What breaks gracefully?','resilience outage'],['Why not just use sequences?','uuid sequence'],['How does he test?','test regression'],['Tell me about alerts','observability alert'],['What’s his stack?','skills stack'],['Life outside work','life'],['The Dattavani app','dattavani app store'],['Contact','contact']];
 const seen=new Set();
 const sugg=()=>{ const pool=SUGG.filter(([,s])=>!seen.has(s)).sort(()=>Math.random()-.5).slice(0,3);
   return pool.map(([l,s])=>[l,()=>ask(s,l)]).concat([[tour<0?'Take the tour':'Resume tour',()=>go(Math.max(tour,0)+(tour<0?0:1))]]); };
@@ -443,6 +451,7 @@ function mode(conv){ agentEl.classList.toggle('hero',!conv); agentEl.classList.t
 reset.onclick=()=>{ chat.innerHTML=''; setChips([]); tour=-1; seen.clear(); orb.label('idle'); mode(false); scrollTo(0,0); q.focus({preventScroll:true}); };
 const CARDS=[
  ['tour','Take the 2-minute tour','Role, results, how he thinks, the human side.',()=>go(0),'→'],
+ ['','Dattavani: live on both app stores','Led the build. 4.9\u2605 ratings, 1K+ Play installs',()=>ask('dattavani app store','The Dattavani app')],
  ['stat','60–70%','less dev time with spec-driven AI delivery',()=>ask('ai agents llm','How does he use AI?')],
  ['stat','~3s vs 7s','decisioning latency vs the next-fastest competitor',()=>ask('latency performance','Performance wins')],
  ['stat','100%','requests processed through an upstream outage',()=>ask('resilience outage','What breaks gracefully?')],
