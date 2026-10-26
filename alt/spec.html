@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dattamber Jukanti — Spec-driven Portfolio</title><link rel="stylesheet" href="base.css"><script src="theme.js"></script>
+<style>
+.wrap{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:0;min-height:calc(100vh - 50px)}
+.pane{padding:18px 20px}.left{border-right:1px solid var(--line)}
+.md{color:var(--dim)}.md b{color:var(--fg)}.md .h{color:var(--acc);font-weight:700}
+.req{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--line);cursor:pointer}
+.req input{margin-top:5px;accent-color:var(--acc)}.req code{color:var(--acc);font-size:12px}.req small{display:block;color:var(--dim)}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.stage{display:flex;gap:10px;align-items:center;padding:5px 0;color:var(--dim)}
+.stage .ic{width:18px;text-align:center}.stage.run{color:var(--fg)}.stage.run .ic{color:var(--acc)}.stage.done .ic{color:var(--ok)}.stage.done{color:var(--fg)}
+.log{margin:2px 0 6px 28px;font-size:12.5px;color:var(--dim);min-height:0;white-space:pre-wrap}
+.spin{display:inline-block;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.out{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+.hit{border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin:10px 0;background:var(--card)}
+.hit .why{color:var(--acc);font-size:12px}
+.hit details summary{cursor:pointer;color:var(--dim);font-size:13px}
+table{border-collapse:collapse;width:100%;font-size:13px}td{padding:3px 8px 3px 0;border-bottom:1px solid var(--line);vertical-align:top}td.ok{color:var(--ok);white-space:nowrap}
+.metrics{display:flex;gap:18px;flex-wrap:wrap;color:var(--dim);font-size:12px;margin-top:8px}.metrics b{color:var(--fg)}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}.left{border-right:0;border-bottom:1px solid var(--line)}}
+</style></head><body>
+<div class="top"><span><a href="./">← previews</a> · Concept 5 · Spec-driven portfolio</span><span>Dattamber Jukanti · Lead Software Engineer</span></div>
+<div class="wrap">
+ <section class="pane left" aria-label="Spec">
+  <div class="md"><span class="h"># SPEC.md</span><br>This page is built the way Dattamber builds software: a reviewed spec is the single source of truth, and everything downstream (design, build, tests, observability, ops) is generated from it.<br><br><span class="h">## Audience</span> <span class="dim">what do you want to know?</span></div>
+  <div class="presets" id="presets"></div>
+  <div id="reqs"></div>
+  <p><button class="btn p" id="run" type="button">▶ run build</button> <span class="dim" id="hint">spec changes rebuild the page</span></p>
+ </section>
+ <section class="pane" aria-label="Build output">
+  <div id="stages"></div><div id="out" class="out" aria-live="polite" hidden></div>
+ </section>
+</div>
+<script src="data.js"></script>
+<script>
+const GOALS=[
+ {id:'R1',label:'AI-assisted delivery',note:'specs, agents, LLM tooling',kw:['ai','llm','agent','spec','model','token','genai']},
+ {id:'R2',label:'Performance',note:'latency, throughput, cost',kw:['latency','performance','fast','faster','speed','throughput','authorizer']},
+ {id:'R3',label:'Resilience & reliability',note:'failure modes, recovery',kw:['resilient','resilience','retry','retries','circuit','outage','replay','heal','heals']},
+ {id:'R4',label:'Observability',note:'alerts, metrics, triage',kw:['observability','alert','alerts','metric','metrics','grafana','prometheus','dashboard']},
+ {id:'R5',label:'Data & architecture',note:'keys, consistency, active-active',kw:['uuidv7','postgresql','aurora','database','active-active','architecture','audit','data']},
+ {id:'R6',label:'Mobile & product',note:'shipped apps, store releases',kw:['app','mobile','ios','android','store','react','expo','children','shipped','ui']},
+ {id:'R7',label:'Cloud & platform',note:'AWS, Kubernetes, tooling',kw:['aws','eks','kubernetes','terraform','lambda','cloud','groovy','platform']},
+ {id:'R8',label:'Leadership & mentoring',note:'growing engineers',kw:['mentor','mentoring','lead','leadership','coach','team','principal']}
+];
+const PRESETS={'Hiring manager':['R1','R6','R8'],'Staff-eng peer':['R2','R3','R5','R7'],'Product leader':['R6','R1','R4'],'Everything':GOALS.map(g=>g.id)};
+let sel=new Set(PRESETS['Hiring manager']), running=false;
+const reqs=document.getElementById('reqs'); GOALS.forEach(g=>{ const l=document.createElement('label'); l.className='req'; l.innerHTML=`<input type="checkbox" id="c-${g.id}"><span><code>${g.id}</code> ${g.label}<small>${g.note}</small></span>`; reqs.appendChild(l); l.querySelector('input').onchange=e=>{ e.target.checked?sel.add(g.id):sel.delete(g.id); if(!running) hint('spec changed: run build to regenerate'); }; });
+const hint=t=>document.getElementById('hint').textContent=t;
+const sync=()=>GOALS.forEach(g=>document.getElementById('c-'+g.id).checked=sel.has(g.id));
+Object.entries(PRESETS).forEach(([k,ids])=>{ const b=document.createElement('button'); b.className='chip'; b.type='button'; b.textContent=k; b.onclick=()=>{ sel=new Set(ids); sync(); build(); }; document.getElementById('presets').appendChild(b); }); sync();
+const sleep=ms=>new Promise(r=>setTimeout(r,calm?0:ms));
+const text=p=>(p.title+' '+p.line+' '+p.body.join(' ')+' '+p.facts.join(' ')+' '+p.stack.join(' ')).toLowerCase();
+function evaluate(){ const goals=GOALS.filter(g=>sel.has(g.id)); const rows=PROJECTS.map(p=>{ const t=text(p), hits=goals.map(g=>({g,n:g.kw.filter(k=>new RegExp('(^|[^a-z])'+k.replace(/[+-]/g,'\\$&')+(k.length<=3?'($|[^a-z])':''),'i').test(t)).length})).filter(h=>h.n>0);
+    return {p,score:hits.reduce((a,h)=>a+h.n,0)+(p.featured&&hits.some(h=>h.g.id==='R6')?3:0),hits}; }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
+  return {goals,rows}; }
+const STAGES=['Spec','Design','Build','Tests','Observability','Ops'];
+async function build(){ if(running) return; running=true; const t0=performance.now(); const {goals,rows}=evaluate();
+  const out=document.getElementById('out'), st=document.getElementById('stages'); out.hidden=true; out.innerHTML=''; st.innerHTML='';
+  document.getElementById('run').disabled=true; hint('building…');
+  if(!goals.length){ st.innerHTML='<p class="dim">Spec is empty. Select at least one requirement.</p>'; running=false; document.getElementById('run').disabled=false; return; }
+  const els=STAGES.map(n=>{ const d=document.createElement('div'); d.innerHTML=`<div class="stage"><span class="ic">○</span><span>${n}</span></div><div class="log"></div>`; st.appendChild(d); return {box:d.firstChild,log:d.lastChild}; });
+  const say=async(e,lines)=>{ for(const l of lines){ e.log.textContent+=(e.log.textContent?'\n':'')+l; await sleep(180); } };
+  const run=async(i,lines)=>{ const e=els[i]; e.box.className='stage run'; e.box.querySelector('.ic').innerHTML='<span class="spin">◐</span>'; await sleep(250); await say(e,lines); e.box.className='stage done'; e.box.querySelector('.ic').textContent='✓'; };
+  const top=rows.slice(0,4);
+  await run(0,[`parse SPEC.md: ${goals.length} requirement${goals.length>1?'s':''} (${goals.map(g=>g.id).join(', ')})`,'validate: no conflicting requirements']);
+  await run(1,[`rank ${PROJECTS.length} work items against the spec`,`select top ${top.length}; the rest stay one click away`]);
+  await run(2,top.map(x=>`generate section: ${x.p.id}`).concat('render about + contact'));
+  const tests=goals.map(g=>{ const m=rows.find(x=>x.hits.some(h=>h.g.id===g.id)); return {g,m}; });
+  await run(3,tests.map(t=>`${t.m?'PASS':'FAIL'} ${t.g.id} ${t.g.label}${t.m?': evidenced by '+t.m.p.id:': no matching work item'}`));
+  const pass=tests.filter(t=>t.m).length;
+  await run(4,[`metric requirements_total=${goals.length}`,`metric requirements_evidenced=${pass}`,`metric sections_rendered=${top.length+2}`]);
+  await run(5,[`deploy: ${DATA.gh}.github.io (static)`,'health: ok']);
+  const ms=Math.round(performance.now()-t0);
+  out.hidden=false; out.innerHTML=`<h2>Output: a portfolio tailored to your spec</h2>
+   <p>${DATA.name}, ${DATA.title}. ${DATA.about[0]}</p>
+   <div class="metrics"><span>requirements evidenced <b>${pass}/${goals.length}</b></span><span>sections <b>${top.length+2}</b></span><span>build <b>${ms} ms</b></span></div>
+   ${top.map((x,i)=>`<div class="hit"><span class="why">#${i+1} matches ${x.hits.map(h=>h.g.id+' '+h.g.label).join(' · ')}</span><h3>${x.p.title}</h3><p>${x.p.line}</p>${x.p.stats?`<div class="stats">${x.p.stats.map(([n,l])=>`<div><b>${n}</b><span>${l}</span></div>`).join('')}</div>`:''}<details><summary>read more</summary>${ul(x.p.facts)}${x.p.links?`<p>${x.p.links.map(([l,u])=>`<a href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join(' · ')}</p>`:''}${tags(x.p.stack)}</details></div>`).join('')}
+   <h3>Test report</h3><table>${tests.map(t=>`<tr><td class="ok">${t.m?'✓ pass':'✗ fail'}</td><td><code class="acc">${t.g.id}</code> ${t.g.label}</td><td class="dim">${t.m?t.m.p.id:'—'}</td></tr>`).join('')}</table>
+   <h3>Principles</h3>${principlesHTML()}<h3>Contact</h3>${contactHTML()}`;
+  hint('build complete. Change the spec to rebuild.'); running=false; document.getElementById('run').disabled=false; out.scrollIntoView({behavior:calm?'auto':'smooth',block:'start'}); }
+document.getElementById('run').onclick=build; build();
+</script></body></html>

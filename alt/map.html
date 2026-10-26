@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dattamber Jukanti — Systems Map</title><link rel="stylesheet" href="base.css"><script src="theme.js"></script>
+<style>
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:0;min-height:calc(100vh - 50px)}
+#stage{position:relative;border-right:1px solid var(--line);padding:8px}
+svg{width:100%;height:auto;max-height:calc(100vh - 150px);display:block}
+.edge{stroke:var(--line);stroke-width:1.2;fill:none;transition:stroke .2s,opacity .2s}
+.node{cursor:pointer;transition:opacity .25s}
+.node circle.b{fill:var(--card);stroke:var(--dim);stroke-width:1.4;transition:all .2s}
+.node:hover circle.b,.node:focus-visible circle.b{stroke:var(--acc);fill:color-mix(in srgb,var(--acc) 12%,var(--card))}
+.node text{fill:var(--fg);font-size:14px;pointer-events:none}.node text.hub{font-size:13px;font-weight:700;fill:var(--acc)}
+.node.feat circle.b{stroke:var(--acc);stroke-width:2.2;fill:color-mix(in srgb,var(--acc) 18%,var(--card))}
+.node.core circle.b{fill:var(--acc);stroke:var(--acc)}.node.core text{fill:var(--bg);font-weight:700;font-size:14px}
+.node.on circle.b{stroke:var(--acc);stroke-width:2.6;fill:color-mix(in srgb,var(--acc) 22%,var(--card))}
+.map.sel .node:not(.on){opacity:.28}.map.sel .edge:not(.on){opacity:.15}.edge.on{stroke:var(--acc);stroke-width:1.8}
+.pulse{fill:var(--acc)}
+aside{padding:18px;overflow:auto;max-height:calc(100vh - 50px);position:sticky;top:0}
+#ask{display:flex;gap:8px;margin:0 0 12px}#ask input{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.hint{position:absolute;left:18px;bottom:14px;color:var(--dim);font-size:12px}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}#stage{border-right:0;border-bottom:1px solid var(--line)}aside{position:static;max-height:none}.hint{display:none}}
+</style></head><body>
+<div class="top"><span><a href="./">← previews</a> · Concept 1 · Systems map</span><span>Dattamber Jukanti · Lead Software Engineer</span></div>
+<div class="wrap">
+ <div id="stage"><svg id="map" class="map" viewBox="40 20 980 680" role="group" aria-label="Interactive map of Dattamber's career, projects and skills"></svg><div class="hint">click a node · or ask on the right</div></div>
+ <aside>
+  <form id="ask"><input id="q" type="text" autocomplete="off" placeholder="Ask: performance, AI, leadership…" aria-label="Ask the map"><button class="btn p" type="submit">Go</button></form>
+  <div class="chips" id="chips"></div>
+  <div id="panel" aria-live="polite"></div>
+ </aside>
+</div>
+<script src="data.js"></script>
+<script>
+const NS='http://www.w3.org/2000/svg', svg=document.getElementById('map'), panel=document.getElementById('panel');
+const cx=500, cy=360, pt=(d,r)=>[cx+Math.cos(d*Math.PI/180)*r, cy+Math.sin(d*Math.PI/180)*r];
+const nodes=[], edges=[], byId={};
+const add=(id,label,type,pos,r,html,kw,parent)=>{ const n={id,label,type,x:pos[0],y:pos[1],r,html,kw,parent}; nodes.push(n); byId[id]=n; if(parent) edges.push([parent,id]); return n; };
+const shortName=p=>{ const t=p.title.split(':')[0]; return t.length>20?t.slice(0,18)+'…':t; };
+add('me','DJ','core',[cx,cy],38,`<h2>${DATA.name}</h2><p class="dim">${DATA.title}</p>${aboutHTML()}`,['about','who','intro','background','dattamber','summary']);
+const hubs=[['exp','Experience',-100,'Experience'],['proj','Projects',10,'Projects'],['skills','Skills',125,'Skills'],['beyond','Beyond',215,'Principles & life']];
+hubs.forEach(([id,l,a,t])=>add(id,l,'hub',pt(a,150),30,'',[l.toLowerCase(),t.toLowerCase()],'me'));
+DATA.roles.forEach((r,i)=>add('role'+i,r.y.split('—')[0].trim()+(i?'':'→'),'item',pt(-125+i*50,285),24,`<h2>${r.t}</h2><p class="dim">${r.y}</p>${ul(r.pts)}`,['role','experience','career','job','lead','current','mentor','mentoring','team','timeline'],'exp'));
+ORDERED.forEach((p,i)=>add(p.id,shortName(p),p.featured?'feat':'item',pt(-42+i*11.5,300),p.featured?27:22,`<h2>${p.title}</h2>${projHTML(p).replace(/^<h3>.*?<\/h3>/,'')}`,kwOf(p).concat(p.featured?['app','mobile','store','ios','android','shipped']:[]),'proj').type=p.featured?'feat':'item');
+Object.entries(DATA.skills).forEach(([k,v],i)=>add('sk-'+k,k,'item',pt(95+i*12.5,285),22,`<h2>${k}</h2>${tags(v)}`,[k,'skill','stack','tech'].concat(v.map(x=>x.toLowerCase())),'skills'));
+add('principles','Principles','item',pt(190,285),24,`<h2>How he decides</h2>${principlesHTML()}`,['principle','philosophy','decision','approach','values','style'],'beyond');
+add('life','Life','item',pt(215,285),22,`<h2>Outside work</h2>${lifeHTML()}`,['life','hobby','travel','volunteer','family','fun','personal','outside'],'beyond');
+add('contact','Contact','item',pt(240,285),22,`<h2>Say hello</h2>${contactHTML()}`,['contact','email','hire','reach','github','connect'],'beyond');
+const hubText={exp:'<h2>Experience</h2>'+rolesHTML(),proj:'<h2>Projects</h2><p class="dim">Pick a node to open one.</p>',skills:'<h2>Skills</h2>'+skillsHTML(),beyond:'<h2>Principles &amp; life</h2>'+principlesHTML()+lifeHTML()};
+Object.keys(hubText).forEach(k=>byId[k].html=hubText[k]);
+const el=(n,a={},p=svg)=>{const e=document.createElementNS(NS,n); Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v)); p.appendChild(e); return e;};
+const edgeEls={}; edges.forEach(([a,b])=>{ const A=byId[a],B=byId[b]; edgeEls[a+'>'+b]=el('line',{class:'edge',x1:A.x,y1:A.y,x2:B.x,y2:B.y}); });
+const pulses=edges.map(([a,b],i)=>({a:byId[a],b:byId[b],t:Math.random(),s:.0025+Math.random()*.003,c:el('circle',{class:'pulse',r:2.4})}));
+nodes.forEach(n=>{ const g=el('g',{class:'node '+n.type,tabindex:0,role:'button','aria-label':n.label,'data-id':n.id,transform:`translate(${n.x},${n.y})`});
+  el('circle',{class:'b',r:n.r},g);
+  const out=n.type==='item'||n.type==='feat';
+  if(out){ const dx=n.x-cx, dy=n.y-cy, L=Math.hypot(dx,dy), ux=dx/L, uy=dy/L, a=Math.abs(ux)<.3?'middle':(ux>0?'start':'end');
+    const t=el('text',{x:ux*(n.r+9),y:uy*(n.r+9)+4,'text-anchor':a},g); t.textContent=n.label; if(n.type==='feat'){ el('text',{class:'hub','text-anchor':'middle',y:5},g).textContent='★'; } }
+  else { el('text',{class:n.type==='hub'?'hub':'','text-anchor':'middle',y:4},g).textContent=n.label; }
+  g.onclick=()=>select(n.id); g.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); select(n.id);} }; n.g=g; });
+function select(id){ const n=byId[id]; if(!n) return; svg.classList.add('sel');
+  const on=new Set([id,n.parent,'me']); nodes.filter(x=>x.parent===id).forEach(x=>on.add(x.id)); if(n.parent&&byId[n.parent].parent) on.add(byId[n.parent].parent);
+  nodes.forEach(x=>x.g.classList.toggle('on',on.has(x.id)));
+  Object.entries(edgeEls).forEach(([k,e])=>{ const [a,b]=k.split('>'); e.classList.toggle('on',on.has(a)&&on.has(b)&&(a===id||b===id||(n.parent===a&&b===id)||(a==='me'&&b===n.parent))); });
+  panel.innerHTML=n.html+`<p><button class="btn" id="clr">clear selection</button></p>`; document.getElementById('clr').onclick=clear; if(matchMedia('(max-width:860px)').matches) panel.scrollIntoView({behavior:'smooth'}); }
+function clear(){ svg.classList.remove('sel'); nodes.forEach(x=>x.g.classList.remove('on')); Object.values(edgeEls).forEach(e=>e.classList.remove('on')); panel.innerHTML=intro; }
+const intro=`<h2>A map of how the work connects</h2><p>Pulses are requests flowing through the system. Click any node, or ask a question and the map will light up the right part.</p><p class="dim">Gold nodes are featured. Try “performance”, “AI” or “mobile app”.</p>`;
+panel.innerHTML=intro;
+const ask=q=>{ q=q.trim(); if(!q) return; let best=null,top=0; nodes.forEach(n=>{ const s=scoreOf(q,n.kw||[]); if(s>top){top=s;best=n;} }); if(best) select(best.id); else { svg.classList.remove('sel'); panel.innerHTML=`<p>Nothing on that in the brief. Try one of the chips, or click a node.</p>`; } };
+document.getElementById('ask').onsubmit=e=>{ e.preventDefault(); ask(document.getElementById('q').value); document.getElementById('q').value=''; };
+[['Performance','latency performance'],['AI-assisted delivery','ai spec llm'],['Resilience','resilience outage'],['The Dattavani app','dattavani app'],['Leadership','mentor leadership'],['Contact','contact']].forEach(([l,q])=>{ const b=document.createElement('button'); b.className='chip'; b.type='button'; b.textContent=l; b.onclick=()=>ask(q); document.getElementById('chips').appendChild(b); });
+function frame(){ pulses.forEach(p=>{ p.t=(p.t+p.s)%1; p.c.setAttribute('cx',p.a.x+(p.b.x-p.a.x)*p.t); p.c.setAttribute('cy',p.a.y+(p.b.y-p.a.y)*p.t); }); if(!calm) requestAnimationFrame(frame); }
+if(calm){ pulses.forEach(p=>p.c.remove()); } else frame();
+</script></body></html>
