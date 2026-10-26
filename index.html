@@ -305,50 +305,56 @@ function stream(el,done){
     if(j>=words[i].length){i++;j=0;}
     scrollTo(0,document.body.scrollHeight); setTimeout(tick,18+Math.random()*30); })();
 }
-// ---- Three.js character: robot guide; state drives expression and motion ----
+// ---- Three.js character: rubber duck (a nod to rubber-duck debugging); state drives motion ----
 const orb={state:'idle',label:s=>{orb.state=s;document.getElementById('st').textContent={idle:'online',thinking:'thinking…',speaking:'answering'}[s];}};
 (function(){
   const cv=document.getElementById('orb'); if(!window.THREE||!cv) return;
   let r; try{ r=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true}); }catch(_){ return; }
   r.setPixelRatio(Math.min(devicePixelRatio,2)); r.setSize(320,320,false);
-  const scene=new THREE.Scene(), cam=new THREE.PerspectiveCamera(35,1,.1,50); cam.position.set(0,-.3,6.6);
-  scene.add(new THREE.HemisphereLight(0xffffff,0x445566,1.2)); const sun=new THREE.DirectionalLight(0xffffff,1.5); sun.position.set(2,3,4); scene.add(sun);
+  const scene=new THREE.Scene(), cam=new THREE.PerspectiveCamera(35,1,.1,50); cam.position.set(0,.8,7.4); cam.lookAt(0,-.2,0);
+  scene.add(new THREE.HemisphereLight(0xffffff,0x556677,1.15)); const sun=new THREE.DirectionalLight(0xffffff,1.6); sun.position.set(2,4,5); scene.add(sun);
   const acc=new THREE.Color(), readAcc=()=>acc.set(getComputedStyle(document.documentElement).getPropertyValue('--acc').trim()); readAcc();
-  const shell=new THREE.MeshStandardMaterial({color:0xcfcdc6,roughness:.45,metalness:.25}), dark=new THREE.MeshStandardMaterial({color:0x0e1013,roughness:.2,metalness:.6}), glow=new THREE.MeshBasicMaterial({color:acc});
-  const add=(p,g,m,pos,rot,sc)=>{const o=new THREE.Mesh(g,m); pos&&o.position.set(...pos); rot&&o.rotation.set(...rot); sc&&o.scale.set(...sc); p.add(o); return o;};
-  const root=new THREE.Group(), head=new THREE.Group(); scene.add(root); root.add(head);
-  add(head,new THREE.CapsuleGeometry(.62,1,8,24),shell,0,[0,0,Math.PI/2],[1,1,.85]);          // skull
-  add(head,new THREE.CapsuleGeometry(.4,.95,8,20),dark,[0,0,.5],[0,0,Math.PI/2],[1,1,.5]);     // visor
-  const eyes=new THREE.Group(); eyes.position.set(0,.08,.66); head.add(eyes);
-  const eL=add(eyes,new THREE.CapsuleGeometry(.09,.14,4,10),glow,[-.28,0,0]), eR=add(eyes,new THREE.CapsuleGeometry(.09,.14,4,10),glow,[.28,0,0]);
-  const mouth=add(head,new THREE.BoxGeometry(.36,.06,.02),glow,[0,-.22,.69]);
-  add(head,new THREE.CylinderGeometry(.02,.02,.4),shell,[0,.82,0]);
-  const tip=add(head,new THREE.SphereGeometry(.08,16,16),glow,[0,1.05,0]);
-  [-1,1].forEach(s=>add(head,new THREE.CylinderGeometry(.18,.18,.12,20),dark,[s*1.2,0,0],[0,0,Math.PI/2]));  // ears
-  add(root,new THREE.CylinderGeometry(.13,.13,.4),dark,[0,-.8,0]);                                          // neck
-  add(root,new THREE.CapsuleGeometry(.5,.35,8,20),shell,[0,-1.4,0],0,[1.25,1,.8]);                          // torso
-  add(root,new THREE.SphereGeometry(.05,12,12),glow,[0,-1.35,.42]);                                         // chest light
-  const armL=new THREE.Group(), armR=new THREE.Group(); armL.position.set(-.78,-1.1,0); armR.position.set(.78,-1.1,0); root.add(armL,armR);
-  [armL,armR].forEach(a=>{add(a,new THREE.CapsuleGeometry(.1,.55,6,12),shell,[0,-.32,0]); add(a,new THREE.SphereGeometry(.12,12,12),dark,[0,-.72,0]);});
-  let tx=0,ty=0,vis=true,nextBlink=2000,blinkUntil=0,happyUntil=0; const t0=performance.now(); let waveUntil=t0+2800;
+  const yel=new THREE.MeshStandardMaterial({color:0xffcc1a,roughness:.35}), org=new THREE.MeshStandardMaterial({color:0xff7a1a,roughness:.4}), blk=new THREE.MeshStandardMaterial({color:0x14110d,roughness:.2}), wht=new THREE.MeshBasicMaterial({color:0xffffff}), glow=new THREE.MeshBasicMaterial({color:acc});
+  const sph=r=>new THREE.SphereGeometry(r,28,20);
+  const add=(p,g,m,pos,sc)=>{const o=new THREE.Mesh(g,m); pos&&o.position.set(...pos); sc&&o.scale.set(...sc); p.add(o); return o;};
+  const root=new THREE.Group(); scene.add(root);
+  const body=add(root,sph(1),yel,[0,-.6,0],[1.15,.82,1]);
+  add(root,sph(.35),yel,[0,-.28,-1],[.8,.8,1.3]);                                   // tail
+  const wing=s=>{const g=new THREE.Group(); g.position.set(s*1.1,-.45,-.05); root.add(g); add(g,sph(.5),yel,[s*.12,-.15,0],[.28,.5,.9]); return g;};
+  const wL=wing(-1), wR=wing(1);
+  const head=new THREE.Group(); head.position.set(0,.5,.5); root.add(head); add(head,sph(.74),yel);
+  add(head,sph(.3),org,[0,-.1,.72],[1.05,.36,.95]);                                 // upper beak
+  const jaw=new THREE.Group(); jaw.position.set(0,-.2,.62); head.add(jaw); add(jaw,sph(.26),org,[0,0,.08],[.95,.26,.85]);
+  const eyes=[-1,1].map(s=>{const g=new THREE.Group(); g.position.set(s*.3,.2,.64); head.add(g); add(g,sph(.1),blk); add(g,sph(.03),wht,[.03,.04,.08]); add(head,new THREE.TorusGeometry(.19,.028,10,28),glow,[s*.3,.2,.7]); return g;});
+  add(head,new THREE.BoxGeometry(.14,.025,.025),glow,[0,.22,.72]);                  // glasses bridge
+  [-1,1].forEach(s=>add(head,new THREE.BoxGeometry(.025,.025,.55),glow,[s*.55,.2,.42])); // temples
+  const dots=[0,1,2].map(i=>add(root,sph(.07),glow,[-.3+i*.3,1.9,.4])); dots.forEach(d=>d.visible=false);
+  const waterMat=new THREE.MeshBasicMaterial({color:acc,transparent:true,opacity:.1});
+  const water=add(root,new THREE.CircleGeometry(2.3,48),waterMat,[0,-1.45,0]); water.rotation.x=-Math.PI/2;
+  const rip=[0,1,2].map(()=>{const m=new THREE.MeshBasicMaterial({color:acc,transparent:true}), o=add(root,new THREE.TorusGeometry(1,.015,6,64),m,[0,-1.44,0]); o.rotation.x=Math.PI/2; return o;});
+  let tx=0,ty=0,vis=true,nextBlink=2000,blinkUntil=0,happyUntil=0,hopUntil=0,prev=0,ph=0,k=0; const t0=performance.now(); let flapUntil=t0+2400;
   addEventListener('pointermove',e=>{tx=e.clientX/innerWidth*2-1; ty=e.clientY/innerHeight*2-1;});
-  cv.style.cursor='pointer'; cv.addEventListener('click',()=>{happyUntil=performance.now()+800; waveUntil=performance.now()+2000;});
+  cv.style.cursor='pointer'; cv.addEventListener('click',()=>{const n=performance.now(); hopUntil=n+700; flapUntil=n+1200; happyUntil=n+900;});
   new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(cv);
-  let k=0;
+  const lerp=(o,p,v,a)=>o[p]+=(v-o[p])*a;
   function frame(t){ if(!calm) requestAnimationFrame(frame); if(!vis||document.hidden) return;
-    const s=t/1000, st=orb.state; let ry=tx*.7, rx=ty*.4, rz=0;
-    root.position.y=Math.sin(s*1.6)*.07; root.rotation.y=Math.sin(s*.5)*.08;
-    if(t-t0<1800) rx+=Math.sin((t-t0)/1800*Math.PI*2)*.25;                       // greeting nod
-    eyes.position.x=0; mouth.scale.set(1,1,1); tip.scale.setScalar(1+.15*Math.sin(s*2));
-    if(st==='thinking'){ ry+=Math.sin(s*1.8)*.3; rz=.12; eyes.position.x=Math.sin(s*3)*.07; tip.scale.setScalar(1+.5*Math.abs(Math.sin(s*10))); mouth.scale.x=.4; }
-    else if(st==='speaking'){ rx+=.05*Math.sin(s*8); mouth.scale.y=1+3.5*Math.abs(Math.sin(s*14+Math.sin(s*5)*3)); mouth.scale.x=.9; }
-    let aR=.12+Math.sin(s*1.6)*.04, aL=-(.12+Math.sin(s*1.6+1)*.04);
-    if(t<waveUntil) aR=2.4+Math.sin(s*10)*.4; else if(st==='speaking'){ const g=.2*Math.abs(Math.sin(s*5)); aR+=g; aL-=g; }
-    armR.rotation.z+=(aR-armR.rotation.z)*.15; armL.rotation.z+=(aL-armL.rotation.z)*.15;
-    head.rotation.y+=(ry-head.rotation.y)*.08; head.rotation.x+=(rx-head.rotation.x)*.08; head.rotation.z+=(rz-head.rotation.z)*.08;
-    if(t>nextBlink){ blinkUntil=t+130; nextBlink=t+2500+Math.random()*2500; }
-    const ey=t<blinkUntil?.1:(t<happyUntil?.35:1); eL.scale.y=eR.scale.y=ey; eyes.position.y=.08+(t<happyUntil?.04:0);
-    if(++k%90===0){ readAcc(); glow.color.copy(acc); }
+    const s=t/1000, dt=Math.min(.05,(t-prev)/1000||0), st=orb.state, hopping=t<hopUntil; prev=t;
+    const hop=hopping?Math.sin((1-(hopUntil-t)/700)*Math.PI)*.8:0;
+    root.position.y=Math.sin(s*1.8)*.05+hop; root.rotation.z=Math.sin(s*1.1)*.03; root.rotation.y=tx*.15;
+    let ry=tx*.8, rx=ty*.35, rz=0, open=0, flap=.12+Math.sin(s*1.8)*.03, sq=hopping?-.1:0;
+    if(st==='thinking'){ rz=.28; rx=-.15; ry+=Math.sin(s*1.5)*.3; }
+    if(st==='speaking'){ open=.1+.5*Math.abs(Math.sin(s*13+Math.sin(s*4)*2)); rx+=.04*Math.sin(s*8); sq=.05*Math.abs(Math.sin(s*13)); }
+    if(t<happyUntil) open=Math.max(open,.4);
+    if(t<flapUntil||st==='speaking') flap+=.55*Math.abs(Math.sin(s*14))*(st==='speaking'&&t>=flapUntil?.5:1);
+    dots.forEach((d,i)=>{ d.visible=st==='thinking'; d.position.y=1.9+Math.abs(Math.sin(s*5+i*.8))*.2; });
+    lerp(head.rotation,'y',ry,.1); lerp(head.rotation,'x',rx,.1); lerp(head.rotation,'z',rz,.1); lerp(jaw.rotation,'x',open,.35);
+    wR.rotation.z=flap; wL.rotation.z=-flap;
+    body.scale.set(1.15-sq*.6,.82+sq,1-sq*.6);
+    if(t>nextBlink){ blinkUntil=t+120; nextBlink=t+2500+Math.random()*2500; }
+    const ey=t<blinkUntil?.1:(t<happyUntil?.35:1); eyes.forEach(e=>e.scale.y=ey);
+    ph+=dt*(hopping?1.2:st==='speaking'?.6:.25);
+    rip.forEach((o,i)=>{ const p=(ph+i/3)%1; o.scale.setScalar(.8+p*1.5); o.material.opacity=(1-p)*.55; });
+    if(++k%90===0){ readAcc(); glow.color.copy(acc); waterMat.color.copy(acc); rip.forEach(o=>o.material.color.copy(acc)); }
     r.render(scene,cam); }
   calm?frame(performance.now()):requestAnimationFrame(frame);
 })();
