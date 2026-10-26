@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dattamber Jukanti — Lead Software Engineer</title>
+<meta name="description" content="Lead software engineer. Resilient systems, performance, observability and AI-assisted delivery. Interactive terminal resume.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0e'/%3E%3Cpath d='M7 10l7 6-7 6' stroke='%23ffb000' stroke-width='3' fill='none'/%3E%3Cpath d='M17 23h9' stroke='%23ffb000' stroke-width='3'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#0b0c0e;--fg:#d6d3cb;--dim:#7d7a72;--acc:#ffb000;--ok:#8ec07c;--line:#26282c}
+:root[data-theme=light]{--bg:#f6f3ea;--fg:#23221f;--dim:#6b685f;--acc:#9a5b00;--ok:#2f6b2f;--line:#d9d4c5}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{font:15px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:100vh}
+a{color:var(--acc)}
+::selection{background:var(--acc);color:var(--bg)}
+.wrap{max-width:880px;margin:0 auto;padding:20px 16px 120px}
+.bar{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:18px;color:var(--dim);font-size:13px}
+.bar button{background:none;border:1px solid var(--line);color:var(--dim);font:inherit;padding:2px 10px;cursor:pointer;border-radius:3px}
+.bar button:hover,.bar button:focus-visible{color:var(--acc);border-color:var(--acc)}
+#out>div{margin:0 0 14px;white-space:pre-wrap;word-break:break-word}
+#out .cmd{color:var(--fg);margin-bottom:6px}
+.p{color:var(--ok)}.p b{color:var(--acc);font-weight:400}
+.dim{color:var(--dim)}.acc{color:var(--acc)}
+h2,h3{font:inherit;margin:0}
+h2{color:var(--acc);margin:18px 0 6px}
+h2::before{content:"## ";color:var(--dim)}
+h3{color:var(--fg);font-weight:700;margin-top:12px}
+.out-block{white-space:normal!important}
+.out-block p{margin:4px 0}
+.out-block ul{margin:4px 0;padding-left:20px}
+.out-block li{margin:3px 0}
+.tl{border-left:2px solid var(--line);padding-left:14px;margin:10px 0 0 4px}
+.tl .y{color:var(--acc)}
+.tags span{display:inline-block;border:1px solid var(--line);padding:0 7px;margin:2px 4px 2px 0;font-size:12px;color:var(--dim);border-radius:3px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:2px 12px}
+.kv dt{color:var(--acc)}.kv dd{margin:0}
+.line{display:flex;gap:8px;align-items:center}
+.line label{white-space:nowrap}
+#in{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--fg);font:inherit;caret-color:var(--acc)}
+.chips{margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.chips button{background:none;border:1px solid var(--line);color:var(--fg);font:inherit;font-size:13px;padding:4px 10px;cursor:pointer;border-radius:3px}
+.chips button:hover,.chips button:focus-visible{border-color:var(--acc);color:var(--acc)}
+#term,#plain,#agent{display:none}
+body[data-view=terminal] #term,body[data-view=plain] #plain,body[data-view=agent] #agent{display:block}
+.msg{display:flex;gap:10px;margin:0 0 16px}
+.av{flex:none;width:30px;height:30px;border:1px solid var(--acc);color:var(--acc);border-radius:50%;display:grid;place-items:center;font-size:12px}
+.bub{min-width:0}.bub p{margin:4px 0}
+.msg.me{justify-content:flex-end}.msg.me .bub{background:var(--line);padding:6px 14px;border-radius:14px}
+.note{color:var(--dim);font-size:12px;margin:0 0 18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:8px 0}
+.stats div{border:1px solid var(--line);padding:8px 10px;border-radius:4px}
+.stats b{display:block;color:var(--acc);font-size:20px;font-weight:700}
+.stats span{color:var(--dim);font-size:12px}
+.dots i{display:inline-block;width:6px;height:6px;margin-right:4px;border-radius:50%;background:var(--dim);animation:b 1s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes b{50%{opacity:.2}}
+#ask{display:flex;gap:8px;margin-top:16px}
+#q{flex:1;min-width:0;background:none;border:1px solid var(--line);border-radius:4px;color:var(--fg);font:inherit;padding:8px 10px;outline:0}
+#q:focus{border-color:var(--acc)}
+#ask button{background:var(--acc);color:var(--bg);border:0;border-radius:4px;font:inherit;padding:0 14px;cursor:pointer}
+#plain section{margin:0 0 26px}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--bg);padding:4px 8px;z-index:9}
+@media (max-width:560px){.kv{grid-template-columns:1fr}.kv dd{margin-bottom:6px}}
+@media (prefers-reduced-motion:no-preference){#out>div{animation:in .15s ease-out}@keyframes in{from{opacity:0;transform:translateY(3px)}}}
+</style>
+</head>
+<body>
+<a class="skip" href="#plain" id="skip">Skip to plain view</a>
+<div class="wrap">
+  <div class="bar">
+    <span>Dattamber Jukanti · Lead Software Engineer</span>
+    <span><button data-v="agent" type="button">guide</button> <button data-v="terminal" type="button">terminal</button> <button data-v="plain" type="button">plain</button> <button id="tTheme" type="button">theme</button></span>
+  </div>
+
+  <main id="agent" aria-label="Guide agent">
+    <p class="note">Guide agent · answers are drawn from Dattamber's own portfolio content.</p>
+    <div id="chat" aria-live="polite"></div>
+    <div class="chips" id="achips"></div>
+    <form id="ask"><input id="q" autocomplete="off" placeholder="Ask about performance, AI, leadership…" aria-label="Ask the guide"><button type="submit">Ask</button></form>
+  </main>
+
+  <main id="term" aria-label="Interactive terminal">
+    <div id="out" aria-live="polite"></div>
+    <div class="line"><label for="in" class="p">guest@dj:<b>~</b>$</label><input id="in" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Type a command"></div>
+    <div class="chips" id="chips"></div>
+  </main>
+
+  <main id="plain" aria-label="Plain resume view"></main>
+
+  <noscript><p>Dattamber Jukanti, Lead Software Engineer. This page is an interactive resume and needs JavaScript. GitHub: <a href="https://github.com/dattamberj">dattamberj</a></p></noscript>
+</div>
+
+<script>
+// Placeholders to fill in: set EMAIL / LINKEDIN, leave '' to hide.
+const ME = {name:'Dattamber Jukanti', gh:'dattamberj', email:'', linkedin:''};
+
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tags = a => `<div class="tags">${a.map(t=>`<span>${t}</span>`).join('')}</div>`;
+const ul = a => `<ul>${a.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+
+const PROJECTS = [
+ {id:'spec-driven-build', title:'Spec-driven build', line:'A reviewed spec as the single source of truth for design, build, tests, observability and ops.',
+  body:['AI-assisted delivery fails when the process is vague, not when the model is weak. I built a skill-based method where one reviewed specification drives everything downstream, keeps deterministic logic deterministic, and uses the right-sized model per task so token cost stays predictable.'],
+  facts:['60–70% less development time','Grew from 1 team to many; applied to 30+ functionalities and 70+ APIs and events','Packaged as reusable skills in a firm-wide repository','Presented to senior technology leadership for broader reuse'],
+  stack:['AI agents','LLMs','Specs','Model right-sizing']},
+ {id:'fast-prequal', title:'Sub-3-second decisioning', line:'Infrastructure lead on a latency-critical credit pre-qualification path.',
+  body:['Partnered with a principal engineer to tune the application, database and API gateway layers. Around 2 seconds of the budget belonged to an external vendor, so everything else had to be lean. Reading platform teams’ own repositories exposed one more win: authorizer cold paths at high TPS.'],
+  facts:['~3s end to end, 2x+ faster than the next-fastest competitor (7s)','Lambda authorizer latency down up to 50% by pre-loading certificates at init','One of the earliest teams on the public cloud; led EKS, API Gateway + WAF and managed Kafka adoption'],
+  stack:['AWS EKS','API Gateway','Lambda','MSK','Terraform','Kubernetes']},
+ {id:'self-healing-integrations', title:'Self-healing integrations', line:'Circuit breakers, scheduled retries and event replay instead of human intervention.',
+  body:['Introduced the circuit-breaker pattern with scheduled retries across three teams, and won over downstream owners who initially pushed back. Producers on Kafka replay events after outages, and next-day batch jobs became real-time flows.'],
+  facts:['100% of requests processed through a bureau outage, zero customer impact','External vendor replacement shipped with zero production issues','Reusable reference examples that sped up adoption elsewhere'],
+  stack:['Kafka','Resilience patterns','Event replay','Avro']},
+ {id:'observability-as-code', title:'Observability as code', line:'Alerts and metrics defined in version control, not in tickets.',
+  body:['Led a multi-team move from hand-built, review-gated alerting to environment-as-code. Reviews that took two weeks became near real-time, and dashboards built on the same definitions made triage a pointed exercise.'],
+  facts:['50+ alerts and 100+ metrics created the new way','Review lead time: 2 weeks → near real-time','Replaced an intermittent legacy alerting approach'],
+  stack:['Prometheus','Grafana','Environment-as-code','Spring observability']},
+ {id:'uuidv7-keys', title:'Challenging the primary key', line:'Why numeric sequences would have broken active-active.',
+  body:['Before every entity, API and event inherited a numeric-sequence key standard, I showed it would not survive active-active Aurora PostgreSQL with write forwarding. I proposed and carried UUIDv7: globally unique for distributed writes, time-ordered for efficient indexing.'],
+  facts:['Aligned the platform with the resiliency strategy','Avoided a costly cross-system redesign later'],
+  stack:['Aurora PostgreSQL','UUIDv7','Active-active','Data modelling']},
+ {id:'modular-ui-foundation', title:'Modular UI foundation', line:'Prototype-first UI that became the reference for every later screen.',
+  body:['Started building while the design was still moving, then turned the prototype into modular components, a data-grid pattern approved with design and accessibility, contract-generated API clients, an end-to-end audit trail and consistent observability from day one.'],
+  facts:['Later screens built ~50% faster','Excel-parsing flow cut manual program setup time by 90%','Audit pattern gives complete traceability for critical data changes'],
+  stack:['React','Spring','Hibernate Envers','Contract-generated clients']},
+ {id:'domain-black-box-tests', title:'Black-box testing for modernised domains', line:'Confidence that component tests alone can’t give.',
+  body:['Built a domain-level black-box testing capability, then used LLM APIs to turn acceptance criteria into Gherkin scenarios and enabled the team through working sessions.'],
+  facts:['150+ business scenarios, 30 field-level assertions','Domain regression-testing time down 70%','600+ generated scenarios across two domains'],
+  stack:['Gherkin','LLM APIs','Test automation']},
+ {id:'restage-all', title:'Restage all', line:'One action instead of a hundred.',
+  body:['A Groovy capability that restages every application in a pool in one step, made mass vulnerability-driven build-pack upgrades practical. Merged into a global shared library and now reused across the technology org.'],
+  facts:['Saves 10+ hours per 100-application pool','Practical at 10,000+ application scale'],
+  stack:['Groovy','CI/CD','Platform tooling']}
+];
+
+const C = {
+ about: () => `<p>Lead software engineer at a global bank, working on the decisioning platforms behind auto lending. I own technical delivery for a core system with <span class="acc">30+ capabilities, 800 fields and 50+ entities</span>, where every design call carries real business impact.</p>
+  <p>I’m a <span class="acc">generalising specialist</span>: deep in whatever problem I’m on, broad across infrastructure, SRE, performance, UI and AI-assisted delivery. Joined in 2018 through an early-career program; Lead in 2025.</p>
+  <p>I question the status quo with evidence and make sure the right thing gets done. When in doubt, I ask: clarity early beats effort later. I believe in failing fast, raising the flag early, and that a problem well understood is half solved.</p>`,
+ experience: () => `<div class="tl">
+   <h3><span class="y">2025 — now</span> · Lead Software Engineer</h3>
+   ${ul(['Technical lead for the platforms that own auto-lending decisioning and pre-qualification.','Partner with product, engineering, data and architecture to build on modern public-cloud and private-platform stacks.','Go-to engineer for hard cross-cutting problems: infrastructure, observability, performance, quality and AI-assisted delivery.','Mentor engineers from first-year to senior; one mentee made pod lead the year they led a 10+ engineer delivery.'])}
+   <h3><span class="y">2018 — 2025</span> · Software Engineer → Lead</h3>
+   ${ul(['Led delivery of a pricing modernisation: platform foundation, reference UI, audit patterns and validated bulk-input flows.','Led one of the org’s first public-cloud journeys for its line of business, then taught it forward through workshops.','Drove a third-party vendor exit via a new integration, live with zero production issues.','Hackathon organiser, interviewer and volunteer on the tech-for-good program.'])}
+  </div>`,
+ skills: () => `<dl class="kv">
+   <dt>cloud</dt><dd>${tags(['AWS','EKS','API Gateway','Lambda','MSK','Aurora PostgreSQL','Terraform','Kubernetes'])}</dd>
+   <dt>backend</dt><dd>${tags(['Java','Spring','Hibernate Envers','Kafka','Avro','Groovy','PostgreSQL'])}</dd>
+   <dt>frontend</dt><dd>${tags(['React','Data-heavy UIs','Accessibility','Design systems'])}</dd>
+   <dt>reliability</dt><dd>${tags(['Prometheus','Grafana','Chaos testing','Performance testing','Circuit breakers','Observability as code'])}</dd>
+   <dt>ai</dt><dd>${tags(['Spec-driven build','Agent skills','LLM-assisted testing','Model right-sizing','Token economics'])}</dd>
+   <dt>leadership</dt><dd>${tags(['Mentoring','Cross-team alignment','Stakeholder buy-in','Technical strategy','Pattern sharing'])}</dd>
+  </dl>`,
+ principles: () => ulBlock(),
+ life: () => `<p>Outside the day job: interviewing candidates, running internal hackathons, and leading teams for a tech-for-good program (team lead for two editions, participant in two more). I volunteer with a non-profit doing social welfare work.</p>
+  <p>I support my wife as she builds her own business from scratch. Watching that reinforces what I value at work: ownership, resilience and learning by doing. We travel to recharge: 4 countries in 3 years, a dream destination up next.</p>`,
+ contact: () => `<dl class="kv"><dt>github</dt><dd><a href="https://github.com/${ME.gh}" target="_blank" rel="noopener">github.com/${ME.gh}</a></dd>${ME.email?`<dt>email</dt><dd><a href="mailto:${ME.email}">${ME.email}</a></dd>`:''}${ME.linkedin?`<dt>linkedin</dt><dd><a href="${ME.linkedin}" target="_blank" rel="noopener">${ME.linkedin.replace(/^https?:\/\//,'')}</a></dd>`:''}</dl>`
+};
+function ulBlock(){return ul([
+  '<b>Frame decisions commercially</b> — value delivered, cost avoided, risk reduced.',
+  '<b>Reuse beats rebuild</b> — share patterns and the reasoning behind them.',
+  '<b>Responsible AI is structure, not just tooling</b> — specs, determinism where it matters, the right model per task.',
+  '<b>Mentor the thinking, not the answer</b> — pair constructive feedback with recognition of effort.'])}
+
+const projHTML = p => `<h3>${p.title} <span class="dim">· ${p.id}</span></h3>${p.body.map(b=>`<p>${b}</p>`).join('')}${ul(p.facts)}${tags(p.stack)}`;
+const projList = () => PROJECTS.map(p=>`<p><span class="acc">${p.id}</span><br><span class="dim">${p.line}</span></p>`).join('') + `<p class="dim">open one: <span class="acc">cat projects/&lt;name&gt;</span></p>`;
+const allProjects = () => PROJECTS.map(projHTML).join('');
+
+const FILES = {
+ 'about.md':C.about,'experience.md':C.experience,'skills.yaml':C.skills,'principles.md':C.principles,'life.md':C.life,'contact.txt':C.contact
+};
+PROJECTS.forEach(p => FILES['projects/'+p.id+'.md'] = () => projHTML(p));
+
+const out = document.getElementById('out'), inp = document.getElementById('in');
+const block = html => { const d=document.createElement('div'); d.className='out-block'; d.innerHTML=html; out.appendChild(d); scrollTo(0,document.body.scrollHeight); };
+const text  = t => { const d=document.createElement('div'); d.textContent=t; out.appendChild(d); };
+const sect = (h,b) => block(`<h2>${h}</h2>${b}`);
+
+const CMDS = {
+ help: () => block(`<dl class="kv">
+   <dt>whoami</dt><dd>short intro</dd><dt>about</dt><dd>who I am and how I work</dd><dt>experience</dt><dd>career timeline</dd>
+   <dt>projects</dt><dd>selected work, anonymised</dd><dt>skills</dt><dd>stack</dd><dt>principles</dt><dd>how I make engineering decisions</dd>
+   <dt>life</dt><dd>outside work</dd><dt>contact</dt><dd>get in touch</dd>
+   <dt>ls / cat &lt;file&gt;</dt><dd>browse like a filesystem (tab completes)</dd><dt>plain</dt><dd>plain-text view</dd><dt>theme</dt><dd>dark / light</dd><dt>clear</dt><dd>clear screen</dd></dl>`),
+ whoami: () => block(`<p><span class="acc">${ME.name}</span> — Lead Software Engineer</p><p>I build resilient, fast, observable systems for regulated finance, and I make AI-assisted delivery repeatable. Type <span class="acc">help</span>, or tap a command below.</p>`),
+ about: () => sect('about', C.about()),
+ experience: () => sect('experience', C.experience()),
+ projects: () => sect('projects', projList()),
+ skills: () => sect('skills', C.skills()),
+ principles: () => sect('principles', C.principles()),
+ life: () => sect('life', C.life()),
+ contact: () => sect('contact', C.contact()),
+ ls: a => { const dir=(a[0]||'').replace(/\/$/,'');
+   if(dir==='projects') return block(PROJECTS.map(p=>`<span class="acc">${p.id}.md</span>`).join('<br>'));
+   if(dir) return text(`ls: ${dir}: No such file or directory`);
+   block(Object.keys(FILES).filter(f=>!f.includes('/')).map(f=>`<span class="acc">${f}</span>`).join('<br>')+`<br><span class="dim">projects/</span>`); },
+ cat: a => { let f=(a[0]||'').replace(/^\.\//,''); if(!f) return text('usage: cat <file>');
+   if(!FILES[f]) f = FILES[f+'.md']?f+'.md':(FILES['projects/'+f+'.md']?'projects/'+f+'.md':f);
+   if(!FILES[f]) return text(`cat: ${a[0]}: No such file or directory`);
+   block(FILES[f]()); },
+ open: a => CMDS.cat(a),
+ plain: () => setView('plain'),
+ guide: () => setView('agent'),
+ theme: () => toggleTheme(),
+ clear: () => { out.innerHTML=''; },
+ sudo: () => text('guest is not in the sudoers file. This incident will be reported.'),
+ pwd: () => text('/home/guest'),
+ echo: a => text(a.join(' '))
+};
+const NAMES = Object.keys(CMDS), FILENAMES = Object.keys(FILES);
+
+const history=[]; let hi=0;
+function run(line){
+  line=line.trim(); if(!line) return;
+  const d=document.createElement('div'); d.className='cmd'; d.innerHTML=`<span class="p">guest@dj:<b>~</b>$</span> `; d.append(line); out.appendChild(d);
+  history.push(line); hi=history.length;
+  const [c,...a]=line.split(/\s+/);
+  (CMDS[c.toLowerCase()] || (()=>text(`${c}: command not found. Try "help".`)))(a);
+  scrollTo(0,document.body.scrollHeight);
+}
+inp.addEventListener('keydown', e => {
+  if(e.key==='Enter'){ run(inp.value); inp.value=''; }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); if(hi>0) inp.value=history[--hi]; }
+  else if(e.key==='ArrowDown'){ e.preventDefault(); inp.value = hi<history.length-1 ? history[++hi] : (hi=history.length,''); }
+  else if(e.key==='Tab'){ e.preventDefault();
+    const parts=inp.value.split(/\s+/), last=parts.pop(), pool = parts.length ? FILENAMES.concat(PROJECTS.map(p=>p.id)) : NAMES;
+    const m=pool.filter(x=>x.startsWith(last)); if(m.length===1) inp.value=parts.concat(m[0]).join(' '); }
+  else if(e.key==='l' && e.ctrlKey){ e.preventDefault(); CMDS.clear(); }
+});
+document.getElementById('term').addEventListener('click', e => { if(!e.target.closest('button,a') && !getSelection().toString()) inp.focus(); });
+
+const chips=document.getElementById('chips');
+['about','experience','projects','skills','principles','life','contact','help'].forEach(c=>{
+  const b=document.createElement('button'); b.type='button'; b.textContent=c; b.onclick=()=>run(c); chips.appendChild(b); });
+
+// Plain view: same content, no terminal.
+document.getElementById('plain').innerHTML =
+  `<h1 style="font-size:1.4em;margin:0 0 4px">${ME.name}</h1><p class="dim">Lead Software Engineer</p>` +
+  [['about',C.about()],['experience',C.experience()],['projects',allProjects()],['skills',C.skills()],['principles',C.principles()],['life outside work',C.life()],['contact',C.contact()]]
+   .map(([h,b])=>`<section><h2>${h}</h2>${b}</section>`).join('');
+
+function setView(v){ document.body.dataset.view=v; if(v==='terminal') inp.focus(); if(v==='agent') document.getElementById('q').focus({preventScroll:true}); }
+document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>setView(b.dataset.v));
+document.getElementById('skip').onclick=e=>{e.preventDefault();setView('plain');};
+
+// ---- Guide agent: scripted tour + keyword-matched Q&A over the content above ----
+const chat=document.getElementById('chat'), achips=document.getElementById('achips'), q=document.getElementById('q');
+const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mentor = `<p>Mentoring is about the thinking, not the answer. Examples: an associate led a 7-screen delivery guiding 10+ engineers and was promoted to pod lead the same year; a senior engineer grew into owning run-the-engine and infrastructure for a major delivery; early-career engineers shipped reference implementations that other teams copied.</p>${ul(['Focus on how they think through a problem.','Pair constructive feedback with recognition of effort.','Share patterns and the reasoning behind them.'])}`;
+const stats = `<div class="stats"><div><b>60–70%</b><span>less dev time with spec-driven build</span></div><div><b>~3s vs 7s</b><span>decisioning latency vs next-fastest competitor</span></div><div><b>100%</b><span>requests processed through a bureau outage</span></div><div><b>2 wks → real-time</b><span>alert review lead time</span></div><div><b>−70%</b><span>domain regression-testing time</span></div></div>`;
+const KB=[
+ {k:['who','about','intro','background','summary','yourself'],a:C.about},
+ {k:['role','current','job','title','career','experience','timeline','responsib'],a:C.experience},
+ {k:['skill','stack','tech','language','tool','java','react','kubernetes','terraform','aws'],a:C.skills},
+ {k:['ai','llm','agent','spec','model','token','genai','prompt'],a:()=>projHTML(PROJECTS[0])+projHTML(PROJECTS[6])},
+ {k:['principle','philosophy','decision','approach','style','value','think'],a:C.principles},
+ {k:['mentor','coach','lead','leader','leadership','people','grow','feedback','team'],a:()=>mentor},
+ {k:['hobby','outside','life','travel','volunteer','fun','personal','family'],a:C.life},
+ {k:['contact','email','hire','reach','linkedin','github','connect','talk'],a:C.contact},
+ {k:['result','impact','number','metric','win','achievement','proud'],a:()=>stats},
+ {k:['latency','performance','fast','speed','slow','authorizer','lambda','cloud','eks'],a:()=>projHTML(PROJECTS[1])},
+ {k:['resilien','retry','circuit','outage','kafka','heal','vendor','reliab'],a:()=>projHTML(PROJECTS[2])},
+ {k:['observab','alert','monitor','grafana','prometheus','dashboard','splunk'],a:()=>projHTML(PROJECTS[3])},
+ {k:['uuid','key','database','postgres','aurora','active-active','sequence'],a:()=>projHTML(PROJECTS[4])},
+ {k:['ui','front','screen','audit','excel','grid','component'],a:()=>projHTML(PROJECTS[5])},
+ {k:['test','qa','quality','gherkin','regression'],a:()=>projHTML(PROJECTS[6])},
+ {k:['groovy','restage','automation','tooling','pipeline'],a:()=>projHTML(PROJECTS[7])},
+ {k:['project','work','built','build','portfolio'],a:projList}
+];
+const hit=(t,k)=>k.length<=3?t===k:t.startsWith(k);
+function answerFor(s){
+  const toks=s.toLowerCase().match(/[a-z0-9-]+/g)||[]; let best=null,top=0;
+  for(const e of KB){ const n=e.k.filter(k=>toks.some(t=>hit(t,k))).length; if(n>top){top=n;best=e;} }
+  return best&&best.a;
+}
+function msg(who,html){ const d=document.createElement('div'); d.className='msg'+(who==='me'?' me':'');
+  d.innerHTML=who==='me'?`<div class="bub"></div>`:`<div class="av" aria-hidden="true">DJ</div><div class="bub a"></div>`;
+  const b=d.querySelector('.bub'); who==='me'?b.textContent=html:b.innerHTML=html; chat.appendChild(d); return d; }
+function setChips(list){ achips.innerHTML=''; list.forEach(([l,f])=>{const b=document.createElement('button'); b.type='button'; b.textContent=l; b.onclick=f; achips.appendChild(b);}); }
+// Streams text node by node, a few words per tick, so the reply reads like a model generating.
+function stream(el,done){
+  const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT), nodes=[]; while(w.nextNode()) nodes.push(w.currentNode);
+  const full=nodes.map(n=>n.nodeValue); nodes.forEach(n=>n.nodeValue='');
+  let i=0,j=0; const words=full.map(s=>s.match(/\S+\s*|\s+/g)||[]);
+  (function tick(){ if(i>=nodes.length) return done();
+    const n=1+Math.floor(Math.random()*3); nodes[i].nodeValue+=words[i].slice(j,j+n).join(''); j+=n;
+    if(j>=words[i].length){i++;j=0;}
+    scrollTo(0,document.body.scrollHeight); setTimeout(tick,18+Math.random()*30); })();
+}
+function say(html,chips){ setChips([]);
+  const t=msg('bot','<span class="dots" aria-label="thinking"><i></i><i></i><i></i></span>');
+  const finish=()=>{ setChips(chips()); scrollTo({top:document.body.scrollHeight,behavior:calm?'auto':'smooth'}); };
+  setTimeout(()=>{ const b=t.querySelector('.bub'); b.innerHTML=html; calm?finish():stream(b,finish); }, calm?0:500+Math.random()*500); }
+const SUGG=[['What has he achieved?','results'],['How does he use AI?','ai agents llm'],['Performance wins','latency performance'],['How does he lead?','mentor leadership'],['What breaks gracefully?','resilience outage'],['Why not just use sequences?','uuid sequence'],['How does he test?','test regression'],['Tell me about alerts','observability alert'],['What’s his stack?','skills stack'],['Life outside work','life'],['Contact','contact']];
+const seen=new Set();
+const sugg=()=>{ const pool=SUGG.filter(([,s])=>!seen.has(s)).sort(()=>Math.random()-.5).slice(0,3);
+  return pool.map(([l,s])=>[l,()=>ask(s,l)]).concat([[tour<0?'Take the tour':'Resume tour',()=>go(Math.max(tour,0)+(tour<0?0:1))]]); };
+const NOPE=["That one's not in the brief, and I won't improvise on someone else's CV. Here's what I do know:","I checked. Nothing on that. I'd rather admit a gap than invent a tech stack. Try one of these:"];
+const REAL=`<p>Fair question. I'm a guide built into this page: I answer from Dattamber's own write-ups instead of improvising, which, given the audience, seemed wise. If you want the improvised version, he's reachable in person.</p>`;
+function ask(s,label){ s=s.trim(); if(!s) return; msg('me',label||s); seen.add(s);
+  if(/\b(real|llm|bot|human|chatgpt|gpt|claude|live)\b/i.test(s)) return say(REAL+C.contact(),sugg);
+  const a=answerFor(s);
+  say(a?a():`<p>${NOPE[Math.random()*NOPE.length|0]}</p>`, sugg); }
+let tour=-1;
+const STEPS=[
+ ()=>`<p>Quick version of Dattamber: a lead engineer who makes critical systems <span class="acc">faster, more resilient and easier to run</span>, and makes AI-assisted delivery repeatable.</p>${C.about()}`,
+ ()=>`<p>Right now he's the technical lead for the platforms behind auto-lending decisioning.</p>${C.experience()}`,
+ ()=>`<p>The numbers, since that's what matters:</p>${stats}`,
+ ()=>`<p>Here is how he decides things:</p>${C.principles()}${mentor}`,
+ ()=>`<p>Selected work. Pick one to open it:</p>${projList()}`,
+ ()=>`<p>And the human side:</p>${C.life()}`,
+ ()=>`<p>That's the tour. No quiz at the end. If this sounds useful, say hello:</p>${C.contact()}`
+];
+function go(i){ tour=i; if(i>=STEPS.length){tour=-1; return say('<p>Tour finished. Ask me anything else.</p>',sugg);}
+  say(STEPS[i](),()=>[[i<STEPS.length-1?'Next →':'Finish',()=>go(i+1)],['Ask a question',()=>setChips(SUGG.map(([l,s])=>[l,()=>ask(s,l)]))],['End tour',()=>{tour=-1;say('<p>Ok, over to you. Pick a topic or type a question.</p>',sugg);}]]); }
+document.getElementById('ask').onsubmit=e=>{e.preventDefault(); const v=q.value; q.value=''; ask(v);};
+
+say(`<p>Hi, I'm DJ's guide. Dattamber is busy keeping critical systems upright, so I'm covering the introductions.</p><p>I can walk you through his work in two minutes, or take questions. Skip the small talk; I won't mind.</p>`,
+  ()=>[['Start the 2-minute tour',()=>go(0)],...SUGG.slice(0,4).map(([l,s])=>[l,()=>ask(s,l)])]);
+
+function toggleTheme(){
+  const r=document.documentElement, t=r.dataset.theme==='light'?'dark':'light'; r.dataset.theme=t;
+  try{localStorage.setItem('theme',t)}catch(_){}
+}
+document.getElementById('tTheme').onclick=toggleTheme;
+try{ const t=localStorage.getItem('theme'); if(t) document.documentElement.dataset.theme=t;
+     else if(matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.dataset.theme='light'; }catch(_){}
+
+// Boot
+text(`dj-os 1.0 — type "help" to explore`);
+CMDS.whoami();
+setView('agent');
+</script>
+</body>
+</html>
