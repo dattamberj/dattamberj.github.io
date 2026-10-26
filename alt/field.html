@@ -59,7 +59,7 @@ const pos=new Float32Array(N*3), col=new Float32Array(N*3), tgt=new Float32Array
 const readAcc=()=>acc.set(getComputedStyle(document.documentElement).getPropertyValue('--acc').trim());
 readAcc();
 const bright=new Float32Array(N).map(()=>.4+R()*.6);
-const setColors=()=>{ for(let i=0;i<N;i++){ const w=bright[i]; col[i*3]=acc.r*w+(1-w)*.1; col[i*3+1]=acc.g*w+(1-w)*.1; col[i*3+2]=acc.b*w+(1-w)*.1; } g.attributes.color.needsUpdate=true; };
+const setColors=()=>{ const base=window.THEME&&window.THEME.light?.85:.1; for(let i=0;i<N;i++){ const w=bright[i]; col[i*3]=acc.r*w+(1-w)*base; col[i*3+1]=acc.g*w+(1-w)*base; col[i*3+2]=acc.b*w+(1-w)*base; } g.attributes.color.needsUpdate=true; };
 const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3)); g.setAttribute('color',new THREE.BufferAttribute(col,3));
 const mat=new THREE.PointsMaterial({size:.045,vertexColors:true,transparent:true,opacity:.95,depthWrite:false,blending:window.THEME&&window.THEME.light?THREE.NormalBlending:THREE.AdditiveBlending,sizeAttenuation:true});
 const pts=new THREE.Points(g,mat); scene.add(pts); setColors();
