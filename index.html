@@ -1,474 +1,91 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dattamber Jukanti — Lead Software Engineer</title>
-<meta name="description" content="Lead software engineer. Resilient systems, performance, observability and AI-assisted delivery. Interactive terminal resume.">
-<script src="alt/theme.js"></script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0e'/%3E%3Cpath d='M7 10l7 6-7 6' stroke='%23ffb000' stroke-width='3' fill='none'/%3E%3Cpath d='M17 23h9' stroke='%23ffb000' stroke-width='3'/%3E%3C/svg%3E">
+<html lang="en" data-nofx><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dattamber Jukanti — Lead Software Engineer</title><meta name="description" content="Lead software engineer. Resilient systems, performance, observability and AI-assisted delivery. Ask the field."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0e'/%3E%3Cpath d='M7 10l7 6-7 6' stroke='%23ffb000' stroke-width='3' fill='none'/%3E%3Cpath d='M17 23h9' stroke='%23ffb000' stroke-width='3'/%3E%3C/svg%3E"><link rel="stylesheet" href="base.css"><script src="theme.js"></script>
 <style>
-:root{--bg:#0b0c0e;--fg:#d6d3cb;--dim:#7d7a72;--acc:#ffb000;--ok:#8ec07c;--line:#26282c}
-:root[data-theme=light]{--bg:#f6f3ea;--fg:#23221f;--dim:#6b685f;--acc:#9a5b00;--ok:#2f6b2f;--line:#d9d4c5}
-*{box-sizing:border-box}
-html{margin:0;background:var(--bg)}body{margin:0;background:transparent;color:var(--fg)}
-body{font:15px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:100vh}
-a{color:var(--acc)}
-::selection{background:var(--acc);color:var(--bg)}
-.wrap{max-width:880px;margin:0 auto;padding:20px 16px 120px}
-.bar{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:18px;color:var(--dim);font-size:13px}
-.bar button{background:none;border:1px solid var(--line);color:var(--dim);font:inherit;padding:2px 10px;cursor:pointer;border-radius:3px}
-.bar button:hover,.bar button:focus-visible{color:var(--acc);border-color:var(--acc)}
-#out>div{margin:0 0 14px;white-space:pre-wrap;word-break:break-word}
-#out .cmd{color:var(--fg);margin-bottom:6px}
-.p{color:var(--ok)}.p b{color:var(--acc);font-weight:400}
-.dim{color:var(--dim)}.acc{color:var(--acc)}
-h2,h3{font:inherit;margin:0}
-h2{color:var(--acc);margin:18px 0 6px}
-h2::before{content:"## ";color:var(--dim)}
-h3{color:var(--fg);font-weight:700;margin-top:12px}
-.out-block{white-space:normal!important}
-.out-block p{margin:4px 0}
-.out-block ul{margin:4px 0;padding-left:20px}
-.out-block li{margin:3px 0}
-.tl{border-left:2px solid var(--line);padding-left:14px;margin:10px 0 0 4px}
-.tl .y{color:var(--acc)}
-.tags span{display:inline-block;border:1px solid var(--line);padding:0 7px;margin:2px 4px 2px 0;font-size:12px;color:var(--dim);border-radius:3px}
-.kv{display:grid;grid-template-columns:130px 1fr;gap:2px 12px}
-.kv dt{color:var(--acc)}.kv dd{margin:0}
-.line{display:flex;gap:8px;align-items:center}
-.line label{white-space:nowrap}
-#in{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--fg);font:inherit;caret-color:var(--acc)}
-.chips{margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px}
-.chips button{background:none;border:1px solid var(--line);color:var(--fg);font:inherit;font-size:13px;padding:4px 10px;cursor:pointer;border-radius:3px}
-.chips button:hover,.chips button:focus-visible{border-color:var(--acc);color:var(--acc)}
-#term,#plain,#agent{display:none}
-body[data-view=terminal] #term,body[data-view=plain] #plain{display:block}body[data-view=agent] #agent{display:flex;flex-direction:column}
-.msg{display:flex;gap:10px;margin:0 0 16px}
-.av{flex:none;width:30px;height:30px;border:1px solid var(--acc);color:var(--acc);border-radius:50%;display:grid;place-items:center;font-size:12px}
-.bub{min-width:0}.bub p{margin:4px 0}
-.msg.me{justify-content:flex-end}.msg.me .bub{background:var(--line);padding:6px 14px;border-radius:14px}
-.note{color:var(--dim);font-size:12px;margin:0}
-.stage{display:flex;align-items:center;gap:14px;margin:0 0 18px;position:sticky;top:0;background:var(--bg);padding:6px 0;z-index:2;border-bottom:1px solid var(--line)}
-#orb{width:104px;height:104px;flex:none;transition:width .4s,height .4s}
-.hero .stage{flex-direction:column;text-align:center;position:static;border:0;margin:0;padding:0;background:transparent}
-.hero #orb{width:260px;height:260px}
-.intro{text-align:center;margin:0 0 16px}.intro h1{font:inherit;font-size:22px;font-weight:700;margin:0 0 4px}.intro p{margin:0;color:var(--dim)}
-.hero #ask{order:1}.hero #home{order:2}.hero #chat,.hero #achips{display:none}
-.conv .intro,.conv #home{display:none}.conv #chat{order:1}.conv #achips{order:2}.conv #ask{order:3}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:20px}
-.card{background:none;border:1px solid var(--line);border-radius:6px;padding:12px 14px;text-align:left;cursor:pointer;font:inherit;color:var(--fg);transition:border-color .15s,transform .15s}
-.card:hover,.card:focus-visible{border-color:var(--acc);transform:translateY(-2px);outline:0}
-.card b{display:block;color:var(--acc);margin-bottom:2px}.card span{color:var(--dim);font-size:13px}
-.card.stat b{font-size:22px}.card.tour{grid-column:1/-1;background:var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
-#reset{margin-left:auto;background:none;border:1px solid var(--line);color:var(--dim);font:inherit;font-size:12px;padding:3px 10px;border-radius:3px;cursor:pointer}
-#reset:hover{color:var(--acc);border-color:var(--acc)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:8px 0}
-.stats div{border:1px solid var(--line);padding:8px 10px;border-radius:4px}
-.stats b{display:block;color:var(--acc);font-size:20px;font-weight:700}
-.stats span{color:var(--dim);font-size:12px}
-.dots i{display:inline-block;width:6px;height:6px;margin-right:4px;border-radius:50%;background:var(--dim);animation:b 1s infinite}
-.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
-@keyframes b{50%{opacity:.2}}
-#ask{display:flex;gap:8px;margin-top:16px}
-#q{flex:1;min-width:0;background:none;border:1px solid var(--line);border-radius:4px;color:var(--fg);font:inherit;padding:8px 10px;outline:0}
-#q:focus{border-color:var(--acc)}
-#ask button{background:var(--acc);color:var(--bg);border:0;border-radius:4px;font:inherit;padding:0 14px;cursor:pointer}
-#plain section{margin:0 0 26px}
-.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--bg);padding:4px 8px;z-index:9}
-@media (max-width:560px){.kv{grid-template-columns:1fr}.kv dd{margin-bottom:6px}}
-@media (prefers-reduced-motion:no-preference){#out>div{animation:in .15s ease-out}@keyframes in{from{opacity:0;transform:translateY(3px)}}}
-</style>
-</head>
-<body>
-<a class="skip" href="#plain" id="skip">Skip to plain view</a>
-<div class="wrap">
-  <div class="bar">
-    <span>Dattamber Jukanti · Lead Software Engineer</span>
-    <span><button data-v="agent" type="button">guide</button> <button data-v="terminal" type="button">terminal</button> <button data-v="plain" type="button">plain</button></span>
-  </div>
-
-  <main id="agent" class="hero" aria-label="Guide agent">
-    <div class="stage"><canvas id="orb" width="320" height="320" aria-hidden="true"></canvas><p class="note"><b class="acc" id="st">online</b><br>Guide agent · answers are drawn from Dattamber's own portfolio content.</p><button id="reset" type="button" hidden>↺ new chat</button></div>
-    <div class="intro"><h1>Ask me about Dattamber.</h1><p>Or pick a thread below. Fewer clicks than a CV, more context than a bullet list.</p></div>
-    <div id="chat" aria-live="polite"></div>
-    <div class="chips" id="achips"></div>
-    <div id="home" class="cards"></div>
-    <form id="ask"><input id="q" autocomplete="off" placeholder="Ask about performance, AI, leadership…" aria-label="Ask the guide"><button type="submit">Ask</button></form>
-  </main>
-
-  <main id="term" aria-label="Interactive terminal">
-    <div id="out" aria-live="polite"></div>
-    <div class="line"><label for="in" class="p">guest@dj:<b>~</b>$</label><input id="in" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Type a command"></div>
-    <div class="chips" id="chips"></div>
-  </main>
-
-  <main id="plain" aria-label="Plain resume view"></main>
-
-  <noscript><p>Dattamber Jukanti, Lead Software Engineer. This page is an interactive resume and needs JavaScript. GitHub: <a href="https://github.com/dattamberj">dattamberj</a></p></noscript>
-</div>
-
+html,body{height:100%;overflow:hidden}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block}
+.top{position:fixed;left:0;right:0;top:0;z-index:3;border:0;background:linear-gradient(var(--bg),transparent)}
+.ui{position:fixed;left:0;right:0;bottom:0;z-index:3;padding:0 16px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;background:linear-gradient(transparent,color-mix(in srgb,var(--bg) 80%,transparent) 35%)}
+#card{width:100%;max-width:680px;max-height:44vh;overflow:auto;background:color-mix(in srgb,var(--card) 90%,transparent);border:1px solid var(--line);border-radius:8px;padding:14px 16px;backdrop-filter:blur(8px);display:none}
+#card.on{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:760px}
+#ask{display:flex;gap:8px;width:100%;max-width:680px}#ask input{flex:1}
+.label{position:fixed;left:50%;top:76px;transform:translateX(-50%);z-index:2;text-align:center;pointer-events:none}
+.label h1{font:inherit;font-size:clamp(20px,3.6vw,30px);font-weight:700;margin:0}
+.label p{margin:2px 0 0;color:var(--dim);font-size:13px}
+#state{color:var(--acc)}
+</style></head><body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<noscript><div style="padding:90px 16px;max-width:680px;margin:0 auto"><h1>Dattamber Jukanti</h1><p>Lead Software Engineer. Resilient, fast, observable systems and AI-assisted delivery. This page is interactive and needs JavaScript.</p><p><a href="https://github.com/dattamberj">github.com/dattamberj</a></p></div></noscript>
+<div class="top"><span>Dattamber Jukanti</span><span><b id="state" class="acc">idle</b></span></div>
+<div class="label"><h1 id="ttl">Dattamber Jukanti</h1><p id="sub">Lead Software Engineer · ask the field</p></div>
+<div class="ui"><div id="card" aria-live="polite"></div><div class="chips" id="chips"></div>
+ <form id="ask"><input id="q" type="text" autocomplete="off" placeholder="Ask about performance, AI, leadership, the app…" aria-label="Ask"><button class="btn p" type="submit">Ask</button></form></div>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="data.js"></script>
 <script>
-// Placeholders to fill in: set EMAIL / LINKEDIN, leave '' to hide.
-const ME = {name:'Dattamber Jukanti', gh:'dattamberj', email:'', linkedin:''};
-
-const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const tags = a => `<div class="tags">${a.map(t=>`<span>${t}</span>`).join('')}</div>`;
-const ul = a => `<ul>${a.map(x=>`<li>${x}</li>`).join('')}</ul>`;
-
-const PROJECTS = [
- {id:'spec-driven-build', title:'Spec-driven build', line:'A reviewed spec as the single source of truth for design, build, tests, observability and ops.',
-  body:['AI-assisted delivery fails when the process is vague, not when the model is weak. I built a skill-based method where one reviewed specification drives everything downstream, keeps deterministic logic deterministic, and uses the right-sized model per task so token cost stays predictable.'],
-  facts:['60–70% less development time','Grew from 1 team to many; applied to 30+ functionalities and 70+ APIs and events','Packaged as reusable skills in a firm-wide repository','Presented to senior technology leadership for broader reuse'],
-  stack:['AI agents','LLMs','Specs','Model right-sizing']},
- {id:'fast-prequal', title:'Sub-3-second decisioning', line:'Infrastructure lead on a latency-critical credit pre-qualification path.',
-  body:['Partnered with a principal engineer to tune the application, database and API gateway layers. Around 2 seconds of the budget belonged to an external vendor, so everything else had to be lean. Reading platform teams’ own repositories exposed one more win: authorizer cold paths at high TPS.'],
-  facts:['~3s end to end, 2x+ faster than the next-fastest competitor (7s)','Lambda authorizer latency down up to 50% by pre-loading certificates at init','One of the earliest teams on the public cloud; led EKS, API Gateway + WAF and managed Kafka adoption'],
-  stack:['AWS EKS','API Gateway','Lambda','MSK','Terraform','Kubernetes']},
- {id:'self-healing-integrations', title:'Self-healing integrations', line:'Circuit breakers, scheduled retries and event replay instead of human intervention.',
-  body:['Introduced the circuit-breaker pattern with scheduled retries across three teams, and won over downstream owners who initially pushed back. Producers on Kafka replay events after outages, and next-day batch jobs became real-time flows.'],
-  facts:['100% of requests processed through a bureau outage, zero customer impact','External vendor replacement shipped with zero production issues','Reusable reference examples that sped up adoption elsewhere'],
-  stack:['Kafka','Resilience patterns','Event replay','Avro']},
- {id:'observability-as-code', title:'Observability as code', line:'Alerts and metrics defined in version control, not in tickets.',
-  body:['Led a multi-team move from hand-built, review-gated alerting to environment-as-code. Reviews that took two weeks became near real-time, and dashboards built on the same definitions made triage a pointed exercise.'],
-  facts:['50+ alerts and 100+ metrics created the new way','Review lead time: 2 weeks → near real-time','Replaced an intermittent legacy alerting approach'],
-  stack:['Prometheus','Grafana','Environment-as-code','Spring observability']},
- {id:'uuidv7-keys', title:'Challenging the primary key', line:'Why numeric sequences would have broken active-active.',
-  body:['Before every entity, API and event inherited a numeric-sequence key standard, I showed it would not survive active-active Aurora PostgreSQL with write forwarding. I proposed and carried UUIDv7: globally unique for distributed writes, time-ordered for efficient indexing.'],
-  facts:['Aligned the platform with the resiliency strategy','Avoided a costly cross-system redesign later'],
-  stack:['Aurora PostgreSQL','UUIDv7','Active-active','Data modelling']},
- {id:'modular-ui-foundation', title:'Modular UI foundation', line:'Prototype-first UI that became the reference for every later screen.',
-  body:['Started building while the design was still moving, then turned the prototype into modular components, a data-grid pattern approved with design and accessibility, contract-generated API clients, an end-to-end audit trail and consistent observability from day one.'],
-  facts:['Later screens built ~50% faster','Excel-parsing flow cut manual program setup time by 90%','Audit pattern gives complete traceability for critical data changes'],
-  stack:['React','Spring','Hibernate Envers','Contract-generated clients']},
- {id:'domain-black-box-tests', title:'Black-box testing for modernised domains', line:'Confidence that component tests alone can’t give.',
-  body:['Built a domain-level black-box testing capability, then used LLM APIs to turn acceptance criteria into Gherkin scenarios and enabled the team through working sessions.'],
-  facts:['150+ business scenarios, 30 field-level assertions','Domain regression-testing time down 70%','600+ generated scenarios across two domains'],
-  stack:['Gherkin','LLM APIs','Test automation']},
- {id:'restage-all', title:'Restage all', line:'One action instead of a hundred.',
-  body:['A Groovy capability that restages every application in a pool in one step, made mass vulnerability-driven build-pack upgrades practical. Merged into a global shared library and now reused across the technology org.'],
-  facts:['Saves 10+ hours per 100-application pool','Practical at 10,000+ application scale'],
-  stack:['Groovy','CI/CD','Platform tooling']},
- {id:'dattavani-app', featured:true, title:'Dattavani: a children\u2019s learning app, live on both stores', line:'Led the technical build of a mobile app that introduces children to Indic wisdom through stories, lessons and guided conversation.',
-  body:['Dattavani helps children explore values, dharma and classic stories through three daily paths: asking the in-app guide questions, short daily lessons, and story time. Quizzes, streaks and rewards keep it a habit, and parents manage child profiles from one account.','I led the technical effort from first build to store release on iOS and Android, shipping v2.0 within months of launch.'],
-  stats:[['4.9\u2605','App Store (India), 15 ratings'],['~4.9\u2605','Google Play, 37 ratings'],['1K+','Google Play installs'],['2','stores: iOS and Android']],
-  facts:['Live on the App Store since August 2026; v2.0 shipped October 2026','Education category; parent-managed multi-child accounts','Store figures checked October 2026'],
-  links:[['App Store','https://apps.apple.com/us/app/dattavani/id6760235948'],['Google Play','https://play.google.com/store/apps/details?id=ai.dattavani.app']],
-  stack:['React Native','Expo','Firebase','Jest','Maestro','iOS','Android']}
-];
-
-const C = {
- about: () => `<p>Lead software engineer at a global bank, working on the decisioning platforms behind auto lending. I own technical delivery for a core system where every design call carries real business impact.</p>
-  <p>I’m a <span class="acc">generalising specialist</span>: deep in whatever problem I’m on, broad across infrastructure, SRE, performance, UI and AI-assisted delivery. Joined in 2018 through an early-career program; Lead in 2025.</p>
-  <p>I question the status quo with evidence and make sure the right thing gets done. When in doubt, I ask: clarity early beats effort later. I believe in failing fast, raising the flag early, and that a problem well understood is half solved.</p>`,
- experience: () => `<div class="tl">
-   <h3><span class="y">2025 — now</span> · Lead Software Engineer</h3>
-   ${ul(['Technical lead for the platforms that own auto-lending decisioning and pre-qualification.','Led the technical build of a children\u2019s learning app (Dattavani) from first commit to both app stores.','Partner with product, engineering, data and architecture to build on modern public-cloud and private-platform stacks.','Go-to engineer for hard cross-cutting problems: infrastructure, observability, performance, quality and AI-assisted delivery.','Mentor engineers from first-year to senior; one mentee made pod lead the year they led a 10+ engineer delivery.'])}
-   <h3><span class="y">2018 — 2025</span> · Software Engineer → Lead</h3>
-   ${ul(['Led delivery of a pricing modernisation: platform foundation, reference UI, audit patterns and validated bulk-input flows.','Led one of the org’s first public-cloud journeys for its line of business, then taught it forward through workshops.','Drove a third-party vendor exit via a new integration, live with zero production issues.','Hackathon organiser, interviewer and volunteer on the tech-for-good program.'])}
-  </div>`,
- skills: () => `<dl class="kv">
-   <dt>cloud</dt><dd>${tags(['AWS','EKS','API Gateway','Lambda','MSK','Aurora PostgreSQL','Terraform','Kubernetes'])}</dd>
-   <dt>backend</dt><dd>${tags(['Java','Spring','Hibernate Envers','Kafka','Avro','Groovy','PostgreSQL'])}</dd>
-   <dt>frontend</dt><dd>${tags(['React','Data-heavy UIs','Accessibility','Design systems'])}</dd>
-   <dt>reliability</dt><dd>${tags(['Prometheus','Grafana','Chaos testing','Performance testing','Circuit breakers','Observability as code'])}</dd>
-   <dt>ai</dt><dd>${tags(['Spec-driven build','Agent skills','LLM-assisted testing','Model right-sizing','Token economics'])}</dd>
-   <dt>leadership</dt><dd>${tags(['Mentoring','Cross-team alignment','Stakeholder buy-in','Technical strategy','Pattern sharing'])}</dd>
-  </dl>`,
- principles: () => ulBlock(),
- life: () => `<p>Outside the day job: interviewing candidates, running internal hackathons, and leading teams for a tech-for-good program (team lead for two editions, participant in two more). I volunteer with a non-profit doing social welfare work.</p>
-  <p>I support my wife as she builds her own business from scratch. Watching that reinforces what I value at work: ownership, resilience and learning by doing. We travel to recharge: 4 countries in 3 years, a dream destination up next.</p>`,
- contact: () => `<dl class="kv"><dt>github</dt><dd><a href="https://github.com/${ME.gh}" target="_blank" rel="noopener">github.com/${ME.gh}</a></dd>${ME.email?`<dt>email</dt><dd><a href="mailto:${ME.email}">${ME.email}</a></dd>`:''}${ME.linkedin?`<dt>linkedin</dt><dd><a href="${ME.linkedin}" target="_blank" rel="noopener">${ME.linkedin.replace(/^https?:\/\//,'')}</a></dd>`:''}</dl>`
+const N=window.innerWidth<700?3500:6500, R=Math.random, TAU=Math.PI*2;
+const S={
+ galaxy:i=>{const arm=i%3,r=Math.pow(R(),.6)*5.5,a=r*1.15+arm*TAU/3+(R()-.5)*.35;return[Math.cos(a)*r,Math.sin(a)*r*.82,(R()-.5)*.6*(1-r/7)];},
+ streams:i=>{const k=i%34,a=k*2.39996,rr=.5+(k%7)*.45;return[(R()-.5)*13,Math.cos(a)*rr+(R()-.5)*.12,Math.sin(a)*rr+(R()-.5)*.12];},
+ split:i=>{const s=i%2?1:-1,u=R()*2-1,a=R()*TAU,q=Math.sqrt(1-u*u),r=1.5*Math.cbrt(R());return[s*2.2+r*q*Math.cos(a),r*u,r*q*Math.sin(a)];},
+ network:i=>{const L=(i%5)-2,x=L*2.6; if(R()<.55){const gx=Math.floor(R()*4),gy=Math.floor(R()*4);return[x+(R()-.5)*.25,(gx-1.5)*1.3+(R()-.5)*.25,(gy-1.5)*1.3+(R()-.5)*.25];}
+   const t=R(),a=[(Math.floor(R()*4)-1.5)*1.3,(Math.floor(R()*4)-1.5)*1.3],b=[(Math.floor(R()*4)-1.5)*1.3,(Math.floor(R()*4)-1.5)*1.3];return[x+t*2.6,a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];},
+ tree:(()=>{const seg=[];(function g(x,y,a,l,d){ if(d>6) return; const nx=x+Math.sin(a)*l,ny=y+Math.cos(a)*l; seg.push([x,y,nx,ny,d]); g(nx,ny,a-.45-R()*.2,l*.74,d+1); g(nx,ny,a+.45+R()*.2,l*.74,d+1); })(0,-3.2,0,1.8,0);
+   return i=>{const s=seg[Math.floor(Math.pow(R(),.7)*seg.length)],t=R(),z=(R()-.5)*(.6+s[4]*.25);return[s[0]+(s[2]-s[0])*t+(R()-.5)*.08,s[1]+(s[3]-s[1])*t,z];};})(),
+ globe:i=>{ if(i%7===0){const a=R()*TAU;return[Math.cos(a)*4.4,Math.sin(a)*.5*Math.cos(1)+.3*Math.sin(a*3),Math.sin(a)*4.4];} const u=R()*2-1,a=R()*TAU,q=Math.sqrt(1-u*u),lat=Math.round(u*8)/8; const rr=Math.sqrt(1-lat*lat)*2.6; return[rr*Math.cos(a),lat*2.6+(R()-.5)*.03,rr*Math.sin(a)];},
+ phone:i=>{const p=R(); if(p<.35){const e=Math.floor(R()*4),t=R(); const W=1.5,H=3; const pts=[[-W,-H,W,-H],[W,-H,W,H],[W,H,-W,H],[-W,H,-W,-H]][e]; return[pts[0]+(pts[2]-pts[0])*t,pts[1]+(pts[3]-pts[1])*t,(R()-.5)*.25];}
+   const gx=Math.floor(R()*5),gy=Math.floor(R()*9); return[(gx-2)*.55+(R()-.5)*.1,(gy-4)*.62+(R()-.5)*.1,(R()-.5)*.1];},
+ wave:i=>{const k=i%6,x=(R()-.5)*12;return[x,Math.sin(x*1.3+k)*Math.exp(-Math.abs(x)*.12)*1.3+(k-2.5)*.55,(k-2.5)*.35];},
+ helix:i=>{const t=(R()-.5)*14,s=i%2?1:-1; if(i%9===0){const tt=Math.round(t*2)/2;return[tt,Math.cos(tt*1.2)*(R()*2-1)*1.6,Math.sin(tt*1.2)*(R()*2-1)*1.6];} return[t,Math.cos(t*1.2+(s>0?0:Math.PI))*1.6,Math.sin(t*1.2+(s>0?0:Math.PI))*1.6];},
+ drift:i=>i%3?[0,0,40]:[(R()-.5)*16,(R()-.5)*9,(R()-.5)*6], // two thirds parked behind the camera: a sparse cloud
+ lattice:i=>{const a=Math.floor(R()*5)-2,b=Math.floor(R()*5)-2,c=Math.floor(R()*5)-2; const m=R(); return m<.7?[a*1.2+(R()-.5)*.14,b*1.2+(R()-.5)*.14,c*1.2+(R()-.5)*.14]:[(a+R())*1.2,b*1.2,c*1.2];}
 };
-function ulBlock(){return ul([
-  '<b>Frame decisions commercially</b> — value delivered, cost avoided, risk reduced.',
-  '<b>Reuse beats rebuild</b> — share patterns and the reasoning behind them.',
-  '<b>Responsible AI is structure, not just tooling</b> — specs, determinism where it matters, the right model per task.',
-  '<b>Mentor the thinking, not the answer</b> — pair constructive feedback with recognition of effort.'])}
-
-const projHTML = p => `<h3>${p.title} <span class="dim">· ${p.id}</span></h3>${p.body.map(b=>`<p>${b}</p>`).join('')}${p.stats?`<div class="stats">${p.stats.map(([n,l])=>`<div><b>${n}</b><span>${l}</span></div>`).join('')}</div>`:''}${ul(p.facts)}${p.links?`<p>${p.links.map(([l,u])=>`<a href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join(' · ')}</p>`:''}${tags(p.stack)}`;
-const ORDERED = [...PROJECTS].sort((a,b)=>!!b.featured-!!a.featured);
-const projList = () => ORDERED.map(p=>`<p><span class="acc">${p.id}</span>${p.featured?' <span class="dim">★ featured</span>':''}<br><span class="dim">${p.line}</span></p>`).join('') + `<p class="dim">open one: <span class="acc">cat projects/&lt;name&gt;</span></p>`;
-const allProjects = () => ORDERED.map(projHTML).join('');
-
-const FILES = {
- 'about.md':C.about,'experience.md':C.experience,'skills.yaml':C.skills,'principles.md':C.principles,'life.md':C.life,'contact.txt':C.contact
-};
-PROJECTS.forEach(p => FILES['projects/'+p.id+'.md'] = () => projHTML(p));
-
-const out = document.getElementById('out'), inp = document.getElementById('in');
-const block = html => { const d=document.createElement('div'); d.className='out-block'; d.innerHTML=html; out.appendChild(d); scrollTo(0,document.body.scrollHeight); };
-const text  = t => { const d=document.createElement('div'); d.textContent=t; out.appendChild(d); };
-const sect = (h,b) => block(`<h2>${h}</h2>${b}`);
-
-const CMDS = {
- help: () => block(`<dl class="kv">
-   <dt>whoami</dt><dd>short intro</dd><dt>about</dt><dd>who I am and how I work</dd><dt>experience</dt><dd>career timeline</dd>
-   <dt>projects</dt><dd>selected work, anonymised</dd><dt>skills</dt><dd>stack</dd><dt>principles</dt><dd>how I make engineering decisions</dd>
-   <dt>life</dt><dd>outside work</dd><dt>contact</dt><dd>get in touch</dd>
-   <dt>ls / cat &lt;file&gt;</dt><dd>browse like a filesystem (tab completes)</dd><dt>plain</dt><dd>plain-text view</dd><dt>clear</dt><dd>clear screen</dd></dl>`),
- whoami: () => block(`<p><span class="acc">${ME.name}</span> — Lead Software Engineer</p><p>I build resilient, fast, observable systems for regulated finance, and I make AI-assisted delivery repeatable. Type <span class="acc">help</span>, or tap a command below.</p>`),
- about: () => sect('about', C.about()),
- experience: () => sect('experience', C.experience()),
- projects: () => sect('projects', projList()),
- skills: () => sect('skills', C.skills()),
- principles: () => sect('principles', C.principles()),
- life: () => sect('life', C.life()),
- contact: () => sect('contact', C.contact()),
- ls: a => { const dir=(a[0]||'').replace(/\/$/,'');
-   if(dir==='projects') return block(PROJECTS.map(p=>`<span class="acc">${p.id}.md</span>`).join('<br>'));
-   if(dir) return text(`ls: ${dir}: No such file or directory`);
-   block(Object.keys(FILES).filter(f=>!f.includes('/')).map(f=>`<span class="acc">${f}</span>`).join('<br>')+`<br><span class="dim">projects/</span>`); },
- cat: a => { let f=(a[0]||'').replace(/^\.\//,''); if(!f) return text('usage: cat <file>');
-   if(!FILES[f]) f = FILES[f+'.md']?f+'.md':(FILES['projects/'+f+'.md']?'projects/'+f+'.md':f);
-   if(!FILES[f]) return text(`cat: ${a[0]}: No such file or directory`);
-   block(FILES[f]()); },
- open: a => CMDS.cat(a),
- plain: () => setView('plain'),
- guide: () => setView('agent'),
- clear: () => { out.innerHTML=''; },
- sudo: () => text('guest is not in the sudoers file. This incident will be reported.'),
- pwd: () => text('/home/guest'),
- echo: a => text(a.join(' '))
-};
-const NAMES = Object.keys(CMDS), FILENAMES = Object.keys(FILES);
-
-const history=[]; let hi=0;
-function run(line){
-  line=line.trim(); if(!line) return;
-  const d=document.createElement('div'); d.className='cmd'; d.innerHTML=`<span class="p">guest@dj:<b>~</b>$</span> `; d.append(line); out.appendChild(d);
-  history.push(line); hi=history.length;
-  const [c,...a]=line.split(/\s+/);
-  (CMDS[c.toLowerCase()] || (()=>text(`${c}: command not found. Try "help".`)))(a);
-  scrollTo(0,document.body.scrollHeight);
-}
-inp.addEventListener('keydown', e => {
-  if(e.key==='Enter'){ run(inp.value); inp.value=''; }
-  else if(e.key==='ArrowUp'){ e.preventDefault(); if(hi>0) inp.value=history[--hi]; }
-  else if(e.key==='ArrowDown'){ e.preventDefault(); inp.value = hi<history.length-1 ? history[++hi] : (hi=history.length,''); }
-  else if(e.key==='Tab'){ e.preventDefault();
-    const parts=inp.value.split(/\s+/), last=parts.pop(), pool = parts.length ? FILENAMES.concat(PROJECTS.map(p=>p.id)) : NAMES;
-    const m=pool.filter(x=>x.startsWith(last)); if(m.length===1) inp.value=parts.concat(m[0]).join(' '); }
-  else if(e.key==='l' && e.ctrlKey){ e.preventDefault(); CMDS.clear(); }
-});
-document.getElementById('term').addEventListener('click', e => { if(!e.target.closest('button,a') && !getSelection().toString()) inp.focus(); });
-
-const chips=document.getElementById('chips');
-['about','experience','projects','skills','principles','life','contact','help'].forEach(c=>{
-  const b=document.createElement('button'); b.type='button'; b.textContent=c; b.onclick=()=>run(c); chips.appendChild(b); });
-
-// Plain view: same content, no terminal.
-document.getElementById('plain').innerHTML =
-  `<h1 style="font-size:1.4em;margin:0 0 4px">${ME.name}</h1><p class="dim">Lead Software Engineer</p>` +
-  [['about',C.about()],['experience',C.experience()],['projects',allProjects()],['skills',C.skills()],['principles',C.principles()],['life outside work',C.life()],['contact',C.contact()]]
-   .map(([h,b])=>`<section><h2>${h}</h2>${b}</section>`).join('');
-
-function setView(v){ document.body.dataset.view=v; if(v==='terminal') inp.focus(); if(v==='agent') document.getElementById('q').focus({preventScroll:true}); }
-document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>setView(b.dataset.v));
-document.getElementById('skip').onclick=e=>{e.preventDefault();setView('plain');};
-
-// ---- Guide agent: scripted tour + keyword-matched Q&A over the content above ----
-const chat=document.getElementById('chat'), achips=document.getElementById('achips'), q=document.getElementById('q');
-const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const mentor = `<p>Mentoring is about the thinking, not the answer. Examples: an associate led a 7-screen delivery guiding 10+ engineers and was promoted to pod lead the same year; a senior engineer grew into owning run-the-engine and infrastructure for a major delivery; early-career engineers shipped reference implementations that other teams copied.</p>${ul(['Focus on how they think through a problem.','Pair constructive feedback with recognition of effort.','Share patterns and the reasoning behind them.'])}`;
-const stats = `<div class="stats"><div><b>60–70%</b><span>less dev time with spec-driven build</span></div><div><b>~3s vs 7s</b><span>decisioning latency vs next-fastest competitor</span></div><div><b>100%</b><span>requests processed through a bureau outage</span></div><div><b>2 wks → real-time</b><span>alert review lead time</span></div><div><b>−70%</b><span>domain regression-testing time</span></div></div>`;
-const KB=[
- {k:['who','about','intro','background','summary','yourself'],a:C.about},
- {k:['role','current','job','title','career','experience','timeline','responsib'],a:C.experience},
- {k:['skill','stack','tech','language','tool','java','react','kubernetes','terraform','aws'],a:C.skills},
- {k:['ai','llm','agent','spec','model','token','genai','prompt'],a:()=>projHTML(PROJECTS[0])+projHTML(PROJECTS[6])},
- {k:['principle','philosophy','decision','approach','style','value','think'],a:C.principles},
- {k:['mentor','coach','lead','leader','leadership','people','grow','feedback','team'],a:()=>mentor},
- {k:['hobby','outside','life','travel','volunteer','fun','personal','family'],a:C.life},
- {k:['contact','email','hire','reach','linkedin','github','connect','talk'],a:C.contact},
- {k:['result','impact','number','metric','win','achievement','proud'],a:()=>stats},
- {k:['latency','performance','fast','speed','slow','authorizer','lambda','cloud','eks'],a:()=>projHTML(PROJECTS[1])},
- {k:['resilien','retry','circuit','outage','kafka','heal','vendor','reliab'],a:()=>projHTML(PROJECTS[2])},
- {k:['observab','alert','monitor','grafana','prometheus','dashboard','splunk'],a:()=>projHTML(PROJECTS[3])},
- {k:['uuid','key','database','postgres','aurora','active-active','sequence'],a:()=>projHTML(PROJECTS[4])},
- {k:['ui','front','screen','audit','excel','grid','component'],a:()=>projHTML(PROJECTS[5])},
- {k:['test','qa','quality','gherkin','regression'],a:()=>projHTML(PROJECTS[6])},
- {k:['groovy','restage','automation','tooling','pipeline'],a:()=>projHTML(PROJECTS[7])},
- {k:['dattavani','app','mobile','store','ios','android','play','launch','product','shipped','ship','featured','children','kids'],a:()=>projHTML(PROJECTS[PROJECTS.length-1])},
- {k:['project','work','built','build','portfolio'],a:projList}
+const DYN={drift:(i,t,v)=>{v[0]=((v[0]+8+t*(.35+(i%5)*.12))%16)-8;v[1]+=Math.sin(t*.5+i)*.25;v[2]+=Math.cos(t*.4+i*.7)*.2;},streams:(i,t,v)=>{v[0]=((v[0]+6.5+t*(.9+(i%5)*.35))%13)-6.5;},split:(i,t,v)=>{v[0]+=(i%2?1:-1)*(Math.sin(t*1.6)*1.4+.6-1.4*0+0);},wave:(i,t,v)=>{v[1]+=Math.sin(v[0]*1.3+t*3)*.25;},helix:(i,t,v)=>{const c=Math.cos(t*.8),s=Math.sin(t*.8),y=v[1],z=v[2];v[1]=y*c-z*s;v[2]=y*s+z*c;},galaxy:(i,t,v)=>{const a=t*.15,c=Math.cos(a),s=Math.sin(a),x=v[0],y=v[1];v[0]=x*c-y*s;v[1]=x*s+y*c;}};
+const TOPICS=[
+ {id:'ai',label:'AI-assisted delivery',shape:'network',kw:['ai','llm','agent','spec','model','token','genai','assist'],html:()=>projHTML(PROJECTS[0])},
+ {id:'perf',label:'Performance',shape:'streams',kw:['latency','performance','fast','speed','slow','authorizer','lambda','eks'],html:()=>projHTML(PROJECTS[1])},
+ {id:'resil',label:'Resilience',shape:'split',kw:['resilien','retry','circuit','outage','kafka','heal','vendor','reliab'],html:()=>projHTML(PROJECTS[2])},
+ {id:'obs',label:'Observability',shape:'wave',kw:['observab','alert','monitor','grafana','prometheus','dashboard','splunk','metric'],html:()=>projHTML(PROJECTS[3])},
+ {id:'data',label:'Data & keys',shape:'helix',kw:['uuid','key','database','postgres','aurora','active-active','sequence','data'],html:()=>projHTML(PROJECTS[4])},
+ {id:'app',label:'The Dattavani app',shape:'phone',kw:['dattavani','app','mobile','store','ios','android','play','shipped','children','kids','product'],html:()=>projHTML(PROJECTS.find(p=>p.featured))},
+ {id:'lead',label:'Leadership',shape:'tree',kw:['mentor','coach','lead','leader','leadership','people','grow','feedback','team','principle','decision'],html:()=>DATA.roles[0].pts.slice(-1)[0]&&`<h3>How he leads</h3>${principlesHTML()}<p>Mentoring is about the thinking, not the answer: associates promoted to pod lead, seniors owning run-the-engine, early-career engineers shipping reference implementations other teams copied.</p>`},
+ {id:'skills',label:'Skills',shape:'lattice',kw:['skill','stack','tech','language','tool','java','react','kubernetes','terraform','aws'],html:()=>`<h3>Skills</h3>${skillsHTML()}`},
+ {id:'life',label:'Beyond the code',shape:'globe',kw:['life','hobby','travel','volunteer','family','fun','personal','outside'],html:()=>`<h3>Beyond the code</h3>${lifeHTML()}`},
+ {id:'about',label:'About',shape:'galaxy',kw:['about','who','intro','background','summary','career','experience','role'],html:()=>`<h3>About</h3>${aboutHTML()}${rolesHTML()}${contactHTML()}`}
 ];
-const hit=(t,k)=>k.length<=3?t===k:t.startsWith(k);
-function answerFor(s){
-  const toks=s.toLowerCase().match(/[a-z0-9-]+/g)||[]; let best=null,top=0;
-  for(const e of KB){ const n=e.k.filter(k=>toks.some(t=>hit(t,k))).length; if(n>top){top=n;best=e;} }
-  return best&&best.a;
-}
-function msg(who,html){ const d=document.createElement('div'); d.className='msg'+(who==='me'?' me':'');
-  d.innerHTML=who==='me'?`<div class="bub"></div>`:`<div class="av" aria-hidden="true">DJ</div><div class="bub a"></div>`;
-  const b=d.querySelector('.bub'); who==='me'?b.textContent=html:b.innerHTML=html; chat.appendChild(d); return d; }
-function setChips(list){ achips.innerHTML=''; list.forEach(([l,f])=>{const b=document.createElement('button'); b.type='button'; b.textContent=l; b.onclick=f; achips.appendChild(b);}); }
-// Streams text node by node, a few words per tick, so the reply reads like a model generating.
-function stream(el,done){
-  const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT), nodes=[]; while(w.nextNode()) nodes.push(w.currentNode);
-  const full=nodes.map(n=>n.nodeValue); nodes.forEach(n=>n.nodeValue='');
-  let i=0,j=0; const words=full.map(s=>s.match(/\S+\s*|\s+/g)||[]);
-  (function tick(){ if(i>=nodes.length) return done();
-    const n=1+Math.floor(Math.random()*3); nodes[i].nodeValue+=words[i].slice(j,j+n).join(''); j+=n;
-    if(j>=words[i].length){i++;j=0;}
-    scrollTo(0,document.body.scrollHeight); setTimeout(tick,18+Math.random()*30); })();
-}
-// ---- Three.js character: weathered compactor-bot guide (WALL-E-style homage); state drives motion ----
-const orb={state:'idle',label:s=>{orb.state=s;document.getElementById('st').textContent={idle:'online',thinking:'thinking…',speaking:'answering'}[s];}};
-(function(){
-  const cv=document.getElementById('orb'); if(!window.THREE||!cv) return;
-  let r; try{ r=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true}); }catch(_){ return; }
-  r.setPixelRatio(Math.min(devicePixelRatio,2)); r.setSize(320,320,false);
-  const scene=new THREE.Scene(), cam=new THREE.PerspectiveCamera(35,1,.1,50); cam.position.set(0,1.1,9.6); cam.lookAt(0,.6,0);
-  const acc=new THREE.Color(), readAcc=()=>acc.set(getComputedStyle(document.documentElement).getPropertyValue('--acc').trim()); readAcc();
-  scene.add(new THREE.HemisphereLight(0xfff4e0,0x3a3228,1.1));
-  const key=new THREE.DirectionalLight(0xfff0d8,1.9); key.position.set(3,5,6); scene.add(key);
-  const rim=new THREE.DirectionalLight(acc,1.6); rim.position.set(-4,2,-4); scene.add(rim);
-  // weathered paint: ochre base, rust blotches, scratches, grime toward the bottom
-  const pc=document.createElement('canvas'); pc.width=pc.height=256; const pg=pc.getContext('2d');
-  pg.fillStyle='#cfa43e'; pg.fillRect(0,0,256,256);
-  for(let i=0;i<70;i++){ pg.fillStyle=`rgba(${110+Math.random()*30|0},${50+Math.random()*30|0},20,${.08+Math.random()*.2})`; pg.beginPath(); pg.ellipse(Math.random()*256,Math.random()*256,4+Math.random()*22,3+Math.random()*14,Math.random()*3,0,6.3); pg.fill(); }
-  for(let i=0;i<120;i++){ pg.strokeStyle=`rgba(${Math.random()<.5?60:240},${Math.random()<.5?50:225},${Math.random()<.5?30:190},.25)`; pg.lineWidth=1; pg.beginPath(); const x=Math.random()*256,y=Math.random()*256; pg.moveTo(x,y); pg.lineTo(x+Math.random()*30-15,y+Math.random()*8-4); pg.stroke(); }
-  const gr=pg.createLinearGradient(0,150,0,256); gr.addColorStop(0,'rgba(40,25,10,0)'); gr.addColorStop(1,'rgba(40,25,10,.45)'); pg.fillStyle=gr; pg.fillRect(0,0,256,256);
-  const paint=new THREE.CanvasTexture(pc); paint.colorSpace=THREE.SRGBColorSpace||paint.colorSpace;
-  const body=new THREE.MeshStandardMaterial({map:paint,metalness:.2,roughness:.7}), dark=new THREE.MeshStandardMaterial({color:0x3b362f,metalness:.35,roughness:.6}),
-        rubber=new THREE.MeshStandardMaterial({color:0x1b1916,roughness:.95}), lens=new THREE.MeshPhysicalMaterial({color:0x04070a,roughness:0,clearcoat:1}), glow=new THREE.MeshBasicMaterial({color:acc});
-  const add=(p,geo,m,pos,sc)=>{const o=new THREE.Mesh(geo,m); pos&&o.position.set(...pos); sc&&o.scale.set(...sc); p.add(o); return o;};
-  const sph=(r,w=28,h=18)=>new THREE.SphereGeometry(r,w,h);
-  function rbox(w,h,d,rad=.12){ const x=-w/2,y=-h/2,s=new THREE.Shape(); s.moveTo(x+rad,y); s.lineTo(x+w-rad,y); s.quadraticCurveTo(x+w,y,x+w,y+rad); s.lineTo(x+w,y+h-rad); s.quadraticCurveTo(x+w,y+h,x+w-rad,y+h); s.lineTo(x+rad,y+h); s.quadraticCurveTo(x,y+h,x,y+h-rad); s.lineTo(x,y+rad); s.quadraticCurveTo(x,y,x+rad,y);
-    const g=new THREE.ExtrudeGeometry(s,{depth:d-.1,bevelEnabled:true,bevelThickness:.05,bevelSize:.05,bevelSegments:3,curveSegments:6}); g.center(); return g; }
-  const root=new THREE.Group(); scene.add(root);
-  // cube body + chest door, rivets, vent
-  add(root,rbox(1.9,1.55,1.7,.14),body,[0,.13,0]);
-  add(root,rbox(1.45,.95,.1,.08),dark,[0,.1,.87]);
-  const dc=document.createElement('canvas'); dc.width=128; dc.height=64; const dg=dc.getContext('2d'), dtex=new THREE.CanvasTexture(dc);
-  add(root,new THREE.PlaneGeometry(1.05,.52),new THREE.MeshBasicMaterial({map:dtex}),[0,.2,.93]);
-  add(root,new THREE.BoxGeometry(1.2,.05,.04),body,[0,-.2,.93]);                                      // door slot
-  [[-.66,.5],[.66,.5],[-.66,-.28],[.66,-.28]].forEach(([x,y])=>add(root,sph(.035,8,8),dark,[x,y,.94]));
-  for(let i=0;i<5;i++) add(root,new THREE.BoxGeometry(.5,.035,.04),dark,[-.45,.72-i*.06,.88]);            // vent
-  // triangular tracks
-  const prof=[[-1.15,-.36],[1.15,-.36],[.6,.36],[-.6,.36]], TY=-1.0;
-  const tshape=new THREE.Shape(prof.map(p=>new THREE.Vector2(p[0],p[1]))); const tgeo=new THREE.ExtrudeGeometry(tshape,{depth:.5,bevelEnabled:true,bevelThickness:.06,bevelSize:.06,bevelSegments:2}); tgeo.center(); tgeo.rotateY(Math.PI/2);
-  [-1,1].forEach(s=>add(root,tgeo,dark,[s*1.27,TY,0],[1,.92,.92]));
-  const segs=prof.map((p,i)=>{ const q=prof[(i+1)%4], dz=q[0]-p[0], dy=q[1]-p[1]; return {p,dz,dy,len:Math.hypot(dz,dy)}; }), PL=segs.reduce((a,b)=>a+b.len,0), M=32, ridges=[];
-  [-1,1].forEach(s=>{ for(let i=0;i<M;i++){ const o=add(root,new THREE.BoxGeometry(.58,.07,.13),rubber); o.userData={i,s}; ridges.push(o);} });
-  const placeRidge=(o,roll)=>{ let d=(((o.userData.i/M)+roll)%1)*PL, sg=segs[0]; for(const g of segs){ if(d<=g.len){sg=g;break;} d-=g.len; }
-    const f=d/sg.len, pz=sg.p[0]+sg.dz*f, py=sg.p[1]+sg.dy*f, nz=sg.dy/sg.len, ny=-sg.dz/sg.len;
-    o.position.set(o.userData.s*1.27,TY+(py+ny*.07)*.92,(pz+nz*.07)*.92); o.rotation.x=-Math.atan2(sg.dy,sg.dz); };
-  // accordion neck + head with big binocular eyes
-  const neckG=new THREE.Group(); neckG.position.set(0,.9,.15); root.add(neckG);
-  for(let i=0;i<11;i++) add(neckG,new THREE.TorusGeometry(.12,.03,8,18),dark,[0,.06+i*.1,0]).rotation.x=Math.PI/2;
-  add(neckG,new THREE.CylinderGeometry(.075,.075,1.2,12),dark,[0,.6,0]);
-  const head=new THREE.Group(); head.position.set(0,1.3,.1); neckG.add(head);
-  add(head,new THREE.BoxGeometry(.5,.16,.34),dark,[0,-.12,-.18]);
-  const mkEye=s=>{ const e=new THREE.Group(); e.position.set(s*.64,.2,0); head.add(e);
-    const hs=add(e,new THREE.CylinderGeometry(.5,.5,.8,36),body); hs.rotation.x=Math.PI/2;
-    add(e,new THREE.TorusGeometry(.5,.06,10,40),dark,[0,0,.4]);
-    const lz=add(e,sph(.4,32,20),lens,[0,0,.26],[1,1,.45]);
-    const ir=add(e,new THREE.TorusGeometry(.2,.03,8,28),glow,[0,0,.45]); const pu=add(e,sph(.09,12,10),glow,[0,0,.46]);
-    return {e,lz,ir,pu,s}; };
-  const E=[mkEye(-1),mkEye(1)];
-  // bent arms with pincer hands
-  const arm=s=>{ const a=new THREE.Group(); a.position.set(s*1.08,.55,.35); root.add(a);
-    add(a,sph(.1,12,10),dark); add(a,new THREE.CylinderGeometry(.065,.065,.7,12),dark,[0,-.35,0]);
-    const fo=new THREE.Group(); fo.position.set(0,-.7,0); fo.rotation.x=-.8; a.add(fo); add(fo,sph(.08,12,10),dark); add(fo,new THREE.CylinderGeometry(.06,.06,.6,12),dark,[0,-.3,0]);
-    const hd=new THREE.Group(); hd.position.set(0,-.62,0); fo.add(hd); add(hd,new THREE.BoxGeometry(.2,.16,.14),body);
-    [-1,1].forEach(f=>{ const fg=add(hd,new THREE.BoxGeometry(.05,.24,.1),dark,[f*.07,-.18,0]); fg.rotation.z=f*.18; });
-    return a; };
-  const aL=arm(-1), aR=arm(1);
-  const N=70, tp=new Float32Array(N*3), ph=Array.from({length:N},(_,i)=>i/N), tg=new THREE.BufferGeometry(); tg.setAttribute('position',new THREE.BufferAttribute(tp,3));
-  const tokens=new THREE.Points(tg,new THREE.PointsMaterial({color:acc,size:.06,transparent:true,opacity:.9,depthWrite:false,blending:THREE.AdditiveBlending})); tokens.frustumCulled=false; root.add(tokens);
-  const gMat=new THREE.MeshBasicMaterial({color:acc,transparent:true,opacity:.09}), ground=add(root,new THREE.CircleGeometry(2.3,48),gMat,[0,-1.38,0]); ground.rotation.x=-Math.PI/2;
-  const rip=[0,1,2].map(()=>{const m=new THREE.MeshBasicMaterial({color:acc,transparent:true}), o=add(root,new THREE.TorusGeometry(1,.015,6,64),m,[0,-1.37,0]); o.rotation.x=Math.PI/2; return o;});
-  function disp(st,s){ dg.fillStyle='#04080a'; dg.fillRect(0,0,128,64); dg.fillStyle='#'+acc.getHexString();
-    for(let i=0;i<16;i++){ const h=st==='speaking'?6+Math.abs(Math.sin(s*9+i*1.7))*Math.abs(Math.sin(s*3.1+i))*50:st==='thinking'?4+(Math.max(0,Math.sin(s*6-i*.5))**3)*46:4+Math.sin(s*1.5+i*.6)**2*8; dg.fillRect(6+i*7.6,60-h,5,h); } dtex.needsUpdate=true; }
-  let tx=0,ty=0,vis=true,nextBlink=2000,blinkUntil=0,happyUntil=0,hopUntil=0,prev=0,rph=0,m=0,roll=0,k=0; const t0=performance.now(); let waveUntil=t0+2600;
-  addEventListener('pointermove',e=>{tx=e.clientX/innerWidth*2-1; ty=e.clientY/innerHeight*2-1;});
-  cv.style.cursor='pointer'; cv.addEventListener('click',()=>{const n=performance.now(); hopUntil=n+700; waveUntil=n+1800; happyUntil=n+1100;});
-  new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(cv);
-  const lerp=(o,p,v,a)=>o[p]+=(v-o[p])*a;
-  function frame(t){ if(!calm) requestAnimationFrame(frame); if(!vis||document.hidden) return;
-    const s=t/1000, dt=Math.min(.05,(t-prev)/1000||0), st=orb.state, hopping=t<hopUntil, happy=t<happyUntil; prev=t;
-    const hop=hopping?Math.sin((1-(hopUntil-t)/700)*Math.PI)*.6:0;
-    root.position.y=Math.sin(s*2.2)*.015+hop; root.rotation.y=-.55+tx*.25;
-    let ry=tx*.5, rx=ty*.25, rz=0, lean=ty*.15, aRz=.08, aLz=-.08;
-    let L={x:ty*.35,y:tx*.35,z:Math.sin(s*.8)*.04}, R={x:ty*.35,y:tx*.35,z:Math.sin(s*.8+1)*.04};
-    if(st==='thinking'){ rz=.15; lean=-.12; ry+=Math.sin(s*1.4)*.2; L={x:-.55,y:.1,z:.3}; R={x:.1,y:-.1,z:-.05}; }      // curious: one eye up, inner ends tilted
-    if(st==='speaking'){ lean+=.05*Math.sin(s*8); aRz+=.25*Math.abs(Math.sin(s*5)); aLz-=.25*Math.abs(Math.sin(s*5+1)); }
-    if(happy){ L.z=-.28; R.z=.28; L.x=R.x=-.15; }
-    if(t<waveUntil) aRz=2.4+Math.sin(s*10)*.35;
-    lerp(head.rotation,'y',ry,.1); lerp(head.rotation,'x',rx,.1); lerp(head.rotation,'z',rz,.1); lerp(neckG.rotation,'x',lean,.1);
-    aR.rotation.z+=(aRz-aR.rotation.z)*.15; aL.rotation.z+=(aLz-aL.rotation.z)*.15;
-    if(t>nextBlink){ blinkUntil=t+120; nextBlink=t+2800+Math.random()*2500; }
-    const ey=t<blinkUntil?.1:1, pulse=st==='speaking'?1+.06*Math.sin(s*14):1;
-    [[E[0],L],[E[1],R]].forEach(([o,v])=>{ ['x','y','z'].forEach(a=>lerp(o.e.rotation,a,v[a],.15)); o.lz.scale.y=ey; o.ir.scale.set(pulse,ey*pulse,1); });
-    roll+=dt*(st==='speaking'?.12:st==='thinking'?.05:0)+(hopping?dt*.25:0);
-    ridges.forEach(o=>placeRidge(o,roll));
-    disp(st,s);
-    m+=((st==='speaking'?1:0)-m)*.08; const spd=st==='thinking'?.55:.12;
-    for(let i=0;i<N;i++){ ph[i]=(ph[i]+dt*(spd+(i%7)*.01))%1; const a=ph[i]*6.283+i, R2=2.5+(i%5)*.13*(st==='thinking'?.6:1);
-      const ox=Math.cos(a)*R2, oy=Math.sin(a*2+i)*.7+.7, oz=Math.sin(a)*R2*.8;
-      const f=ph[(i*7)%N]; const bx=Math.sin(i*12.9)*.6*f, by=2.3+Math.cos(i*7.1)*.4*f, bz=1.2+f*2.4;
-      tp[i*3]=ox*(1-m)+bx*m; tp[i*3+1]=oy*(1-m)+by*m; tp[i*3+2]=oz*(1-m)+bz*m; }
-    tg.attributes.position.needsUpdate=true;
-    rph+=dt*(hopping?1.2:st==='speaking'?.6:.25);
-    rip.forEach((o,i)=>{ const p=(rph+i/3)%1; o.scale.setScalar(.9+p*1.2); o.material.opacity=(1-p)*.5; });
-    if(++k%90===0){ readAcc(); [glow,gMat].forEach(x=>x.color.copy(acc)); rim.color.copy(acc); tokens.material.color.copy(acc); rip.forEach(o=>o.material.color.copy(acc)); }
-    r.render(scene,cam); }
-  calm?frame(performance.now()):requestAnimationFrame(frame);
-})();
-function say(html,chips){ setChips([]); orb.label('thinking');
-  const t=msg('bot','<span class="dots" aria-label="thinking"><i></i><i></i><i></i></span>');
-  const finish=()=>{ orb.label('idle'); setChips(chips()); scrollTo({top:document.body.scrollHeight,behavior:calm?'auto':'smooth'}); };
-  setTimeout(()=>{ const b=t.querySelector('.bub'); b.innerHTML=html; orb.label('speaking'); calm?finish():stream(b,finish); }, calm?0:500+Math.random()*500); }
-const SUGG=[['What has he achieved?','results'],['How does he use AI?','ai agents llm'],['Performance wins','latency performance'],['How does he lead?','mentor leadership'],['What breaks gracefully?','resilience outage'],['Why not just use sequences?','uuid sequence'],['How does he test?','test regression'],['Tell me about alerts','observability alert'],['What’s his stack?','skills stack'],['Life outside work','life'],['The Dattavani app','dattavani app store'],['Contact','contact']];
-const seen=new Set();
-const sugg=()=>{ const pool=SUGG.filter(([,s])=>!seen.has(s)).sort(()=>Math.random()-.5).slice(0,3);
-  return pool.map(([l,s])=>[l,()=>ask(s,l)]).concat([[tour<0?'Take the tour':'Resume tour',()=>go(Math.max(tour,0)+(tour<0?0:1))]]); };
-const NOPE=["That one's not in the brief, and I won't improvise on someone else's CV. Here's what I do know:","I checked. Nothing on that. I'd rather admit a gap than invent a tech stack. Try one of these:"];
-const REAL=`<p>Fair question. I'm a guide built into this page: I answer from Dattamber's own write-ups instead of improvising, which, given the audience, seemed wise. If you want the improvised version, he's reachable in person.</p>`;
-function ask(s,label){ s=s.trim(); if(!s) return; mode(true); msg('me',label||s); seen.add(s);
-  if(/\b(real|llm|bot|human|chatgpt|gpt|claude|live)\b/i.test(s)) return say(REAL+C.contact(),sugg);
-  const a=answerFor(s);
-  say(a?a():`<p>${NOPE[Math.random()*NOPE.length|0]}</p>`, sugg); }
-let tour=-1;
-const STEPS=[
- ()=>`<p>Quick version of Dattamber: a lead engineer who makes critical systems <span class="acc">faster, more resilient and easier to run</span>, and makes AI-assisted delivery repeatable.</p>${C.about()}`,
- ()=>`<p>Right now he's the technical lead for the platforms behind auto-lending decisioning.</p>${C.experience()}`,
- ()=>`<p>The numbers, since that's what matters:</p>${stats}`,
- ()=>`<p>Here is how he decides things:</p>${C.principles()}${mentor}`,
- ()=>`<p>Selected work. Pick one to open it:</p>${projList()}`,
- ()=>`<p>And the human side:</p>${C.life()}`,
- ()=>`<p>That's the tour. No quiz at the end. If this sounds useful, say hello:</p>${C.contact()}`
-];
-function go(i){ mode(true); tour=i; if(i>=STEPS.length){tour=-1; return say('<p>Tour finished. Ask me anything else.</p>',sugg);}
-  say(STEPS[i](),()=>[[i<STEPS.length-1?'Next →':'Finish',()=>go(i+1)],['Ask a question',()=>setChips(SUGG.map(([l,s])=>[l,()=>ask(s,l)]))],['End tour',()=>{tour=-1;say('<p>Ok, over to you. Pick a topic or type a question.</p>',sugg);}]]); }
-document.getElementById('ask').onsubmit=e=>{e.preventDefault(); const v=q.value; q.value=''; ask(v);};
-
-// Hero (no conversation yet): character + search + cards. First question or tour start collapses it.
-const agentEl=document.getElementById('agent'), homeEl=document.getElementById('home'), reset=document.getElementById('reset');
-function mode(conv){ agentEl.classList.toggle('hero',!conv); agentEl.classList.toggle('conv',conv); reset.hidden=!conv; if(conv) setChips([]); }
-reset.onclick=()=>{ chat.innerHTML=''; setChips([]); tour=-1; seen.clear(); orb.label('idle'); mode(false); scrollTo(0,0); q.focus({preventScroll:true}); };
-const CARDS=[
- ['tour','Take the 2-minute tour','Role, results, how he thinks, the human side.',()=>go(0),'→'],
- ['','Dattavani: live on both app stores','Led the build. 4.9\u2605 ratings, 1K+ Play installs',()=>ask('dattavani app store','The Dattavani app')],
- ['stat','60–70%','less dev time with spec-driven AI delivery',()=>ask('ai agents llm','How does he use AI?')],
- ['stat','~3s vs 7s','decisioning latency vs the next-fastest competitor',()=>ask('latency performance','Performance wins')],
- ['stat','100%','requests processed through an upstream outage',()=>ask('resilience outage','What breaks gracefully?')],
- ['','How he uses AI','Spec-driven build, LLM-assisted testing, model right-sizing',()=>ask('ai agents llm','How does he use AI?')],
- ['','Systems that heal themselves','Circuit breakers, replay, zero customer impact',()=>ask('resilience outage','What breaks gracefully?')],
- ['','Observability as code','Two-week reviews became near real-time',()=>ask('observability alert','Tell me about alerts')],
- ['','How he leads','Mentoring the thinking, not the answer',()=>ask('mentor leadership','How does he lead?')],
- ['','The stack','Cloud, backend, reliability, AI, leadership',()=>ask('skills stack','What\u2019s his stack?')],
- ['','Beyond the code','Hackathons, volunteering, travel',()=>ask('life','Life outside work')]
-];
-CARDS.forEach(([c,t,d,f,x])=>{ const b=document.createElement('button'); b.type='button'; b.className='card '+c; b.innerHTML=`<b>${t}</b><span>${d}</span>${x?`<b>${x}</b>`:''}`; b.onclick=f; homeEl.appendChild(b); });
-
-
-// Boot
-text(`dj-os 1.0 — type "help" to explore`);
-CMDS.whoami();
-setView('agent');
-</script>
-</body>
-</html>
+const cv=document.getElementById('gl'); let r; try{ r=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); }catch(_){ document.body.insertAdjacentHTML('beforeend','<p style="padding:90px 16px">WebGL unavailable. Try a different browser, or view <a href="spec.html">the spec view</a>.</p>'); }
+const scene=new THREE.Scene(), cam=new THREE.PerspectiveCamera(55,1,.1,100); cam.position.set(0,0,11);
+const pos=new Float32Array(N*3), col=new Float32Array(N*3), tgt=new Float32Array(N*3); let acc=new THREE.Color(), cur='galaxy';
+const readAcc=()=>acc.set(getComputedStyle(document.documentElement).getPropertyValue('--acc').trim());
+readAcc();
+const bright=new Float32Array(N).map(()=>.4+R()*.6);
+const setColors=()=>{ const base=window.THEME&&window.THEME.light?.85:.1; for(let i=0;i<N;i++){ const w=bright[i]; col[i*3]=acc.r*w+(1-w)*base; col[i*3+1]=acc.g*w+(1-w)*base; col[i*3+2]=acc.b*w+(1-w)*base; } g.attributes.color.needsUpdate=true; };
+const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3)); g.setAttribute('color',new THREE.BufferAttribute(col,3));
+const mat=new THREE.PointsMaterial({size:.045,vertexColors:true,transparent:true,opacity:.95,depthWrite:false,blending:window.THEME&&window.THEME.light?THREE.NormalBlending:THREE.AdditiveBlending,sizeAttenuation:true});
+const pts=new THREE.Points(g,mat); scene.add(pts); setColors();
+let want='galaxy';
+function shape(name){ want=name; cur=name; mat.size=name==='drift'?.07:.045; mat.opacity=name==='drift'?.7:.95; for(let i=0;i<N;i++){ const v=S[name](i); tgt[i*3]=v[0]; tgt[i*3+1]=v[1]; tgt[i*3+2]=v[2]; } }
+shape('galaxy'); for(let i=0;i<N*3;i++) pos[i]=(R()-.5)*14;
+let px=0,py=0,last=0,tm=0; addEventListener('pointermove',e=>{px=e.clientX/innerWidth*2-1; py=e.clientY/innerHeight*2-1;});
+const resize=()=>{ r.setSize(innerWidth,innerHeight,false); r.setPixelRatio(Math.min(devicePixelRatio,2)); cam.aspect=innerWidth/innerHeight; cam.position.z=innerWidth<700?15:11; cam.updateProjectionMatrix(); }; resize(); addEventListener('resize',resize);
+const v=[0,0,0]; let speed=.045,vis=true; new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(cv);
+function frame(t){ if(!calm) requestAnimationFrame(frame); if(!vis||document.hidden) return; const dt=Math.min(.05,(t-last)/1000||0); last=t; tm+=dt; const dyn=DYN[cur];
+  for(let i=0;i<N;i++){ const k=i*3; v[0]=tgt[k]; v[1]=tgt[k+1]; v[2]=tgt[k+2]; if(dyn) dyn(i,tm,v);
+    if(Math.abs(v[0]-pos[k])>14.5) pos[k]=v[0]; pos[k]+=(v[0]-pos[k])*speed; pos[k+1]+=(v[1]-pos[k+1])*speed; pos[k+2]+=(v[2]-pos[k+2])*speed; }
+  g.attributes.position.needsUpdate=true; pts.rotation.y+=(px*.6-pts.rotation.y)*.03+dt*.05; pts.rotation.x+=(py*.35-pts.rotation.x)*.03;
+  if(Math.floor(tm*2)%60===0) { const prev=acc.getHex(); readAcc(); if(acc.getHex()!==prev) setColors(); }
+  r.render(scene,cam); }
+if(calm){ for(let i=0;i<N*3;i++) pos[i]=tgt[i]; g.attributes.position.needsUpdate=true; r.render(scene,cam);} else requestAnimationFrame(frame);
+addEventListener('themechange',()=>{ readAcc(); setColors(); mat.blending=window.THEME.light?THREE.NormalBlending:THREE.AdditiveBlending; mat.needsUpdate=true; if(want==='galaxy') shape('galaxy'); });
+// UI: ask -> morph + streamed answer
+const card=document.getElementById('card'), st=document.getElementById('state'), ttl=document.getElementById('ttl'), sub=document.getElementById('sub');
+function stream(el,done){ const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[]; while(w.nextNode()) ns.push(w.currentNode); const full=ns.map(n=>n.nodeValue); ns.forEach(n=>n.nodeValue=''); const words=full.map(s=>s.match(/\S+\s*|\s+/g)||[]); let i=0,j=0;
+  (function tick(){ if(i>=ns.length) return done&&done(); const n=1+(R()*3|0); ns[i].nodeValue+=words[i].slice(j,j+n).join(''); j+=n; if(j>=words[i].length){i++;j=0;} card.scrollTop=card.scrollHeight; setTimeout(tick,16+R()*26); })(); }
+function show(t){ st.textContent='thinking…'; speed=.12; card.classList.add('on'); card.innerHTML='<span class="dim">resolving…</span>'; shape(t.shape); ttl.textContent=t.label; sub.textContent='';
+  setTimeout(()=>{ speed=.045; st.textContent='answering'; card.innerHTML=t.html(); if(calm){ st.textContent='idle'; return; } stream(card,()=>st.textContent='idle'); }, calm?0:500+R()*400); }
+function ask(q){ q=q.trim(); if(!q) return; let best=null,top=0; TOPICS.forEach(t=>{ const s=scoreOf(q,t.kw); if(s>top){top=s;best=t;} });
+  if(best) show(best); else { shape('galaxy'); ttl.textContent='Not in the brief'; card.classList.add('on'); card.innerHTML='<p>Nothing on that. Try one of the topics below.</p>'; } }
+document.getElementById('ask').onsubmit=e=>{ e.preventDefault(); const i=document.getElementById('q'); ask(i.value); i.value=''; };
+TOPICS.forEach(t=>{ const b=document.createElement('button'); b.className='chip'; b.type='button'; b.textContent=t.label; b.onclick=()=>show(t); document.getElementById('chips').appendChild(b); });
+</script></body></html>
