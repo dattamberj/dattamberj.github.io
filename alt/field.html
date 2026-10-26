@@ -64,7 +64,7 @@ const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAt
 const mat=new THREE.PointsMaterial({size:.045,vertexColors:true,transparent:true,opacity:.95,depthWrite:false,blending:window.THEME&&window.THEME.light?THREE.NormalBlending:THREE.AdditiveBlending,sizeAttenuation:true});
 const pts=new THREE.Points(g,mat); scene.add(pts); setColors();
 let want='galaxy';
-function shape(name){ want=name; if(name==='galaxy'&&window.THEME&&window.THEME.name==='sakura') name='drift'; cur=name; mat.size=name==='drift'?.07:.045; mat.opacity=name==='drift'?.7:.95; for(let i=0;i<N;i++){ const v=S[name](i); tgt[i*3]=v[0]; tgt[i*3+1]=v[1]; tgt[i*3+2]=v[2]; } }
+function shape(name){ want=name; cur=name; mat.size=name==='drift'?.07:.045; mat.opacity=name==='drift'?.7:.95; for(let i=0;i<N;i++){ const v=S[name](i); tgt[i*3]=v[0]; tgt[i*3+1]=v[1]; tgt[i*3+2]=v[2]; } }
 shape('galaxy'); for(let i=0;i<N*3;i++) pos[i]=(R()-.5)*14;
 let px=0,py=0,last=0,tm=0; addEventListener('pointermove',e=>{px=e.clientX/innerWidth*2-1; py=e.clientY/innerHeight*2-1;});
 const resize=()=>{ r.setSize(innerWidth,innerHeight,false); r.setPixelRatio(Math.min(devicePixelRatio,2)); cam.aspect=innerWidth/innerHeight; cam.position.z=innerWidth<700?15:11; cam.updateProjectionMatrix(); }; resize(); addEventListener('resize',resize);

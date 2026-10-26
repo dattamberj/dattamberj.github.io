@@ -1,5 +1,4 @@
 :root{--bg:#0b0c0e;--fg:#d6d3cb;--dim:#7d7a72;--acc:#ffb000;--ok:#8ec07c;--line:#26282c;--card:#111316}
-@media (prefers-color-scheme:light){:root{--bg:#f6f3ea;--fg:#23221f;--dim:#6b685f;--acc:#9a5b00;--ok:#2f6b2f;--line:#d9d4c5;--card:#fffdf7}}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--fg)}
 body{font:15px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 a{color:var(--acc)}::selection{background:var(--acc);color:var(--bg)}

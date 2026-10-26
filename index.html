@@ -207,7 +207,7 @@ const CMDS = {
    <dt>whoami</dt><dd>short intro</dd><dt>about</dt><dd>who I am and how I work</dd><dt>experience</dt><dd>career timeline</dd>
    <dt>projects</dt><dd>selected work, anonymised</dd><dt>skills</dt><dd>stack</dd><dt>principles</dt><dd>how I make engineering decisions</dd>
    <dt>life</dt><dd>outside work</dd><dt>contact</dt><dd>get in touch</dd>
-   <dt>ls / cat &lt;file&gt;</dt><dd>browse like a filesystem (tab completes)</dd><dt>plain</dt><dd>plain-text view</dd><dt>theme</dt><dd>cycle themes</dd><dt>clear</dt><dd>clear screen</dd></dl>`),
+   <dt>ls / cat &lt;file&gt;</dt><dd>browse like a filesystem (tab completes)</dd><dt>plain</dt><dd>plain-text view</dd><dt>clear</dt><dd>clear screen</dd></dl>`),
  whoami: () => block(`<p><span class="acc">${ME.name}</span> — Lead Software Engineer</p><p>I build resilient, fast, observable systems for regulated finance, and I make AI-assisted delivery repeatable. Type <span class="acc">help</span>, or tap a command below.</p>`),
  about: () => sect('about', C.about()),
  experience: () => sect('experience', C.experience()),
@@ -227,7 +227,6 @@ const CMDS = {
  open: a => CMDS.cat(a),
  plain: () => setView('plain'),
  guide: () => setView('agent'),
- theme: () => { const s=document.querySelector('.themesel'); if(!s) return; s.selectedIndex=(s.selectedIndex+1)%s.options.length; s.onchange(); text('theme: '+s.value); },
  clear: () => { out.innerHTML=''; },
  sudo: () => text('guest is not in the sudoers file. This incident will be reported.'),
  pwd: () => text('/home/guest'),
