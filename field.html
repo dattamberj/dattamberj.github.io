@@ -47,7 +47,6 @@ const TOPICS=[
  {id:'perf',label:'Performance',shape:'streams',kw:['latency','performance','fast','speed','slow','authorizer','lambda','eks'],html:()=>projHTML(PROJECTS[1])},
  {id:'resil',label:'Resilience',shape:'split',kw:['resilien','retry','circuit','outage','kafka','heal','vendor','reliab'],html:()=>projHTML(PROJECTS[2])},
  {id:'obs',label:'Observability',shape:'wave',kw:['observab','alert','monitor','grafana','prometheus','dashboard','splunk','metric'],html:()=>projHTML(PROJECTS[3])},
- {id:'data',label:'Data & keys',shape:'helix',kw:['uuid','key','database','postgres','aurora','active-active','sequence','data'],html:()=>projHTML(PROJECTS[4])},
  {id:'app',label:'The educational app',shape:'phone',kw:['education','learning','app','mobile','store','ios','android','play','shipped','children','kids','product'],html:()=>projHTML(PROJECTS.find(p=>p.featured))},
  {id:'lead',label:'Leadership',shape:'tree',kw:['mentor','coach','lead','leader','leadership','people','grow','feedback','team','principle','decision'],html:()=>DATA.roles[0].pts.slice(-1)[0]&&`<h3>How he leads</h3>${principlesHTML()}<p>Mentoring is about the thinking, not the answer: associates promoted to pod lead, seniors owning run-the-engine, early-career engineers shipping reference implementations other teams copied.</p>`},
  {id:'skills',label:'Skills',shape:'lattice',kw:['skill','stack','tech','language','tool','java','react','kubernetes','terraform','aws'],html:()=>`<h3>Skills</h3>${skillsHTML()}`},
