@@ -1,91 +1,199 @@
 <!doctype html>
-<html lang="en" data-nofx><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dattamber Jukanti — Lead Software Engineer</title><meta name="description" content="Lead software engineer. Resilient systems, performance, observability and AI-assisted delivery. Ask the field."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0e'/%3E%3Cpath d='M7 10l7 6-7 6' stroke='%23ffb000' stroke-width='3' fill='none'/%3E%3Cpath d='M17 23h9' stroke='%23ffb000' stroke-width='3'/%3E%3C/svg%3E"><link rel="stylesheet" href="base.css"><script src="theme.js"></script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dattamber Jukanti — Lead Software Engineer</title>
+<meta name="description" content="Lead software engineer on auto-lending decisioning platforms. Led the build of a children's educational app, rated 4.9 on the App Store.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://dattamberj.github.io/"><meta property="og:title" content="Dattamber Jukanti — Lead Software Engineer"><meta property="og:description" content="Platforms that pre-qualify a car loan in about three seconds, and a children's learning app rated 4.9 on the App Store.">
+<meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0e'/%3E%3Cpath d='M7 10l7 6-7 6' stroke='%23ffb000' stroke-width='3' fill='none'/%3E%3Cpath d='M17 23h9' stroke='%23ffb000' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="base.css"><script src="theme.js"></script>
 <style>
-html,body{height:100%;overflow:hidden}
-#gl{position:fixed;inset:0;width:100%;height:100%;display:block}
-.top{position:fixed;left:0;right:0;top:0;z-index:3;border:0;background:linear-gradient(var(--bg),transparent)}
-.ui{position:fixed;left:0;right:0;bottom:0;z-index:3;padding:0 16px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;background:linear-gradient(transparent,color-mix(in srgb,var(--bg) 80%,transparent) 35%)}
-#card{width:100%;max-width:680px;max-height:44vh;overflow:auto;background:color-mix(in srgb,var(--card) 90%,transparent);border:1px solid var(--line);border-radius:8px;padding:14px 16px;backdrop-filter:blur(8px);display:none}
-#card.on{display:block}
-.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:760px}
-#ask{display:flex;gap:8px;width:100%;max-width:680px}#ask input{flex:1}
-.label{position:fixed;left:50%;top:76px;transform:translateX(-50%);z-index:2;text-align:center;pointer-events:none}
-.label h1{font:inherit;font-size:clamp(20px,3.6vw,30px);font-weight:700;margin:0}
-.label p{margin:2px 0 0;color:var(--dim);font-size:13px}
-#state{color:var(--acc)}
+.top{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom-color:transparent}
+.top .me{color:var(--fg);text-decoration:none;font-weight:600}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+a.u{color:var(--fg);text-decoration:none;background:linear-gradient(var(--acc),var(--acc)) 0 100%/0 1px no-repeat;transition:background-size .35s var(--ease)}
+a.u:hover,a.u:focus-visible{background-size:100% 1px}
+/* editorial grid: a quiet label column, then the content */
+.sec{display:grid;grid-template-columns:180px minmax(0,1fr);gap:24px 48px;padding:72px 0;border-top:1px solid var(--line)}
+.sec>.lbl{color:var(--dim);font-size:14px;padding-top:4px}
+@media(max-width:760px){.sec{grid-template-columns:1fr;gap:12px;padding:56px 0}}
+.intro{font:500 clamp(26px,3.6vw,40px)/1.22 var(--sans);letter-spacing:-.03em;margin:0;max-width:31ch}
+.intro b{font-weight:500;color:var(--acc-ink)}
+.hero{padding:96px 0 56px}.hero p.meta{color:var(--dim);margin:28px 0 0}
+.kicker{font:500 13px var(--mono);color:var(--dim);margin:0 0 20px}
+/* the numbers: hairlines, no boxes */
+.ledger{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);margin:0 0 24px}
+.ledger button{all:unset;box-sizing:border-box;position:relative;cursor:pointer;padding:20px 20px 4px 0}.ledger button+button{padding-left:20px;border-left:1px solid var(--line)}
+.ledger button:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.ledger button::before{content:"";position:absolute;left:0;right:100%;top:-1px;height:2px;background:var(--acc)}
+.ledger button.hold::before{right:0;transition:right var(--hold,2.6s) linear}
+.ledger b{display:block;font:600 clamp(34px,5vw,60px)/1 var(--sans);letter-spacing:-.045em;font-variant-numeric:tabular-nums;transition:color .4s}
+.ledger button.cur b{color:var(--acc-ink)}
+.ledger span{display:block;color:var(--dim);font-size:14px;margin-top:10px;max-width:24ch}
+@media(max-width:760px){.ledger{grid-template-columns:repeat(2,minmax(0,1fr))}.ledger button:nth-child(3){padding-left:0;border-left:0}.ledger button:nth-child(n+3){border-top:1px solid var(--line)}}
+/* typed intro: ghost copies of every highlight reserve the tallest height, so nothing below jumps */
+.tw{display:grid;color:var(--dim);margin-top:.15em}.tw>*{grid-area:1/1}.tw .ghost{visibility:hidden}
+.tw b{font-weight:500;color:var(--acc-ink)}
+.caret{display:inline-block;width:.08em;height:.9em;margin-left:.06em;vertical-align:-.08em;background:var(--acc);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.pause{all:unset;cursor:pointer;color:var(--dim)}.pause:hover,.pause:focus-visible{color:var(--acc-ink)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* entrance and scroll reveal: small, once */
+.js .in-1,.js [data-r]{opacity:0;transform:translateY(10px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .in-1{transition-delay:.05s}.js .meta.in-1{transition-delay:.35s}
+.ready .in-1,.js [data-r].on{opacity:1;transform:none}
+/* work index */
+.idx{list-style:none;margin:0;padding:0}
+.idx>li{border-bottom:1px solid var(--line)}.idx>li:first-child{border-top:1px solid var(--line)}
+.idx button{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:190px minmax(0,1fr) 20px;gap:20px;align-items:baseline;padding:22px 0}
+.idx button:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
+.idx .m{font:600 30px/1 var(--sans);letter-spacing:-.04em;font-variant-numeric:tabular-nums;transition:color .3s}
+.idx button:hover .m,.idx [aria-expanded=true] .m{color:var(--acc-ink)}
+.idx .t{display:block;font-size:18px;font-weight:600;letter-spacing:-.015em;transition:transform .45s var(--ease)}
+.idx .r{display:block;color:var(--dim);font-size:14px;margin-top:2px;transition:transform .45s var(--ease) .03s}
+.idx button:hover .r{transform:translateX(6px)}
+.idx .pm{position:relative;width:12px;height:12px;justify-self:end;align-self:center}
+.idx .pm::before,.idx .pm::after{content:"";position:absolute;left:0;top:5px;width:12px;height:1.5px;background:var(--dim);transition:transform .45s var(--ease),background .3s}
+.idx .pm::after{transform:rotate(90deg)}
+.idx button:hover .t{transform:translateX(6px)}.idx button:hover .pm::before,.idx button:hover .pm::after{background:var(--acc)}
+.idx [aria-expanded=true] .pm::after{transform:rotate(0)}.idx [aria-expanded=true] .pm::before,.idx [aria-expanded=true] .pm::after{background:var(--acc)}
+.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease)}
+.panel>div{overflow:hidden}.open .panel{grid-template-rows:1fr}
+.case{padding:0 0 28px;max-width:62ch;opacity:0;transform:translateY(-6px);transition:opacity .4s,transform .55s var(--ease)}
+.open .case{opacity:1;transform:none;transition-delay:.12s}
+.case .dek{font-size:17px;color:var(--fg);font-weight:500;margin:0 0 10px}
+.case ul{padding-left:18px}.case li::marker{color:var(--acc)}
+.built{color:var(--dim);font-size:14px;margin-top:12px}
+@media(max-width:560px){.idx button{grid-template-columns:minmax(0,1fr) 20px;gap:8px 16px}.idx .m{grid-column:1/-1;font-size:26px}}
+.flow{list-style:none;margin:0 0 28px;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));counter-reset:f}
+.flow li{counter-increment:f;position:relative;padding:18px 14px 0 0;font-size:14px;color:var(--dim)}
+.flow li::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--line)}
+.flow li::after{content:"";position:absolute;left:0;right:100%;top:0;height:2px;background:var(--acc);transition:right .5s var(--ease);transition-delay:calc(var(--k) * 180ms + .2s)}
+.flow.on li::after{right:0}
+.flow b{display:block;color:var(--fg);font-size:15px;margin-bottom:4px}.flow b::before{content:counter(f,decimal-leading-zero) " ";font:500 12px var(--mono);color:var(--acc-ink)}
+@media(max-width:860px){.flow{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:20px}}@media(max-width:520px){.flow{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.lead{padding-left:18px;margin:0;max-width:64ch}.lead li{margin:0 0 8px}.lead li::marker{color:var(--acc)}
+/* the app: the one surface band, 30% of the palette */
+.band{background:var(--surface)}
+.app h2{font:600 clamp(24px,3vw,32px)/1.2 var(--sans);letter-spacing:-.03em;margin:0 0 16px;max-width:28ch}
+.figs{display:flex;flex-wrap:wrap;gap:8px 40px;margin:24px 0;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.figs div{font-size:14px;color:var(--dim)}.figs b{display:block;font-size:40px;line-height:1.1;font-weight:600;color:var(--fg);letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.did{list-style:none;padding:0;margin:0;counter-reset:d}
+.did li{counter-increment:d;display:grid;grid-template-columns:32px 1fr;padding:10px 0;border-bottom:1px solid var(--line)}
+.did li::before{content:counter(d,decimal-leading-zero);color:var(--acc-ink);font:13px/1.9 var(--mono)}
+/* experience, principles, toolkit */
+.job{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:0 0 28px}.job:last-child{padding:0}
+.job .y{color:var(--dim);font-size:14px;padding-top:3px;font-variant-numeric:tabular-nums}.job h3{margin:0 0 6px;font-size:18px}
+@media(max-width:560px){.job{grid-template-columns:1fr;gap:4px}}
+.pr{margin:0;padding-left:0;list-style:none}.pr li{font-size:17px;color:var(--dim);margin:0 0 18px;max-width:52ch}.pr li b{font-weight:600;font-family:var(--sans);font-size:15px;display:block;color:var(--fg)}
+.tk{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px 16px;margin:0}.tk dt{color:var(--dim);font-size:14px;text-transform:capitalize}.tk dd{margin:0}
+footer{border-top:1px solid var(--line);padding:28px 0 56px;color:var(--dim);font-size:14px}footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+@media print{.js .in-1,.js [data-r],.case{opacity:1!important;transform:none!important}.panel{grid-template-rows:1fr!important}.top{display:none}}
 </style></head><body>
-<canvas id="gl" aria-hidden="true"></canvas>
-<noscript><div style="padding:90px 16px;max-width:680px;margin:0 auto"><h1>Dattamber Jukanti</h1><p>Lead Software Engineer. Resilient, fast, observable systems and AI-assisted delivery. This page is interactive and needs JavaScript.</p><p><a href="https://github.com/dattamberj">github.com/dattamberj</a></p></div></noscript>
-<div class="top"><span>Dattamber Jukanti</span><span><b id="state" class="acc">idle</b></span></div>
-<div class="label"><h1 id="ttl">Dattamber Jukanti</h1><p id="sub">Lead Software Engineer · ask the field</p></div>
-<div class="ui"><div id="card" aria-live="polite"></div><div class="chips" id="chips"></div>
- <form id="ask"><input id="q" type="text" autocomplete="off" placeholder="Ask about performance, AI, leadership, the app…" aria-label="Ask"><button class="btn p" type="submit">Ask</button></form></div>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><a class="me" href="#main">Dattamber Jukanti</a></header>
+<main id="main" class="wrap">
+ <section class="hero">
+  <p class="kicker in-1">Lead Software Engineer · core decisioning modernisation · agentic engineering</p>
+  <h1 class="intro in-1">I’m Dattamber.<span class="tw" aria-hidden="true" id="tw"><span class="typed"><span id="typed"></span><span class="caret"></span></span></span><span class="sr-only">I’m leading the modernisation of a core decisioning platform. I lead platforms that pre-qualify a car loan in about 3 seconds, lead spec-driven development with a custom agentic workflow that cut development time 60–70%, kept 100% of requests flowing through a bureau outage, and led a children’s learning app to 4.9 stars on the App Store.</span></h1>
+  <p class="meta in-1"><a class="u" href="#work">Selected work</a> · <a class="u" href="#app">The app</a> · <a class="u" href="https://github.com/dattamberj" target="_blank" rel="noopener">GitHub</a> · <button class="pause" id="pause" type="button" aria-pressed="false">Pause highlights</button></p>
+ </section>
+ <div class="ledger" aria-label="Impact in numbers. Select one to show it in the intro.">
+  <button type="button" data-r><b>~3s</b><span>pre-qualification, over 2x faster than the next competitor</span></button>
+  <button type="button" data-r><b>60–70%</b><span>less development time with spec-driven, agentic engineering</span></button>
+  <button type="button" data-r><b>100%</b><span>of requests processed through a bureau outage</span></button>
+  <button type="button" data-r><b>4.9★</b><span>App Store rating for the learning app I led</span></button>
+ </div>
+
+ <section class="sec" id="work"><div class="lbl">Selected work</div>
+  <div><ul class="idx" id="idx"></ul><noscript><p class="dim">The case studies need JavaScript to expand.</p></noscript></div>
+ </section>
+
+ <section class="sec" id="workflow"><div class="lbl">Agentic workflow</div>
+  <div>
+   <p class="dek" style="font-size:18px;font-weight:500;margin:0 0 20px;max-width:56ch" data-r>How I lead spec-driven development: one reviewed spec, carried through every stage by agent skills, with people approving each step.</p>
+   <ol class="flow" data-r>
+    <li style="--k:0"><b>Spec</b>Reviewed and approved by people. The single source of truth.</li>
+    <li style="--k:1"><b>Design</b>Skills turn the spec into sequence diagrams and data models.</li>
+    <li style="--k:2"><b>Build</b>Agents write the code; scripts keep schemas and payloads deterministic.</li>
+    <li style="--k:3"><b>Test</b>Acceptance criteria become Gherkin and black-box checks.</li>
+    <li style="--k:4"><b>Observe</b>Alerts and metrics generated as code.</li>
+    <li style="--k:5"><b>Verify</b>Checklists and evals gate every skill before the central registry.</li>
+   </ol>
+   <ul class="lead" data-r>
+    <li>Started with sequence diagrams to code, then grew it stage by stage to data and NFRs, tuned on feedback from greenfield and brownfield teams.</li>
+    <li>Right-sized models per task, and deterministic logic wherever a model isn’t needed.</li>
+    <li>Spread it through AI accelerator workshops and with principal engineers. Teams now start from skills instead of from scratch.</li>
+    <li><b>60–70%</b> less development time, across 30+ functionalities and 70+ APIs and events.</li>
+   </ul>
+  </div>
+ </section>
+</main>
+
+<div class="band" id="app"><div class="wrap"><section class="sec app" style="border-top:0"><div class="lbl">The app</div>
+ <div data-r>
+  <h2 id="app-title"></h2>
+  <div id="app-body"></div>
+  <div class="figs" id="app-figs"></div>
+  <p class="dim" style="margin:0 0 6px">What I did</p>
+  <ol class="did" id="app-did"></ol>
+  <p class="built" id="app-built"></p>
+ </div></section></div></div>
+
+<div class="wrap">
+ <section class="sec"><div class="lbl">Experience</div><div data-r id="jobs"></div></section>
+ <section class="sec"><div class="lbl">How I work</div><ul class="pr" data-r id="pr"></ul></section>
+ <section class="sec"><div class="lbl">Toolkit</div><dl class="tk" data-r id="tk"></dl></section>
+ <section class="sec"><div class="lbl">Outside work</div><p data-r id="life" style="margin:0;max-width:62ch"></p></section>
+</div>
+<footer><div class="wrap"><span>© 2026 Dattamber Jukanti · <a class="u" href="https://github.com/dattamberj" target="_blank" rel="noopener">GitHub</a></span><span>Two other ways to read this: <a class="u" href="field.html">Field</a> · <a class="u" href="spec.html">Spec</a></span></div></footer>
 <script src="data.js"></script>
 <script>
-const N=window.innerWidth<700?3500:6500, R=Math.random, TAU=Math.PI*2;
-const S={
- galaxy:i=>{const arm=i%3,r=Math.pow(R(),.6)*5.5,a=r*1.15+arm*TAU/3+(R()-.5)*.35;return[Math.cos(a)*r,Math.sin(a)*r*.82,(R()-.5)*.6*(1-r/7)];},
- streams:i=>{const k=i%34,a=k*2.39996,rr=.5+(k%7)*.45;return[(R()-.5)*13,Math.cos(a)*rr+(R()-.5)*.12,Math.sin(a)*rr+(R()-.5)*.12];},
- split:i=>{const s=i%2?1:-1,u=R()*2-1,a=R()*TAU,q=Math.sqrt(1-u*u),r=1.5*Math.cbrt(R());return[s*2.2+r*q*Math.cos(a),r*u,r*q*Math.sin(a)];},
- network:i=>{const L=(i%5)-2,x=L*2.6; if(R()<.55){const gx=Math.floor(R()*4),gy=Math.floor(R()*4);return[x+(R()-.5)*.25,(gx-1.5)*1.3+(R()-.5)*.25,(gy-1.5)*1.3+(R()-.5)*.25];}
-   const t=R(),a=[(Math.floor(R()*4)-1.5)*1.3,(Math.floor(R()*4)-1.5)*1.3],b=[(Math.floor(R()*4)-1.5)*1.3,(Math.floor(R()*4)-1.5)*1.3];return[x+t*2.6,a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];},
- tree:(()=>{const seg=[];(function g(x,y,a,l,d){ if(d>6) return; const nx=x+Math.sin(a)*l,ny=y+Math.cos(a)*l; seg.push([x,y,nx,ny,d]); g(nx,ny,a-.45-R()*.2,l*.74,d+1); g(nx,ny,a+.45+R()*.2,l*.74,d+1); })(0,-3.2,0,1.8,0);
-   return i=>{const s=seg[Math.floor(Math.pow(R(),.7)*seg.length)],t=R(),z=(R()-.5)*(.6+s[4]*.25);return[s[0]+(s[2]-s[0])*t+(R()-.5)*.08,s[1]+(s[3]-s[1])*t,z];};})(),
- globe:i=>{ if(i%7===0){const a=R()*TAU;return[Math.cos(a)*4.4,Math.sin(a)*.5*Math.cos(1)+.3*Math.sin(a*3),Math.sin(a)*4.4];} const u=R()*2-1,a=R()*TAU,q=Math.sqrt(1-u*u),lat=Math.round(u*8)/8; const rr=Math.sqrt(1-lat*lat)*2.6; return[rr*Math.cos(a),lat*2.6+(R()-.5)*.03,rr*Math.sin(a)];},
- phone:i=>{const p=R(); if(p<.35){const e=Math.floor(R()*4),t=R(); const W=1.5,H=3; const pts=[[-W,-H,W,-H],[W,-H,W,H],[W,H,-W,H],[-W,H,-W,-H]][e]; return[pts[0]+(pts[2]-pts[0])*t,pts[1]+(pts[3]-pts[1])*t,(R()-.5)*.25];}
-   const gx=Math.floor(R()*5),gy=Math.floor(R()*9); return[(gx-2)*.55+(R()-.5)*.1,(gy-4)*.62+(R()-.5)*.1,(R()-.5)*.1];},
- wave:i=>{const k=i%6,x=(R()-.5)*12;return[x,Math.sin(x*1.3+k)*Math.exp(-Math.abs(x)*.12)*1.3+(k-2.5)*.55,(k-2.5)*.35];},
- helix:i=>{const t=(R()-.5)*14,s=i%2?1:-1; if(i%9===0){const tt=Math.round(t*2)/2;return[tt,Math.cos(tt*1.2)*(R()*2-1)*1.6,Math.sin(tt*1.2)*(R()*2-1)*1.6];} return[t,Math.cos(t*1.2+(s>0?0:Math.PI))*1.6,Math.sin(t*1.2+(s>0?0:Math.PI))*1.6];},
- drift:i=>i%3?[0,0,40]:[(R()-.5)*16,(R()-.5)*9,(R()-.5)*6], // two thirds parked behind the camera: a sparse cloud
- lattice:i=>{const a=Math.floor(R()*5)-2,b=Math.floor(R()*5)-2,c=Math.floor(R()*5)-2; const m=R(); return m<.7?[a*1.2+(R()-.5)*.14,b*1.2+(R()-.5)*.14,c*1.2+(R()-.5)*.14]:[(a+R())*1.2,b*1.2,c*1.2];}
-};
-const DYN={drift:(i,t,v)=>{v[0]=((v[0]+8+t*(.35+(i%5)*.12))%16)-8;v[1]+=Math.sin(t*.5+i)*.25;v[2]+=Math.cos(t*.4+i*.7)*.2;},streams:(i,t,v)=>{v[0]=((v[0]+6.5+t*(.9+(i%5)*.35))%13)-6.5;},split:(i,t,v)=>{v[0]+=(i%2?1:-1)*(Math.sin(t*1.6)*1.4+.6-1.4*0+0);},wave:(i,t,v)=>{v[1]+=Math.sin(v[0]*1.3+t*3)*.25;},helix:(i,t,v)=>{const c=Math.cos(t*.8),s=Math.sin(t*.8),y=v[1],z=v[2];v[1]=y*c-z*s;v[2]=y*s+z*c;},galaxy:(i,t,v)=>{const a=t*.15,c=Math.cos(a),s=Math.sin(a),x=v[0],y=v[1];v[0]=x*c-y*s;v[1]=x*s+y*c;}};
-const TOPICS=[
- {id:'ai',label:'AI-assisted delivery',shape:'network',kw:['ai','llm','agent','spec','model','token','genai','assist'],html:()=>projHTML(PROJECTS[0])},
- {id:'perf',label:'Performance',shape:'streams',kw:['latency','performance','fast','speed','slow','authorizer','lambda','eks'],html:()=>projHTML(PROJECTS[1])},
- {id:'resil',label:'Resilience',shape:'split',kw:['resilien','retry','circuit','outage','kafka','heal','vendor','reliab'],html:()=>projHTML(PROJECTS[2])},
- {id:'obs',label:'Observability',shape:'wave',kw:['observab','alert','monitor','grafana','prometheus','dashboard','splunk','metric'],html:()=>projHTML(PROJECTS[3])},
- {id:'data',label:'Data & keys',shape:'helix',kw:['uuid','key','database','postgres','aurora','active-active','sequence','data'],html:()=>projHTML(PROJECTS[4])},
- {id:'app',label:'The Dattavani app',shape:'phone',kw:['dattavani','app','mobile','store','ios','android','play','shipped','children','kids','product'],html:()=>projHTML(PROJECTS.find(p=>p.featured))},
- {id:'lead',label:'Leadership',shape:'tree',kw:['mentor','coach','lead','leader','leadership','people','grow','feedback','team','principle','decision'],html:()=>DATA.roles[0].pts.slice(-1)[0]&&`<h3>How he leads</h3>${principlesHTML()}<p>Mentoring is about the thinking, not the answer: associates promoted to pod lead, seniors owning run-the-engine, early-career engineers shipping reference implementations other teams copied.</p>`},
- {id:'skills',label:'Skills',shape:'lattice',kw:['skill','stack','tech','language','tool','java','react','kubernetes','terraform','aws'],html:()=>`<h3>Skills</h3>${skillsHTML()}`},
- {id:'life',label:'Beyond the code',shape:'globe',kw:['life','hobby','travel','volunteer','family','fun','personal','outside'],html:()=>`<h3>Beyond the code</h3>${lifeHTML()}`},
- {id:'about',label:'About',shape:'galaxy',kw:['about','who','intro','background','summary','career','experience','role'],html:()=>`<h3>About</h3>${aboutHTML()}${rolesHTML()}${contactHTML()}`}
-];
-const cv=document.getElementById('gl'); let r; try{ r=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); }catch(_){ document.body.insertAdjacentHTML('beforeend','<p style="padding:90px 16px">WebGL unavailable. Try a different browser, or view <a href="spec.html">the spec view</a>.</p>'); }
-const scene=new THREE.Scene(), cam=new THREE.PerspectiveCamera(55,1,.1,100); cam.position.set(0,0,11);
-const pos=new Float32Array(N*3), col=new Float32Array(N*3), tgt=new Float32Array(N*3); let acc=new THREE.Color(), cur='galaxy';
-const readAcc=()=>acc.set(getComputedStyle(document.documentElement).getPropertyValue('--acc').trim());
-readAcc();
-const bright=new Float32Array(N).map(()=>.4+R()*.6);
-const setColors=()=>{ const base=window.THEME&&window.THEME.light?.85:.1; for(let i=0;i<N;i++){ const w=bright[i]; col[i*3]=acc.r*w+(1-w)*base; col[i*3+1]=acc.g*w+(1-w)*base; col[i*3+2]=acc.b*w+(1-w)*base; } g.attributes.color.needsUpdate=true; };
-const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3)); g.setAttribute('color',new THREE.BufferAttribute(col,3));
-const mat=new THREE.PointsMaterial({size:.045,vertexColors:true,transparent:true,opacity:.95,depthWrite:false,blending:window.THEME&&window.THEME.light?THREE.NormalBlending:THREE.AdditiveBlending,sizeAttenuation:true});
-const pts=new THREE.Points(g,mat); scene.add(pts); setColors();
-let want='galaxy';
-function shape(name){ want=name; cur=name; mat.size=name==='drift'?.07:.045; mat.opacity=name==='drift'?.7:.95; for(let i=0;i<N;i++){ const v=S[name](i); tgt[i*3]=v[0]; tgt[i*3+1]=v[1]; tgt[i*3+2]=v[2]; } }
-shape('galaxy'); for(let i=0;i<N*3;i++) pos[i]=(R()-.5)*14;
-let px=0,py=0,last=0,tm=0; addEventListener('pointermove',e=>{px=e.clientX/innerWidth*2-1; py=e.clientY/innerHeight*2-1;});
-const resize=()=>{ r.setSize(innerWidth,innerHeight,false); r.setPixelRatio(Math.min(devicePixelRatio,2)); cam.aspect=innerWidth/innerHeight; cam.position.z=innerWidth<700?15:11; cam.updateProjectionMatrix(); }; resize(); addEventListener('resize',resize);
-const v=[0,0,0]; let speed=.045,vis=true; new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(cv);
-function frame(t){ if(!calm) requestAnimationFrame(frame); if(!vis||document.hidden) return; const dt=Math.min(.05,(t-last)/1000||0); last=t; tm+=dt; const dyn=DYN[cur];
-  for(let i=0;i<N;i++){ const k=i*3; v[0]=tgt[k]; v[1]=tgt[k+1]; v[2]=tgt[k+2]; if(dyn) dyn(i,tm,v);
-    if(Math.abs(v[0]-pos[k])>14.5) pos[k]=v[0]; pos[k]+=(v[0]-pos[k])*speed; pos[k+1]+=(v[1]-pos[k+1])*speed; pos[k+2]+=(v[2]-pos[k+2])*speed; }
-  g.attributes.position.needsUpdate=true; pts.rotation.y+=(px*.6-pts.rotation.y)*.03+dt*.05; pts.rotation.x+=(py*.35-pts.rotation.x)*.03;
-  if(Math.floor(tm*2)%60===0) { const prev=acc.getHex(); readAcc(); if(acc.getHex()!==prev) setColors(); }
-  r.render(scene,cam); }
-if(calm){ for(let i=0;i<N*3;i++) pos[i]=tgt[i]; g.attributes.position.needsUpdate=true; r.render(scene,cam);} else requestAnimationFrame(frame);
-addEventListener('themechange',()=>{ readAcc(); setColors(); mat.blending=window.THEME.light?THREE.NormalBlending:THREE.AdditiveBlending; mat.needsUpdate=true; if(want==='galaxy') shape('galaxy'); });
-// UI: ask -> morph + streamed answer
-const card=document.getElementById('card'), st=document.getElementById('state'), ttl=document.getElementById('ttl'), sub=document.getElementById('sub');
-function stream(el,done){ const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[]; while(w.nextNode()) ns.push(w.currentNode); const full=ns.map(n=>n.nodeValue); ns.forEach(n=>n.nodeValue=''); const words=full.map(s=>s.match(/\S+\s*|\s+/g)||[]); let i=0,j=0;
-  (function tick(){ if(i>=ns.length) return done&&done(); const n=1+(R()*3|0); ns[i].nodeValue+=words[i].slice(j,j+n).join(''); j+=n; if(j>=words[i].length){i++;j=0;} card.scrollTop=card.scrollHeight; setTimeout(tick,16+R()*26); })(); }
-function show(t){ st.textContent='thinking…'; speed=.12; card.classList.add('on'); card.innerHTML='<span class="dim">resolving…</span>'; shape(t.shape); ttl.textContent=t.label; sub.textContent='';
-  setTimeout(()=>{ speed=.045; st.textContent='answering'; card.innerHTML=t.html(); if(calm){ st.textContent='idle'; return; } stream(card,()=>st.textContent='idle'); }, calm?0:500+R()*400); }
-function ask(q){ q=q.trim(); if(!q) return; let best=null,top=0; TOPICS.forEach(t=>{ const s=scoreOf(q,t.kw); if(s>top){top=s;best=t;} });
-  if(best) show(best); else { shape('galaxy'); ttl.textContent='Not in the brief'; card.classList.add('on'); card.innerHTML='<p>Nothing on that. Try one of the topics below.</p>'; } }
-document.getElementById('ask').onsubmit=e=>{ e.preventDefault(); const i=document.getElementById('q'); ask(i.value); i.value=''; };
-TOPICS.forEach(t=>{ const b=document.createElement('button'); b.className='chip'; b.type='button'; b.textContent=t.label; b.onclick=()=>show(t); document.getElementById('chips').appendChild(b); });
+const $=s=>document.querySelector(s), root=document.documentElement;
+root.classList.add('js');
+const list=a=>a.join(', ').replace(/, ([^,]*)$/,' and $1');
+// content from data.js, shared with the Field and Spec views
+const app=PROJECTS.find(p=>p.featured);
+$('#app-title').textContent=app.title;
+$('#app-body').innerHTML=app.body.map(b=>`<p style="max-width:62ch">${b}</p>`).join('');
+$('#app-figs').innerHTML=app.stats.map(([n,l])=>`<div><b>${n}</b>${l}</div>`).join('');
+$('#app-did').innerHTML=app.role.map(r=>`<li><span>${r}</span></li>`).join('');
+$('#app-built').textContent='Built with '+list(app.stack)+'.';
+$('#idx').innerHTML=PROJECTS.filter(p=>!p.featured).map((p,i)=>`<li data-r><button type="button" aria-expanded="false" aria-controls="c${i}"><span class="m">${p.metric[0]}</span><span><span class="t">${p.title}</span><span class="r">${p.metric[1]}</span></span><span class="pm" aria-hidden="true"></span></button>
+ <div class="panel" id="c${i}"><div><div class="case"><p class="dek">${p.line}</p>${p.body.map(b=>`<p>${b}</p>`).join('')}${ul(p.facts)}<p class="built">Built with ${list(p.stack)}.</p></div></div></div></li>`).join('');
+$('#jobs').innerHTML=DATA.roles.map(r=>`<div class="job"><span class="y">${r.y}</span><div><h3>${r.t}</h3>${ul(r.pts)}</div></div>`).join('');
+$('#pr').innerHTML=DATA.principles.map(p=>`<li>${p.replace('</b>:','</b>')}</li>`).join('');
+$('#tk').innerHTML=Object.entries(DATA.skills).map(([k,v])=>`<dt>${k}</dt><dd>${list(v)}</dd>`).join('');
+$('#life').textContent=DATA.life;
+
+// one accordion open at a time; closed panels stay out of the tab order
+document.querySelectorAll('.idx button').forEach(b=>{ const li=b.parentNode, pn=li.querySelector('.panel'); pn.inert=true;
+  b.onclick=()=>{ const open=b.getAttribute('aria-expanded')!=='true';
+    document.querySelectorAll('.idx li.open').forEach(o=>{ if(o!==li){ o.classList.remove('open'); o.querySelector('button').setAttribute('aria-expanded','false'); o.querySelector('.panel').inert=true; } });
+    li.classList.toggle('open',open); b.setAttribute('aria-expanded',open); pn.inert=!open; }; });
+
+// typed intro: each highlight types in, holds while its number's bar fills, then erases into the next
+const HL=[{c:null,s:["I’m leading the modernisation of a ",["core decisioning platform"],"."]},{c:0,s:["I lead platforms that pre-qualify a car loan in ",["about 3 seconds"],"."]},{c:1,s:["I lead spec-driven development with a custom agentic workflow: ",["60–70%"]," less development time."]},{c:2,s:["I kept ",["100%"]," of requests flowing through a bureau outage."]},{c:3,s:["I led a children’s learning app to ",["4.9★"]," on the App Store."]}];
+const HOLD=2600, typed=$('#typed'), cells=[...document.querySelectorAll('.ledger button')], pauseBtn=$('#pause');
+const txt=s=>Array.isArray(s)?s[0]:s, len=segs=>segs.reduce((a,s)=>a+txt(s).length,0);
+const html=(segs,n)=>segs.map(s=>{ const t=txt(s).slice(0,Math.max(0,n)); n-=txt(s).length; return Array.isArray(s)?`<b>${t}</b>`:t; }).join('');
+$('#tw').insertAdjacentHTML('afterbegin',HL.map(h=>`<span class="ghost">${html(h.s,1e4)}</span>`).join(''));
+root.style.setProperty('--hold',HOLD+'ms');
+let gen=0, shown=null, count=0, paused=false;
+const wait=ms=>new Promise(r=>setTimeout(r,ms)), draw=(segs,n)=>{ count=n; typed.innerHTML=html(segs,n); };
+async function show(i){ const g=++gen;
+  cells.forEach((c,k)=>{ c.classList.toggle('cur',k===HL[i].c); c.classList.remove('hold'); c.setAttribute('aria-pressed',k===HL[i].c); });
+  if(calm){ draw(shown=HL[i].s,len(HL[i].s)); return; }
+  if(shown) for(let n=count;n>=0;n-=2){ if(g!==gen) return; draw(shown,n); await wait(12); }
+  shown=HL[i].s; await wait(220);
+  for(let n=0,L=len(shown);n<=L;n++){ if(g!==gen) return; draw(shown,n); await wait(26+Math.random()*34); }
+  if(HL[i].c!=null) cells[HL[i].c].classList.add('hold'); await wait(HOLD);
+  while(paused||document.hidden){ await wait(250); if(g!==gen) return; }
+  if(g===gen) show((i+1)%HL.length); }
+cells.forEach((c,k)=>c.onclick=()=>show(HL.findIndex(h=>h.c===k)));
+pauseBtn.onclick=()=>{ paused=!paused; pauseBtn.setAttribute('aria-pressed',paused); pauseBtn.textContent=paused?'Play highlights':'Pause highlights'; };
+if(calm) pauseBtn.hidden=true;
+setTimeout(()=>{ root.classList.add('ready'); show(0); },60);
+const rs=document.querySelectorAll('[data-r]');
+if(calm) rs.forEach(e=>e.classList.add('on'));
+else { const io=new IntersectionObserver(es=>es.forEach((e,k)=>{ if(e.isIntersecting){ e.target.style.transitionDelay=k*60+'ms'; e.target.classList.add('on'); io.unobserve(e.target); } }),{rootMargin:'0px 0px -6% 0px'}); rs.forEach(e=>io.observe(e)); }
 </script></body></html>
