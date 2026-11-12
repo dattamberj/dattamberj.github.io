@@ -39,14 +39,5 @@ const DATA={name:'Dattamber Jukanti',title:'Lead Software Engineer',gh:'dattambe
  skills:{ai:['Agentic engineering','Spec-driven development','Agent skills and evals','LLM-assisted testing','Model right-sizing'],cloud:['AWS','EKS','API Gateway','Lambda','MSK','Aurora PostgreSQL','Terraform','Kubernetes'],backend:['Java','Spring','Hibernate Envers','Kafka','Avro','Groovy','PostgreSQL'],frontend:['React','React Native','Expo','Data-heavy UIs','Accessibility'],reliability:['Prometheus','Grafana','Chaos testing','Performance testing','Circuit breakers','Observability as code'],leadership:['Mentoring','Cross-team alignment','Stakeholder buy-in','Technical strategy','Pattern sharing']},
  principles:['<b>Frame decisions commercially</b>: value delivered, cost avoided, risk reduced.','<b>Reuse beats rebuild</b>: share patterns and the reasoning behind them.','<b>Responsible AI is structure, not just tooling</b>: specs, determinism where it matters, the right model per task.','<b>Mentor the thinking, not the answer</b>: pair constructive feedback with recognition of effort.'],
  life:'Outside the day job: interviewing candidates, running internal hackathons, and leading teams for a tech-for-good program. I support my wife as she builds her own business from scratch, which reinforces what I value at work: ownership, resilience and learning by doing. We travel to recharge.'};
-const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const ul=a=>`<ul>${a.map(x=>`<li>${x}</li>`).join('')}</ul>`, tags=a=>`<div class="tags">${a.map(t=>`<span>${t}</span>`).join('')}</div>`;
-const projHTML=p=>`<h3>${p.title}</h3>${p.body.map(b=>`<p>${b}</p>`).join('')}${p.role?`<h3>My role</h3>${ul(p.role)}`:''}${p.stats?`<div class="stats">${p.stats.map(([n,l])=>`<div><b>${n}</b><span>${l}</span></div>`).join('')}</div>`:''}${ul(p.facts)}${p.links?`<p>${p.links.map(([l,u])=>`<a href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join(' · ')}</p>`:''}${tags(p.stack)}`;
-const aboutHTML=()=>DATA.about.map(x=>`<p>${x}</p>`).join(''), rolesHTML=()=>DATA.roles.map(r=>`<h3><span class="acc">${r.y}</span> · ${r.t}</h3>${ul(r.pts)}`).join('');
-const skillsHTML=()=>Object.entries(DATA.skills).map(([k,v])=>`<h3>${k}</h3>${tags(v)}`).join(''), principlesHTML=()=>ul(DATA.principles), lifeHTML=()=>`<p>${DATA.life}</p>`;
-const contactHTML=()=>`<p><a href="https://github.com/${DATA.gh}" target="_blank" rel="noopener">github.com/${DATA.gh}</a></p>`;
-const ORDERED=[...PROJECTS].sort((a,b)=>!!b.featured-!!a.featured);
-const toks=q=>q.toLowerCase().match(/[a-z0-9+-]+/g)||[], hit=(t,k)=>k.length<=3?t===k:t.startsWith(k);
-const scoreOf=(q,words)=>{const T=toks(q);return words.filter(k=>T.some(t=>hit(t,k.toLowerCase()))).length;};
-const kwOf=p=>[...new Set((p.id+' '+p.title+' '+p.line+' '+p.stack.join(' ')).toLowerCase().match(/[a-z0-9+-]{3,}/g))];
+const ul=a=>`<ul>${a.map(x=>`<li>${x}</li>`).join('')}</ul>`;
 const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
