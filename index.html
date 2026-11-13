@@ -46,7 +46,7 @@ html{scroll-behavior:smooth;scroll-padding-top:20px}
 .idx>li{border-bottom:1px solid var(--line)}.idx>li:first-child{border-top:1px solid var(--line)}
 .idx button{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:190px minmax(0,1fr) 20px;gap:20px;align-items:baseline;padding:22px 0}
 .idx button:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
-.idx .m{font:600 30px/1 var(--sans);letter-spacing:-.04em;font-variant-numeric:tabular-nums;transition:color .3s}
+.idx .m{font:600 30px/1 var(--sans);letter-spacing:-.04em;font-variant-numeric:tabular-nums;transition:color .3s}.idx .m i{display:block;font:500 16px/1.3 var(--sans);letter-spacing:-.01em;color:var(--fg);margin-top:8px;font-style:normal}
 .idx button:hover .m,.idx [aria-expanded=true] .m{color:var(--acc-ink)}
 .idx .t{display:block;font-size:18px;font-weight:600;letter-spacing:-.015em;transition:transform .45s var(--ease)}
 .idx .r{display:block;color:var(--dim);font-size:14px;margin-top:2px;transition:transform .45s var(--ease) .03s}
@@ -159,7 +159,7 @@ $('#app-body').innerHTML=app.body.map(b=>`<p style="max-width:62ch">${b}</p>`).j
 $('#app-figs').innerHTML=app.stats.map(([n,l])=>`<div><b>${n}</b>${l}</div>`).join('');
 $('#app-did').innerHTML=app.role.map(r=>`<li><span>${r}</span></li>`).join('');
 $('#app-built').textContent='Built with '+list(app.stack)+'.';
-$('#idx').innerHTML=PROJECTS.filter(p=>!p.featured).map((p,i)=>`<li data-r><button type="button" aria-expanded="false" aria-controls="c${i}"><span class="m">${p.metric[0]}</span><span><span class="t">${p.title}</span><span class="r">${p.metric[1]}</span></span><span class="pm" aria-hidden="true"></span></button>
+$('#idx').innerHTML=PROJECTS.filter(p=>!p.featured).map((p,i)=>`<li data-r><button type="button" aria-expanded="false" aria-controls="c${i}"><span class="m">${p.metric[0]}<i>${p.metric[1]}</i></span><span><span class="t">${p.title}</span>${p.metric[2]?`<span class="r">${p.metric[2]}</span>`:''}</span><span class="pm" aria-hidden="true"></span></button>
  <div class="panel" id="c${i}"><div><div class="case"><p class="dek">${p.line}</p>${p.body.map(b=>`<p>${b}</p>`).join('')}${ul(p.facts)}<p class="built">Built with ${list(p.stack)}.</p></div></div></div></li>`).join('');
 $('#jobs').innerHTML=DATA.roles.map(r=>`<div class="job"><span class="y">${r.y}</span><div><h3>${r.t}</h3>${ul(r.pts)}</div></div>`).join('');
 $('#pr').innerHTML=DATA.principles.map(p=>`<li>${p.replace('</b>:','</b>')}</li>`).join('');
