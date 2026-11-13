@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Dattamber Jukanti — Lead Software Engineer</title>
-<meta name="description" content="Lead software engineer on auto-lending decisioning platforms. Led the build of a children's educational app, rated 4.9 across 69 ratings on the App Store and Google Play.">
+<meta name="description" content="Lead software engineer on auto-lending decisioning platforms. Led the build of a children's educational app, rated 4.9+ across about 70 reviews on the App Store and Google Play.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://dattamberj.github.io/"><meta property="og:title" content="Dattamber Jukanti — Lead Software Engineer"><meta property="og:description" content="Platforms that pre-qualify a car loan in about three seconds, and a children's learning app rated 4.9 across both app stores.">
 <meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0e'/%3E%3Cpath d='M7 10l7 6-7 6' stroke='%23ffb000' stroke-width='3' fill='none'/%3E%3Cpath d='M17 23h9' stroke='%23ffb000' stroke-width='3'/%3E%3C/svg%3E">
@@ -16,6 +16,8 @@ a.u:hover,a.u:focus-visible{background-size:100% 1px}
 @media(max-width:760px){.sec{grid-template-columns:1fr;gap:12px;padding:56px 0}}
 .intro{font:500 clamp(26px,3.6vw,40px)/1.22 var(--sans);letter-spacing:-.03em;margin:0;max-width:31ch}
 .intro b{font-weight:500;color:var(--acc-ink)}
+.jump{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:14px}.pz{margin:10px 0 0;font-size:13px}.jump a{padding:4px 0}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
 .hero{padding:96px 0 56px}@media(max-width:560px){.hero{padding:48px 0 40px}.intro{font-size:27px}.hero p.meta{margin-top:20px}}.hero p.meta{color:var(--dim);margin:28px 0 0}
 .kicker{font:500 13px/1.7 var(--mono);color:var(--dim);margin:0 0 20px}.kicker span{white-space:nowrap}
 /* the numbers: hairlines, no boxes */
@@ -93,14 +95,15 @@ footer{border-top:1px solid var(--line);padding:28px 0 56px;color:var(--dim);fon
 <main id="main" class="wrap">
  <section class="hero">
   <p class="kicker in-1"><span>Lead full-stack engineer ·</span> <span>Core decisioning modernisation ·</span> <span>Performance, SRE and agentic engineering</span></p>
-  <h1 class="intro in-1">I’m Dattamber.<span class="tw" aria-hidden="true" id="tw"><span class="typed"><span id="typed"></span><span class="caret"></span></span></span><span class="sr-only">I’m leading the modernisation of a core decisioning platform. My team won the Asia CEO Sapphire award for operational excellence. I lead platforms that pre-qualify a car loan in about 3 seconds, lead spec-driven development with a custom agentic workflow that made development 70% faster, kept 100% of requests flowing through a bureau outage, and led a children’s learning app to 4.9 stars across both app stores.</span></h1>
-  <p class="meta in-1"><a class="u" href="#work">Selected work</a> · <a class="u" href="#app">The app</a> · <a class="u" href="https://github.com/dattamberj" target="_blank" rel="noopener">GitHub</a> · <button class="pause" id="pause" type="button" aria-pressed="false">Pause highlights</button></p>
+  <h1 class="intro in-1">I’m Dattamber.<span class="tw" aria-hidden="true" id="tw"><span class="typed"><span id="typed"></span><span class="caret"></span></span></span><span class="sr-only">I’m leading the modernisation of a core decisioning platform. My team won the Asia CEO Sapphire award for operational excellence. I lead platforms that pre-qualify a car loan in about 3 seconds, lead spec-driven development with a custom agentic workflow that made development 70% faster, kept 100% of requests flowing through a bureau outage, and led a children’s learning app to 4.9+ stars across about 70 reviews.</span></h1>
+  <nav class="meta in-1 jump" aria-label="Jump to a section"><a class="u" href="#work">Work</a><a class="u" href="#workflow">Agentic workflow</a><a class="u" href="#app">The app</a><a class="u" href="#experience">Experience</a><a class="u" href="#toolkit">Toolkit</a><a class="u" href="https://github.com/dattamberj" target="_blank" rel="noopener">GitHub</a></nav>
+  <p class="in-1 pz"><button class="pause" id="pause" type="button" aria-pressed="false">Pause highlights</button></p>
  </section>
  <div class="ledger" aria-label="Impact in numbers. Select one to show it in the intro.">
   <button type="button" data-r><b>~3s</b><span>pre-qualification, over 2x faster than the next competitor</span></button>
   <button type="button" data-r><b>70%</b><span>faster development with spec-driven, agentic engineering</span></button>
   <button type="button" data-r><b>100%</b><span>of requests processed through a bureau outage</span></button>
-  <button type="button" data-r><b>4.9★</b><span>across 69 ratings on both stores, for the learning app I led</span></button>
+  <button type="button" data-r><b>4.9+★</b><span>average across about 70 reviews on both stores, for the learning app I led</span></button>
  </div>
 
  <section class="sec" id="work"><div class="lbl">Selected work</div>
@@ -139,9 +142,9 @@ footer{border-top:1px solid var(--line);padding:28px 0 56px;color:var(--dim);fon
  </div></section></div></div>
 
 <div class="wrap">
- <section class="sec"><div class="lbl">Experience</div><div data-r id="jobs"></div></section>
+ <section class="sec" id="experience"><div class="lbl">Experience</div><div data-r id="jobs"></div></section>
  <section class="sec"><div class="lbl">How I work</div><ul class="pr" data-r id="pr"></ul></section>
- <section class="sec"><div class="lbl">Toolkit</div><dl class="tk" data-r id="tk"></dl></section>
+ <section class="sec" id="toolkit"><div class="lbl">Toolkit</div><dl class="tk" data-r id="tk"></dl></section>
  <section class="sec"><div class="lbl">Outside work</div><p data-r id="life" style="margin:0;max-width:62ch"></p></section>
 </div>
 <footer><div class="wrap"><span>© 2026 Dattamber Jukanti · <a class="u" href="https://github.com/dattamberj" target="_blank" rel="noopener">GitHub</a></span></div></footer>
@@ -171,7 +174,7 @@ document.querySelectorAll('.idx button').forEach(b=>{ const li=b.parentNode, pn=
     li.classList.toggle('open',open); b.setAttribute('aria-expanded',open); pn.inert=!open; }; });
 
 // typed intro: each highlight types in, holds while its number's bar fills, then erases into the next
-const HL=[{c:null,s:["I’m leading the modernisation of a ",["core decisioning platform"],"."]},{c:null,s:["My team won the ",["Asia CEO Sapphire award"]," for operational excellence."]},{c:0,s:["I lead platforms that pre-qualify a car loan in ",["about 3 seconds"],"."]},{c:1,s:["My custom agentic workflow made development ",["70% faster"],"."]},{c:2,s:["I kept ",["100%"]," of requests flowing through a bureau outage."]},{c:3,s:["I led a children’s learning app to ",["4.9★"]," across both app stores."]}];
+const HL=[{c:null,s:["I’m leading the modernisation of a ",["core decisioning platform"],"."]},{c:null,s:["My team won the ",["Asia CEO Sapphire award"]," for operational excellence."]},{c:0,s:["I lead platforms that pre-qualify a car loan in ",["about 3 seconds"],"."]},{c:1,s:["My custom agentic workflow made development ",["70% faster"],"."]},{c:2,s:["I kept ",["100%"]," of requests flowing through a bureau outage."]},{c:3,s:["I led a children’s learning app to ",["4.9+★"]," across about 70 reviews."]}];
 const HOLD=2600, typed=$('#typed'), cells=[...document.querySelectorAll('.ledger button')], pauseBtn=$('#pause');
 const txt=s=>Array.isArray(s)?s[0]:s, len=segs=>segs.reduce((a,s)=>a+txt(s).length,0);
 const html=(segs,n)=>segs.map(s=>{ const t=txt(s).slice(0,Math.max(0,n)); n-=txt(s).length; return Array.isArray(s)?`<b>${t}</b>`:t; }).join('');
