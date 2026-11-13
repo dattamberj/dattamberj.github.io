@@ -64,7 +64,7 @@ html{scroll-behavior:smooth;scroll-padding-top:20px}
 .case ul{padding-left:18px}.case li::marker{color:var(--acc)}
 .built{color:var(--dim);font-size:14px;margin-top:12px}
 @media(max-width:560px){.idx button{grid-template-columns:minmax(0,1fr) 20px;gap:8px 16px}.idx .m{grid-column:1/-1;font-size:26px}}
-.flow{list-style:none;margin:0 0 28px;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));counter-reset:f}
+.flow{list-style:none;margin:0 0 28px;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));counter-reset:f}
 .flow li{counter-increment:f;position:relative;padding:18px 14px 0 0;font-size:14px;color:var(--dim)}
 .flow li::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--line)}
 .flow li::after{content:"";position:absolute;left:0;right:100%;top:0;height:2px;background:var(--acc);transition:right .5s var(--ease);transition-delay:calc(var(--k) * 180ms + .2s)}
@@ -114,12 +114,11 @@ footer{border-top:1px solid var(--line);padding:28px 0 56px;color:var(--dim);fon
   <div>
    <p class="dek" style="font-size:18px;font-weight:500;margin:0 0 20px;max-width:56ch" data-r>How I lead spec-driven development: one reviewed spec, carried through every stage by agent skills, with people approving each step.</p>
    <ol class="flow" data-r>
-    <li style="--k:0"><b>Spec</b>Reviewed and approved by people, low-level design included. The single source of truth.</li>
-    <li style="--k:1"><b>Design</b>Sequence diagrams and data models sit in the spec, reviewed before any code.</li>
-    <li style="--k:2"><b>Build</b>Skills turn the spec into code; scripts keep schemas and payloads deterministic.</li>
-    <li style="--k:3"><b>Test</b>Acceptance criteria become Gherkin and black-box checks.</li>
-    <li style="--k:4"><b>Observe</b>Alerts and metrics generated as code.</li>
-    <li style="--k:5"><b>Verify</b>Checklists and evals gate every skill before the central registry.</li>
+    <li style="--k:0"><b>Spec</b>Reviewed by people. Requirements and low-level design in one source of truth.</li>
+    <li style="--k:1"><b>Build</b>Skills turn the spec into code; scripts keep schemas and payloads deterministic.</li>
+    <li style="--k:2"><b>Test</b>Acceptance criteria become Gherkin and black-box checks.</li>
+    <li style="--k:3"><b>Observe</b>Alerts and metrics generated as code.</li>
+    <li style="--k:4"><b>Verify</b>Checklists and evals gate every skill before the central registry.</li>
    </ol>
    <ul class="lead" data-r>
     <li>Started with sequence diagrams to code, then grew it stage by stage to data and NFRs, tuned on feedback from greenfield and brownfield teams.</li>
